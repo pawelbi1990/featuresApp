@@ -26,7 +26,11 @@ const page = () => {
       body: JSON.stringify(data),
     })
     const responseData = await response.json()
-    console.log(responseData)
+    const session = await responseData.login
+    const clientId = await responseData.clientId
+    sessionStorage.setItem("session", session)
+    sessionStorage.setItem("user", clientId)
+    console.log(session)
     
     
   }
