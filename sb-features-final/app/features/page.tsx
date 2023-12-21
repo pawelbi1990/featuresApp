@@ -1,6 +1,7 @@
 "use client"
 import { redirect } from 'next/dist/server/api-utils'
 import {useEffect, useState} from 'react'
+import AllFeatures from '@/components/AllFeatures'
 
 interface UserData {
     session: any,
@@ -8,14 +9,17 @@ interface UserData {
 }
 
 const page = () => {
-    const [data, setData] = useState<UserData>({session: sessionStorage.getItem("session"),
-                                                userId: sessionStorage.getItem("user")})
-    useEffect(() => {
-        checkSession(data)
-    },[])
     
-    const checkSession = async (data: UserData) => {
+    // useEffect(() => {
         
+    //     checkSession();
+    //     const intervalId = setInterval(checkSession, 60000);
+    //     return () => clearInterval(intervalId);
+    // },[sessionStorage.getItem("session")])
+    
+    const checkSession = async () => {
+        let data = ({session: sessionStorage.getItem("session") || null,
+                    userId: sessionStorage.getItem("user") || null})
         
         console.log(data)
         
@@ -37,7 +41,7 @@ const page = () => {
       }
     
   return (
-    <div>Features</div>
+    <AllFeatures/>
   )
 }
 

@@ -12,11 +12,10 @@ const pool = new Pool({
 
 })
 
-const POST = async (req, res) => {
-    
-    const data = await req.json()
+const sessionChecker = async (reqData, res) => {
+    const data = await reqData 
     console.log(data)
-    if (data.rows[0].session !== "no-session") {
+    
     
     const sessionId = await data.session
     
@@ -30,17 +29,27 @@ const POST = async (req, res) => {
     const dbDataRows = await dbData.rows[0]
     const dbSession = await dbDataRows.session
     
-    console.log(sessionId)
-    console.log(dbDataRows)
-}
+    console.log(sessionId == dbSession)
+    
+    await client.release()
     
 
-    if ((sessionId === dbSession) && (sessionId !== undefined) && (sessionId !== null)) {
-    return NextResponse.json({message: "Session valid"}, {status: 200})
+    if (sessionId == dbSession) {
+    return true
 } else {
-    return NextResponse.json({message: "Invalid session"}, {status: 401})
+    return false
 }
-} 
+}
+
+const POST = async (req, res) => {
+    
+    const auth = await sessionChecker(req, res)
+    if (auth === true) {
+        return NextResponse.json({message: "Session valid"}, {status: 200})
+    } else {
+        return NextResponse.json({message: "Invalid session"}, {status: 401})
+    }
+}
 
 
-export {POST}
+export {POST, sessionChecker}

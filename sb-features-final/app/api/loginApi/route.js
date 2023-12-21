@@ -13,6 +13,7 @@ const pool = new Pool({
 })
 
 const POST = async (req, res) => {
+    try {
     const user = await req.json()
     const userName = await user.userName
     const password = await user.userSecret
@@ -21,6 +22,9 @@ const POST = async (req, res) => {
     const values = [userName]
     const dbData = await client.query(sqlQuery, values)
     const dbDataRows = dbData.rows
+    if (dbDataRows.length === 0) {
+        return NextResponse.json({message: "User not found"}, {status: 404})
+    }
     const userHash = dbDataRows[0].hash
     const userRole = dbDataRows[0].admin
     const clientId = dbDataRows[0].id
@@ -48,7 +52,10 @@ const POST = async (req, res) => {
     }
     client.release()
      if (login) {return NextResponse.json({login: token, admin: userRole, clientId: clientId })}
-     else {return NextResponse.json({login: "Wrong credentials"})}
+     else {return NextResponse.json({message: "Wrong credentials"}, {status: 401})}
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 export {POST}
