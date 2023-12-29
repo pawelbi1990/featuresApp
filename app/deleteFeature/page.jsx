@@ -149,7 +149,7 @@ const DeleteFeature = (props) => {
         <Image src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
         <div className="products-image-separator" ></div>
         <div>{item.name}</div>
-        <button onClick={() => handlePrompt(item.id)}>Delete</button></div>
+        <button className="btn" onClick={() => handlePrompt(item.id)}>Delete</button></div>
        
         
         )
