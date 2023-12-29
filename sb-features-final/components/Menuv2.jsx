@@ -5,11 +5,20 @@ import { useState, useEffect } from 'react'
 
 const Menuv2 = (props) => {
     
-    const [admin, setAdmin] = useState(sessionStorage.getItem("superUser"))
-    const { nav, setNav } = props
+    const [admin, setAdmin] = useState(0)
     
+    
+    useEffect(() => {
+      if(sessionStorage.getItem("superUser") == 1) {
+      setAdmin(1)
+    } else {
+      setAdmin(0)
+    }
+    },[sessionStorage.getItem("superUser")])
     
     const handleLogout = async () => {
+      
+      
       const data = {userId: parseInt(sessionStorage.getItem("user"))}
       await fetch("/api/logout", {
         method: "POST",
@@ -18,6 +27,8 @@ const Menuv2 = (props) => {
       })
       sessionStorage.clear()
       window.location.replace("/")
+      
+      
       
 
       
@@ -30,25 +41,22 @@ const Menuv2 = (props) => {
         }
     }
  
-    const handleNav = (where) => {
-      setNav(where)
-    }
+    
       
-  if (admin == true) { return (
+  if (admin == 1) { return (
     <ul className="navbuttons">
-        <button className={nav ==="allfeatures" ? 'btn active' : 'btn'} onClick={() => handleNav("allfeatures")}>All Features</button>
-        <button className={nav ==="newfeature" ? 'btn active' : 'btn'} onClick={() => handleNav("newfeature")}>Add Feature</button>
-        <button className={nav ==="deletefeature" ? 'btn active' : 'btn'} onClick={() => handleNav("deletefeature")}>Delete Feature</button>
-        <button className='btn' onClick={handleDarkmodeSwitch}>Switch color mode</button>
+        <button className={'btn'} onClick={() => window.location.replace("/features")}>All Features</button>
+        <button className={'btn'} onClick={() => window.location.replace("/createFeature")}>Add Feature</button>
+        <button className={'btn'} onClick={() => window.location.replace("/deleteFeature")}>Delete Feature</button>
         <button className='btn' onClick={handleLogout}>Log Out</button>
     </ul>
   )
-} else  {
+} else if (admin == 0) {
     return (
         <ul className="navbuttons">
-        <button className={nav ==="allfeatures" ? 'btn active' : 'btn'} onClick={() => handleNav("allfeatures")}>All features</button>
+        <button className={'btn'} onClick={() => window.location.replace("/features")}>All features</button>
         <button className='btn' onClick={handleLogout}>Log Out</button>
-        <button>{admin}</button>
+        
     </ul>
     )
 }

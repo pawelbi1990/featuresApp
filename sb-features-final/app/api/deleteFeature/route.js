@@ -1,22 +1,37 @@
 import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
-import { host, user, database, password, port } from '../../__credentials/credentials.json';
-
-const pool = new Pool({
-    host: host,
-    user: user,
-    database: database,
-    password: password,
-    port: port
-});
 
 
+import {adminSessionChecker} from '../sessionCheck/route'
 
-export async function POST(request) {
+export const pool = new Pool({
+    host: process.env.DATABASE_HOST_NAME,
+    user: process.env.DATABASE_USER_NAME,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT
 
-    
+})
+
+
+
+export async function POST(request, res) {
+
+    const data = await request.formData();
    
-    const data = await request.json();
+    const checkData = {
+        session: await data.get("session"),
+        user: parseInt(await data.get("userId")),
+        admin: parseInt(await data.get("admin"))
+
+    }
+
+    const deleteMe = await data.get("deleteId")
+    const auth = await adminSessionChecker(checkData, res)
+
+    if (auth === false) {
+        return NextResponse.json({message: "unauthorized"}, {status: 401})
+    } else if (auth === true) {
     
 
     const client = await pool.connect();
@@ -25,15 +40,16 @@ export async function POST(request) {
         DELETE FROM public.features WHERE id = $1
     `;
     
-    const values = [data];
+    const values = [deleteMe];
 
     try {
         await client.query(sqlQuery, values);
         client.release();
-        return NextResponse.json({ status: 'success' });
+        return NextResponse.json({message: "Feature deleted"}, {status: 200});
     } catch (error) {
         console.error('Error executing query:', error);
         client.release();
-        return NextResponse.json({ status: 'error' });
+        return NextResponse.json({message: "something went wrong"}, { status: 400 });
     }
+}
 };

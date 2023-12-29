@@ -1,31 +1,75 @@
 import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
-import { host, user, database, password, port } from '../../__credentials/credentials.json';
 import fs from 'fs/promises';
 import path from 'path';
+import {adminSessionChecker} from '../sessionCheck/route'
 
-const pool = new Pool({
-    host: host,
-    user: user,
-    database: database,
-    password: password,
-    port: port
-});
+let dataValid = false
+
+export const pool = new Pool({
+    host: process.env.DATABASE_HOST_NAME,
+    user: process.env.DATABASE_USER_NAME,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT
+
+})
 
 
 
-export async function POST(request) {
+export async function POST(request, res) {
+    
    
     const data = await request.formData();
-    const name = data.get('name')
-    const longDesc = data.get('long_desc')
-    const imageFile = data.get('image')
-    const shortDesc = data.get('short_desc')
-    const customer = data.get('client')
-    const team = data.get('assignee')
+    
+    
+    
+    const name = await data.get('name')
+    const longDesc = await data.get('long_desc')
+    const imageFile = await data.get('image')
+    const shortDesc = await data.get('short_desc')
+    const customer = await data.get('client')
+    const team = await data.get('assignee')
+    const checkData = {
+        session: await data.get("session"),
+        user: parseInt(await data.get("userId")),
+        admin: parseInt(await data.get("admin"))
 
+    }
+    
+    const dataCheck = async (name, longDesc, shortDesc, customer, team) => {
+        if (name === null || name === undefined || name === '' ||
+            longDesc === null || longDesc === undefined || longDesc === '' ||
+            shortDesc === null || shortDesc === undefined || shortDesc === '' ||
+            customer === null || customer === undefined || customer === '' ||
+            team === null || team === undefined || team === '') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    
+
+    const dataValid = await dataCheck(name, longDesc, shortDesc, customer, team)
+    console.log("datavalid "+dataValid)
+    
+
+    
+    const auth = await adminSessionChecker(checkData, res)
+     if (auth === false) {
+        return NextResponse.json({message: "unauthorized"}, {status: 401})
+    } else if(dataValid === false) {
+        return NextResponse.json({message: "You need to fill all required fields"}, {status: 400})
+        
+     }
+
+    else if (auth && dataValid) {
+       
+     
+     
     const client = await pool.connect();
-
+     
     const sqlQuery = `
         INSERT INTO public.features (name, long_desc, image_path, short_desc, client, assigned)
         VALUES ($1,$2,$3,$4,$5,$6)
@@ -40,7 +84,7 @@ export async function POST(request) {
 
         if (imageFile) {
             const imageExtension = path.extname(imageFile.name);
-            console.log(imageExtension)
+            
             const insertedImageFilename = `${insertedId}${imageExtension}`;
             const imagePath = path.join(process.cwd(), 'public',insertedImageFilename);
             const dbPath = `/${insertedId}${imageExtension}`
@@ -72,7 +116,9 @@ export async function POST(request) {
         console.error('Error executing query:', error);
         client.release();
         return NextResponse.json({ status: 'error' });
-    }
+    
+}
+    } 
 
     
 };

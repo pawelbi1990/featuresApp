@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { Pool } from 'pg'
 import bcrypt from 'bcrypt'
+import {adminSessionChecker} from '../sessionCheck/route'
 
 
 const pool = new Pool({
@@ -11,8 +12,8 @@ const pool = new Pool({
     port: process.env.DATABASE_PORT
 
 })
-const adminSessionChecker = async (reqData, res)=> {
-    const data = await reqData
+const adminLiveSessionChecker = async (reqData, res)=> {
+    const data = await reqData.json()
     console.log(data) 
     
     
@@ -47,38 +48,10 @@ const adminSessionChecker = async (reqData, res)=> {
     return false
 }
 }
-const sessionChecker = async (reqData, res) => {
-    const data = await reqData 
-    console.log(data)
-    
-    
-    const sessionId = await data.session
-    
-    const userId = await data.userId
-    const client = await pool.connect()
-    
-    
-    const sqlQuery = `SELECT * FROM public.users WHERE id = $1`
-    const values = [userId]
-    const dbData = await client.query(sqlQuery, values)
-    const dbDataRows = await dbData.rows[0]
-    const dbSession = await dbDataRows.session
-    
-    console.log(sessionId == dbSession)
-    
-    await client.release()
-    
-
-    if (sessionId == dbSession) {
-    return true
-} else {
-    return false
-}
-}
 
 const POST = async (req, res) => {
     
-    const auth = await sessionChecker(req, res)
+    const auth = await adminLiveSessionChecker(req, res)
     if (auth === true) {
         return NextResponse.json({message: "Session valid"}, {status: 200})
     } else {
@@ -87,4 +60,4 @@ const POST = async (req, res) => {
 }
 
 
-export {POST, sessionChecker, adminSessionChecker}
+export {POST}

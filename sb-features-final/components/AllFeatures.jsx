@@ -87,16 +87,16 @@ const AllFeatures = (props) => {
 
   useEffect(() => {
     getData()
-  }, [sessionStorage.getItem("user")])
+  }, [])
     
   useEffect(() => {
     //gets user session from localstorage on renders
     setLoggedin(sessionStorage.getItem("session"))
     if (sessionStorage.getItem("session")) {
       //gets last item from session to determine which client is loggedIn
-      setClientId(Number((sessionStorage.getItem("session")).slice(-1)))
+      
       setSessionLoaded(true)
-      console.log(focus)
+      
     }
     // switch (clientId) {
       //sets current data depending on which client is loggedIn
@@ -219,15 +219,7 @@ const AllFeatures = (props) => {
     
 
     
-    const checkTask = async (data) => {
-      const requestBody = JSON.stringify(data)
-      console.log(requestBody)
-      const response = await fetch("/api/buttonCheck", {
-        method: 'POST',
-        body: requestBody
-      })
-      console.log(response.ok)
-    }
+    
     const createTask = async (taskName, desc, assigned, userId) => {
       const requestData = {
         taskName: taskName,
@@ -271,7 +263,7 @@ const AllFeatures = (props) => {
       //checking if user is loggedin (session stored in localStorage), if not - returns login screen
       if (!details) {
   return (
-    data.length >= 1? ( //checking if data exists
+     //checking if data exists
 
     <Layout lastitem={lastitem} title='' navbar="" setNav={props.setNav} nav={props.nav}>
         <div>
@@ -281,15 +273,17 @@ const AllFeatures = (props) => {
             <       input type="text" className="searchbar" placeholder='Search' onChange={(event) => {setSearch(event.target.value.toLowerCase())}}/>
                 </label>
             </div>
+            
     <div className="products-item-container">
     
     {filteredData.slice(index, index+itemsPerPage).map((item, subIndex) => (
         //slicing data to show only wanted number of items
+        data.length >= 1? (
         <div className={subIndex % 2 !== 0 ? "products-item focused" : "products-item"} key={subIndex}>
-        <Suspense fallback ={<Loading/>}>
+        
         <Image onClick={() => handleDetailsClick(item.id, item.image_path)} src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
-        </Suspense>
-        <div className="products-image-separator" key={item.id}></div>
+        
+        <div className="products-image-separator" ></div>
         <p>{item.name}</p>
         <div className="products-item-buttons">
         {!guest? (
@@ -308,13 +302,16 @@ const AllFeatures = (props) => {
         
         </div>
         </div>
+        ): <Loading/>
         ))}
         <button className="swiper-nav-button-prev" onClick={prevItems}><BsFillArrowLeftCircleFill/></button>
         <button className="swiper-nav-button-next" onClick={nextItems}><BsFillArrowRightCircleFill/></button>
+        
         </div>
+        
         </div>
         </Layout>
-    ): <Loading/>
+    
        
   )} if (details) {
     return <DetailedFeature id={id} goBack={goBack} image={imagePath} />

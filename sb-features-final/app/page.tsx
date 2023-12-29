@@ -1,6 +1,9 @@
 'use client'
 import { useState } from 'react'
 import Layout from '@/components/Layout'
+import Loading from '@/components/Loading'
+
+
 
 const page = () => {
   // declaring states
@@ -9,6 +12,7 @@ const page = () => {
     userSecret: ""
   })
   const [wrongCred, setWrongCred] = useState(false)
+  const [loading, setLoading] = useState(false)
   
 
   //declaring functions
@@ -21,7 +25,7 @@ const page = () => {
   }
 
   const handleLogin = async () => {
-    
+    setLoading(true)
     const data = user
     try {
     const response = await fetch('api/loginApi', {
@@ -38,14 +42,17 @@ const page = () => {
         sessionStorage.setItem("user", clientId)
         sessionStorage.setItem("superUser", admin)   
         window.location.replace("/features")
+        setLoading(false)
       } else {
         const responseData = await response.json()
         if (response.status === 401) {
           console.log(responseData.message)
           setWrongCred(true)
+          setLoading(false)
         } else if (response.status === 404) {
           console.log(responseData.message)
           setWrongCred(true)
+          setLoading(false)
         } 
       }
       
@@ -58,7 +65,7 @@ const page = () => {
     
     
   }
-
+  if (loading) { return <Loading/>} else {
   return (
     wrongCred ? (<Layout logOutButtonDisabled="true">
       <div className="wrapper">
@@ -88,6 +95,7 @@ const page = () => {
       </div>
       </Layout>)
   )
+}
 }
 
 export default page
