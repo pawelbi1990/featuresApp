@@ -52,12 +52,15 @@ import { sessionChecker } from "../sessionCheck/route"
       featureid: id
     }) 
     console.log("Task created")
+    return NextResponse.json({message: "task created"}, {status: 200})
                  
+  } else {
+    return NextResponse.json({message: "Something went wrong"}, {status: 400})
   }
     
   
 } catch (err) { console.log(err) }
-return NextResponse.json({status: "task created"}, {status: 200})
+
 } else {
     return NextResponse.json({message: "Session invalid"}, {status: 401})
 }     

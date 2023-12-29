@@ -22,6 +22,7 @@ const AllFeatures = (props) => {
     const [id, setId] = useState(null)
     const [imagePath, setImagePath] = useState(null)
     const [guest, setGuest] = useState(null)
+    const [processing, setProcessing] = useState(false)
     const text = "Create task"
     const blocked =[]
     const [blockedTask, setBlockedTask] = useState({
@@ -221,6 +222,7 @@ const AllFeatures = (props) => {
     
     
     const createTask = async (taskName, desc, assigned, userId) => {
+      setProcessing(true)
       const requestData = {
         taskName: taskName,
         desc: desc,
@@ -234,8 +236,10 @@ const AllFeatures = (props) => {
 
       if (response.ok) {
         console.log("task created")
+        setProcessing(false)
       } else {
         console.log("error creating task")
+        setProcessing(false)
       }
       }
 
@@ -258,9 +262,10 @@ const AllFeatures = (props) => {
     const filteredData = data.filter(item => item.name.toLowerCase().includes(search)) //filtering data depending on search state that's beeing updated by search bar
     
     if (sessionLoaded) {
-    if (loggedIn) {
+    if (loggedIn && !processing) {
 
       //checking if user is loggedin (session stored in localStorage), if not - returns login screen
+      
       if (!details) {
   return (
      //checking if data exists
@@ -273,7 +278,7 @@ const AllFeatures = (props) => {
             <       input type="text" className="searchbar" placeholder='Search' onChange={(event) => {setSearch(event.target.value.toLowerCase())}}/>
                 </label>
             </div>
-            
+    
     <div className="products-item-container">
     
     {filteredData.slice(index, index+itemsPerPage).map((item, subIndex) => (
