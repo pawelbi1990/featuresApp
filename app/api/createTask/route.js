@@ -9,12 +9,16 @@ import { sessionChecker } from "../sessionCheck/route"
   const POST = async (req, res) => {
     let success = null
 
-    
+    let result
     const data = await req.json()
     const taskName = await data.taskName
     const desc = await data.desc
     const userId = await data.userId
     const assigned = await data.assigned
+
+    const booleaner = (tf) => {
+      return tf
+    }
 
     const auth = sessionChecker(data, res)
     if (auth) {
@@ -53,17 +57,25 @@ import { sessionChecker } from "../sessionCheck/route"
       featureid: id
     }) 
     console.log("Task created")
-    return NextResponse.json({message: "task created"}, {status: 200})
+    result = await booleaner(true)
+    
     
                  
   } else {
-    console.log("Api not responding") 
-    return NextResponse.json({message: "Something went wrong"}, {status: 400})
+    console.log("Api not responding")
+    result = await booleaner(false) 
+    
   }
     
   
   } catch (err)   {
      console.log(err) 
+    }
+
+    if (result) {
+      return NextResponse.json({message: "Task created"}, {status: 200})
+    } else {
+      return NextResponse.json({message: "Something went wrong"}, {status: 400})
     }
     
 } else {
