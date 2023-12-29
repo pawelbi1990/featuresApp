@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
 
 
-export const pool = new Pool({
+const pool = new Pool({
     host: process.env.DATABASE_HOST_NAME,
     user: process.env.DATABASE_USER_NAME,
     database: process.env.DATABASE_NAME,
