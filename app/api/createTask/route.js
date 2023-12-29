@@ -51,11 +51,11 @@ import { sessionChecker } from "../sessionCheck/route"
   });
   if (response.ok) {
     const responseBody = await response.json()     
-    const taskStatus = ({
-      taskid: responseBody.issue.id,
-      owner: responseBody.issue.project.name,
-      featureid: id
-    }) 
+    // const taskStatus = ({
+    //   taskid: responseBody.issue.id,
+    //   owner: responseBody.issue.project.name,
+    //   featureid: id
+    // }) 
     console.log("Task created")
     result = await booleaner(true)
     
