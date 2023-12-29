@@ -6,7 +6,7 @@ import {adminSessionChecker} from '../sessionCheck/route'
 
 let dataValid = false
 
-export const pool = new Pool({
+const pool = new Pool({
     host: process.env.DATABASE_HOST_NAME,
     user: process.env.DATABASE_USER_NAME,
     database: process.env.DATABASE_NAME,
