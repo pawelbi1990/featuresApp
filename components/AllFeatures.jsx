@@ -23,6 +23,7 @@ const AllFeatures = (props) => {
     const [imagePath, setImagePath] = useState(null)
     const [guest, setGuest] = useState(null)
     const [processing, setProcessing] = useState(false)
+    
     const text = "Create task"
     const blocked =[]
     const [blockedTask, setBlockedTask] = useState({
@@ -237,9 +238,11 @@ const AllFeatures = (props) => {
       if (response.ok) {
         console.log("task created")
         setProcessing(false)
+        window.location.replace("/taskCreated")
       } else {
         console.log("error creating task")
         setProcessing(false)
+        window.location.replace("/taskCreationFailed")
       }
       }
 
