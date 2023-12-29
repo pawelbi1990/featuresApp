@@ -245,7 +245,7 @@ button {
   flex-grow: 0;
   flex-shrink: 0;
   
-  min-width: 300px;
+  min-width: 400px;
   max-width: 400px;
   height: 90%;
   text-align: center;
@@ -302,6 +302,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0.6rem;
   
 }
 
@@ -315,10 +316,10 @@ button {
 
 
 .products-image {
-  width: 90%;
+  width: 95%;
   height: 80%;
-  margin:  1rem auto 0 auto;
-  border-radius: 2rem;
+  margin:  0.5rem auto 0 auto;
+  border-radius: 2rem 2rem 0 0;
   cursor: pointer;
   
   /* margin-bottom: 1rem; */
@@ -328,10 +329,10 @@ button {
 }
 
 .products-image-separator {
-  width: 90%;
+  width: 95%;
   background: linear-gradient(90deg, rgba(92,87,173,1) 0%, rgba(9,9,121,1) 35%, rgba(92,87,173,1) 100%);
   height: 1px;
-  margin: 1vh;
+  margin: 0.5vh;
   
 }
 

@@ -237,7 +237,6 @@ const AllFeatures = (props) => {
 
       if (response.ok) {
         const responseData = await response.json()
-        alert(responseData.taskId)
         console.log("task created")
         setProcessing(false)
         window.location.replace("/taskCreated")
