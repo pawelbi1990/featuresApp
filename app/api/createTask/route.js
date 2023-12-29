@@ -8,7 +8,8 @@ import { sessionChecker } from "../sessionCheck/route"
   
   const POST = async (req, res) => {
     let success = null
-
+    let taskId
+    let taskTitle
     let result
     const data = await req.json()
     const taskName = await data.taskName
@@ -50,7 +51,9 @@ import { sessionChecker } from "../sessionCheck/route"
     body: jsonString,
   });
   if (response.ok) {
-    const responseBody = await response.json()     
+    const responseBody = await response.json()
+    taskId = responseBody.issue.id
+    taskTitle = responseBody.issue.subject     
     // const taskStatus = ({
     //   taskid: responseBody.issue.id,
     //   owner: responseBody.issue.project.name,
@@ -73,7 +76,7 @@ import { sessionChecker } from "../sessionCheck/route"
     }
 
     if (result) {
-      return NextResponse.json({message: "Task created"}, {status: 200})
+      return NextResponse.json({message: "Task created", taskId: taskId, taskTitle: taskTitle}, {status: 200})
     } else {
       return NextResponse.json({message: "Something went wrong"}, {status: 400})
     }

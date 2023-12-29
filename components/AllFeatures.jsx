@@ -236,9 +236,13 @@ const AllFeatures = (props) => {
       })
 
       if (response.ok) {
+        const responseData = await response.json()
+        alert(responseData.taskId)
         console.log("task created")
         setProcessing(false)
         window.location.replace("/taskCreated")
+        sessionStorage.setItem("taskId", responseData.taskId)
+        sessionStorage.setItem("taskTitle", responseData.taskTitle)
       } else {
         console.log("error creating task")
         setProcessing(false)

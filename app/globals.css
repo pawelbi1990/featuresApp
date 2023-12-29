@@ -154,6 +154,11 @@ button {
   text-align: center;
 }
 
+.task-link {
+  text-decoration: underline;
+  font-weight: 900;
+}
+
 #ButtonsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
