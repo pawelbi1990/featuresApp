@@ -6,7 +6,7 @@ import Loading from '@/components/Loading'
 import Login from '@/components/Login'
 
 
-const page = (props) => {
+const Page = (props) => {
     const [data, setData] = useState([])
     const [slide, setSlide] = useState(null)
     const [loggedIn, setLoggedin] = useState()
@@ -66,4 +66,4 @@ const page = (props) => {
   
 }
 
-export default page
+export default Page

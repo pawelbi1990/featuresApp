@@ -5,7 +5,7 @@ import Loading from '@/components/Loading'
 
 
 
-const page = () => {
+const Page = () => {
   // declaring states
   const [user, setUser] = useState({
     userName: "",
@@ -98,4 +98,4 @@ const page = () => {
 }
 }
 
-export default page
+export default Page

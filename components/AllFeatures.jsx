@@ -302,7 +302,7 @@ const AllFeatures = (props) => {
         
         </div>
         </div>
-        ): <Loading/>
+        ): <Loading key={index}/>
         ))}
         <button className="swiper-nav-button-prev" onClick={prevItems}><BsFillArrowLeftCircleFill/></button>
         <button className="swiper-nav-button-next" onClick={nextItems}><BsFillArrowRightCircleFill/></button>
