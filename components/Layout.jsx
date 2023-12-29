@@ -21,7 +21,7 @@ const Layout = (props) => {
  
     
                           
-    
+    const screen = props.screen
     const title = props.title
     const next = props.next
     const previous = props.previous
@@ -40,7 +40,7 @@ const Layout = (props) => {
     
     
     
-    <Header title={title} icon={icon}/>
+    <Header title={title} icon={icon} screen={screen}/>
     {!logOutButtonDisabled ? <Menuv2 setNav={props.setNav} nav={props.nav}/> : null}
     <Suspense fallback={<Loading/>}>
     <Content>

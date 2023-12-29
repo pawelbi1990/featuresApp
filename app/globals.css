@@ -831,13 +831,24 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1);
 
 .logo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   height: 100%;
-  background-image: url('../public/logo.png');
+  width: 300px;
+  margin: 0;
+  padding: 0;
+  /* background-image: url('../public/logo.png'); */
   background-repeat: no-repeat;
   background-size: contain;
   
+  
+  
+  
+}
+
+.logo-small {
+  width: 40px;
+ 
 }
 
 

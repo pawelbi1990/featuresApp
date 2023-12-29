@@ -276,7 +276,7 @@ const AllFeatures = (props) => {
   return (
      //checking if data exists
 
-    <Layout lastitem={lastitem} title='' navbar="" setNav={props.setNav} nav={props.nav}>
+    <Layout lastitem={lastitem} title='' navbar="" setNav={props.setNav} nav={props.nav} screen={width}>
         <div>
             <div className="search-container">
                 <label>
