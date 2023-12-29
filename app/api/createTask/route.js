@@ -7,6 +7,7 @@ import { sessionChecker } from "../sessionCheck/route"
   
   
   const POST = async (req, res) => {
+    let success = null
 
     
     const data = await req.json()
@@ -52,15 +53,23 @@ import { sessionChecker } from "../sessionCheck/route"
       featureid: id
     }) 
     console.log("Task created")
-    return NextResponse.json({message: "task created"}, {status: 200})
+    success = true
+    
                  
   } else {
-    return NextResponse.json({message: "Something went wrong"}, {status: 400})
+    console.log("Api not responding") 
+    success = false 
   }
     
   
-} catch (err) { console.log(err) }
-
+  } catch (err)   {
+     console.log(err) 
+    }
+    if (success) {
+    return NextResponse.json({message: "task created"}, {status: 200})
+  } else if (!success) {
+  return NextResponse.json({message: "Something went wrong"}, {status: 400})
+}
 } else {
     return NextResponse.json({message: "Session invalid"}, {status: 401})
 }     
