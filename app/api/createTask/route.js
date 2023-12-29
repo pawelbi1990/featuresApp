@@ -53,23 +53,19 @@ import { sessionChecker } from "../sessionCheck/route"
       featureid: id
     }) 
     console.log("Task created")
-    success = true
+    return NextResponse.json({message: "task created"}, {status: 200})
     
                  
   } else {
     console.log("Api not responding") 
-    success = false 
+    return NextResponse.json({message: "Something went wrong"}, {status: 400})
   }
     
   
   } catch (err)   {
      console.log(err) 
     }
-    if (success === true) {
-    return NextResponse.json({message: "task created"}, {status: 200})
-  } else if (success === false) {
-  return NextResponse.json({message: "Something went wrong"}, {status: 400})
-}
+    
 } else {
     return NextResponse.json({message: "Session invalid"}, {status: 401})
 }     
