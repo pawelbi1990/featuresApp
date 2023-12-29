@@ -37,7 +37,7 @@ import { sessionChecker } from "../sessionCheck/route"
       const jsonString = JSON.stringify(json, null, 2);
   
       try {
-  const response = await fetch("https://tools-api.internal.sb-betting.com/easy-redmine-tools/public/issues/create?apiKey=7b18a7458a71f97279d0af0a365557ec4b231200", {
+  const response = await fetch("https://easy-redmine-tools-api.sb-betting.com/issues/create?apiKey=7b18a7458a71f97279d0af0a365557ec4b231200", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
