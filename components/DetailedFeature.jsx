@@ -4,9 +4,12 @@ import Layout from '@/components/Layout'
 import ImageAndText from '@/components/ImageAndText'
 import Loading from '@/components/Loading'
 import Login from '@/components/Login'
+import Menuv2 from './Menuv2'
 
 
 const Page = (props) => {
+    const guest = props.guest
+    const screen = props.screen
     const [data, setData] = useState([])
     const [slide, setSlide] = useState(null)
     const [loggedIn, setLoggedin] = useState()
@@ -45,21 +48,33 @@ const Page = (props) => {
     const handleNext = () => {
         setSlide(slide+1)
     }
-    if (loggedIn) {
+    if (data.length>0) {
   return (
     
 
     data.map((item) => (
-      <Layout key={item.id} title={item.name} setNav={props.setNav} logOutButtonDisabled="true">
+      <Layout screen={screen} key={item.id} title={item.name} setNav={props.setNav} logOutButtonDisabled="true">
+        <Menuv2/>
       
       <ImageAndText key={item.id} id={item.id} text={item.long_desc} image={props.image}>
        
       </ImageAndText>
+      <div className="products-item-buttons">
       <button className="btn" onClick={() => props.goBack(false)}>Go back</button>
+      {!guest? (
+          <button className='btn' onClick={() => props.createTask(item.name, item.short_desc, item.assigned, sessionStorage.getItem("user"))}>
+            Create task
+            
+          </button> 
+          
+          ) : (
+       
+           <button className='btn' onClick={props.handleLogout}>Login as client to create task</button>)}
+           </div>
       </Layout>
       )))
     } else {
-        return <Login/>
+        return <Loading/>
     }
     
        

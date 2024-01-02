@@ -25,8 +25,8 @@ import { sessionChecker } from "../sessionCheck/route"
     if (auth) {
     const json = {
         "issue": {
-          "subject": taskName + " test - do zamknięcia",
-          "description": desc + " test - do zamknięcia",
+          "subject": taskName + " {TASK z aplikacji - do weryfikacji}",
+          "description": desc,
           "project_id": userId,
           "tracker_id": 11,
           "status_id": 17,

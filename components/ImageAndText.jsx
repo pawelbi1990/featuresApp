@@ -6,10 +6,10 @@ const ImageAndText = (props) => {
   return (
     <div className="imageandtext-container">
         <div className="image-container"><Image src={props.image} width={500} height={500} alt="SB Betting"/></div>
-        <div className="text-container">
+        <div className="text-container " dangerouslySetInnerHTML={{ __html: props.text }}>
             
             
-                {props.text}
+                {/* {props.text} */}
                
         </div>
     </div>

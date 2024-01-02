@@ -268,7 +268,7 @@ const AllFeatures = (props) => {
     const filteredData = data.filter(item => item.name.toLowerCase().includes(search)) //filtering data depending on search state that's beeing updated by search bar
     
     if (sessionLoaded) {
-    if (loggedIn && !processing) {
+    if (loggedIn && !processing && filteredData.length>0) {
 
       //checking if user is loggedin (session stored in localStorage), if not - returns login screen
       
@@ -289,7 +289,7 @@ const AllFeatures = (props) => {
     
     {filteredData.slice(index, index+itemsPerPage).map((item, subIndex) => (
         //slicing data to show only wanted number of items
-        data.length >= 1? (
+        
         <div className={subIndex % 2 !== 0 ? "products-item focused" : "products-item"} key={subIndex}>
         
         <Image onClick={() => handleDetailsClick(item.id, item.image_path)} src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
@@ -312,9 +312,9 @@ const AllFeatures = (props) => {
         
         
         </div>
-        </div>
-        ): <Loading key={index}/>
-        ))}
+        </div>))}
+        
+        
         <button className="swiper-nav-button-prev" onClick={prevItems}><BsFillArrowLeftCircleFill/></button>
         <button className="swiper-nav-button-next" onClick={nextItems}><BsFillArrowRightCircleFill/></button>
         
@@ -325,7 +325,7 @@ const AllFeatures = (props) => {
     
        
   )} if (details) {
-    return <DetailedFeature id={id} goBack={goBack} image={imagePath} />
+    return <DetailedFeature screen={width} id={id} goBack={goBack} image={imagePath} handleLogout={handleLogout} createTask={createTask} guest={guest}/>
   }
   else {
     return <Login nav={props.nav} setNav={props.setNav}/>

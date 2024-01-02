@@ -14,23 +14,27 @@ const Header = (props) => {
   const screen = props.screen
   return (
     <div className="header">
+      
            {screen > 600?
+           
             <div className="logo">
-            
+            <Link href="/features">
              <Image src="/logo.png" width={300} height={300}></Image>
-             
+             </Link>
             </div>
+            
             :
             <div className="logo-small">
               <Image src="/sb-logo-small.png" width={80} height={80}></Image>
             </div>}
             
+            
             <ul className="menu-cta">
 
     
-<Link href="https://mt.linkedin.com/company/sb-betting-software"><li><FaLinkedin/></li></Link>
-<Link href="https://www.sb-betting.com/pl/dostawca-platform-bukmacherskich-i-gamblingowych/"><li><TbWorldWww/></li></Link>
-<Link href="https://join.skype.com/invite/Jrd3rAA4SZgD"><li><FaSkype/></li></Link>
+<Link href="https://mt.linkedin.com/company/sb-betting-software" target="blank"><li><FaLinkedin/></li></Link>
+<Link href="https://www.sb-betting.com/pl/dostawca-platform-bukmacherskich-i-gamblingowych/" target="blank"><li><TbWorldWww/></li></Link>
+<Link href="https://join.skype.com/invite/Jrd3rAA4SZgD" target="blank"><li><FaSkype/></li></Link>
 </ul>
             {/* <h1>
               
