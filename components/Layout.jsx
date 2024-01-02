@@ -42,12 +42,12 @@ const Layout = (props) => {
     
     <Header title={title} icon={icon} screen={screen}/>
     {!logOutButtonDisabled ? <Menuv2 setNav={props.setNav} nav={props.nav}/> : null}
-    <Suspense fallback={<Loading/>}>
+    
     <Content>
         
         {props.children}
     </Content>
-    </Suspense>
+    
     
     </div>
     </>)

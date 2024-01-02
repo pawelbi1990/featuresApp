@@ -278,12 +278,12 @@ const AllFeatures = (props) => {
 
     <Layout lastitem={lastitem} title='' navbar="" setNav={props.setNav} nav={props.nav} screen={width}>
         <div>
-            <div className="search-container">
+            {/* <div className="search-container">
                 <label>
                     
             <       input type="text" className="searchbar" placeholder='Search' onChange={(event) => {setSearch(event.target.value.toLowerCase())}}/>
                 </label>
-            </div>
+            </div> */}
     
     <div className="products-item-container">
     
@@ -298,7 +298,7 @@ const AllFeatures = (props) => {
         <p>{item.name}</p>
         <div className="products-item-buttons">
         {!guest? (
-          <button className='btn' onClick={() => createTask(item.name, item.long_desc, item.assigned, sessionStorage.getItem("user"))}>
+          <button className='btn' onClick={() => createTask(item.name, item.short_desc, item.assigned, sessionStorage.getItem("user"))}>
             Create task
             
           </button> 
