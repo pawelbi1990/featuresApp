@@ -20,10 +20,12 @@ const Page = () => {
   
   return (
     <div className="wrapper-full-column bg-main">
+      <div className="login">
       
     <h2>Congratulations, you have created a task</h2>
     <Link href={`https://sb-betting.easyredmine.com/issues/${taskId}` } target="blank"><h2 className="task-link">#{taskId} {taskTitle}</h2></Link>
     <button className="btn" onClick={() => handleGoBack()}>Go back</button>
+    </div>
     
     </div>
   )

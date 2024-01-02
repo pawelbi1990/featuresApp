@@ -158,26 +158,22 @@ const AllFeatures = (props) => {
         //fetching data from api and saving it do dbData state
         let data = ({session: sessionStorage.getItem("session") || null,
                     userId: sessionStorage.getItem("user") || null})
+        const cachedAllData = JSON.parse(sessionStorage.getItem("cachedAllData"))
         
+        if (cachedAllData) {
+          setData(cachedAllData)
+        } else {
         const response = await fetch('/api', {
           method: "POST",
           body: JSON.stringify(data),
         })
-        // alert(response.status)
+        
         if (response.ok) {
         const dbData = await response.json()
         
-        // const forbetTemp = await dbData.filter(item => item.client === 3)
-        // const crocoTemp = await dbData.filter(item => item.client === 5)
-        // const ebTemp = await dbData.filter(item => item.client === 6)
-        // const publicTemp = await dbData.filter(item => item.client === 0)
         
-        // setCrocoData(crocoTemp)
-        // setEbData(ebTemp)
-        // setForbetData(forbetTemp)
-        // setPublicData(publicTemp)
-        // setAllData(dbData)
         setData(dbData)
+        sessionStorage.setItem("cachedAllData", JSON.stringify(dbData))
         if ((dbData[0].client !== 119) && (dbData[0].client !== 106) && (dbData[0].client !== 121)) {
           setGuest(true)
         }
@@ -185,6 +181,7 @@ const AllFeatures = (props) => {
           
           window.location.replace("/401")
         }
+      }
         
         
         
@@ -291,11 +288,8 @@ const AllFeatures = (props) => {
         //slicing data to show only wanted number of items
         
         <div className={subIndex % 2 !== 0 ? "products-item focused" : "products-item"} key={subIndex}>
-        
-        <Image onClick={() => handleDetailsClick(item.id, item.image_path)} src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
-        
-        <div className="products-image-separator" ></div>
         <p>{item.name}</p>
+        <Image onClick={() => handleDetailsClick(item.id, item.image_path)} src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
         <div className="products-item-buttons">
         {!guest? (
           <button className='btn' onClick={() => createTask(item.name, item.short_desc, item.assigned, sessionStorage.getItem("user"))}>
@@ -312,6 +306,11 @@ const AllFeatures = (props) => {
         
         
         </div>
+        {/* <div className="products-image-separator" ></div> */}
+
+        
+        
+        
         </div>))}
         
         

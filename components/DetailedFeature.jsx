@@ -59,7 +59,7 @@ const Page = (props) => {
       <ImageAndText key={item.id} id={item.id} text={item.long_desc} image={props.image}>
        
       </ImageAndText>
-      <div className="products-item-buttons">
+      <div className="products-item-buttons margin-left-16">
       <button className="btn" onClick={() => props.goBack(false)}>Go back</button>
       {!guest? (
           <button className='btn' onClick={() => props.createTask(item.name, item.short_desc, item.assigned, sessionStorage.getItem("user"))}>

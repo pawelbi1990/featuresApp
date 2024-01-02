@@ -79,7 +79,7 @@ const DeleteFeature = (props) => {
         formData.append("deleteId", deleteMe);
 
         
-        alert(formData.entries())
+        
        
         
         
@@ -116,17 +116,36 @@ const DeleteFeature = (props) => {
     
     
     const getData = async () => {
-      let data = ({session: sessionStorage.getItem("session") || null,
-                    userId: sessionStorage.getItem("user") || null})
-        const response = await fetch('/api', {
-          method: "POST",
-          body: JSON.stringify(data)
-        })
-        const dbData = await response.json()
-        setData(dbData)
-        
-
-    }
+      try {
+        // Check if the data is already in the cache
+        const cachedDeleteData = JSON.parse(sessionStorage.getItem('cachedData'));
+  
+        if (cachedDeleteData) {
+          setData(cachedDeleteData);
+        } else {
+          // Fetch data if not found in the cache
+          const requestData = {
+            session: sessionStorage.getItem('session') || null,
+            userId: sessionStorage.getItem('user') || null,
+          };
+  
+          const response = await fetch('/api', {
+            method: 'POST',
+            body: JSON.stringify(requestData),
+          });
+  
+          const dbData = await response.json();
+  
+          // Update the state with the fetched data
+          setData(dbData);
+  
+          // Cache the data for future use
+          sessionStorage.setItem('cachedDeleteData', JSON.stringify(dbData));
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
     
     useEffect(() => {
         
@@ -146,10 +165,12 @@ const DeleteFeature = (props) => {
         {data.map((item) => (
         
         <div key={item.id} className="products-item">
+          <p>{item.name}</p>
         <Image src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
-        <div className="products-image-separator" ></div>
-        <div>{item.name}</div>
+        {/* <div className="products-image-separator" ></div> */}
+        <div className="products-item-buttons">
         <button className="btn" onClick={() => handlePrompt(item.id)}>Delete</button></div>
+        </div>
        
         
         )
