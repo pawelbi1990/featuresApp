@@ -16,6 +16,26 @@ const DeleteFeature = (props) => {
     const [admin, setAdmin] = useState()
     const [session, setSession] = useState()
     const [user, setUser] = useState()
+    const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
+
+    const handleResize = () => {
+      //func used for screen width state management on resizes
+      setWidth(window.innerWidth)
+    }
+
+    useEffect(() => {
+      //updating width state on resizes      
+      window.addEventListener('resize', handleResize)     
+
+    }, [width])
+
+    useEffect(() => {
+      //updating itemperpage state on rerenders, dependind on user's device
+      setWidth(window.innerWidth)
+     
+    },[])
+
+    
     
     const adminCheck = async () => {
         
@@ -158,7 +178,7 @@ const DeleteFeature = (props) => {
     if (adminRights) {
     if (loggedIn && !prompt) {
   return (
-    <Layout title="Choose feature to delete" setNav={props.setNav} nav={props.nav}>
+    <Layout title="Choose feature to delete" setNav={props.setNav} nav={props.nav} screen={width}>
        {
     <div className="products-item-container">
         

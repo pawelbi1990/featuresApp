@@ -39,9 +39,10 @@ const Layout = (props) => {
     <div className="layout">
     
     
-    
+    <div className="headerMenuContainer">
     <Header title={title} icon={icon} screen={screen}/>
     {!logOutButtonDisabled ? <Menuv2 setNav={props.setNav} nav={props.nav}/> : null}
+    </div>
     
     <Content>
         
