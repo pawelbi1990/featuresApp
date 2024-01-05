@@ -1,7 +1,8 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Layout from '@/components/Layout'
 import Loading from '@/components/Loading'
+
 
 
 
@@ -13,14 +14,32 @@ const Page = () => {
   })
   const [wrongCred, setWrongCred] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
+
+    const handleResize = () => {
+      //func used for screen width state management on resizes
+      setWidth(window.innerWidth)
+    }
+
+    useEffect(() => {
+      //updating width state on resizes      
+      window.addEventListener('resize', handleResize)     
+
+    }, [width])
+
+    useEffect(() => {
+      //updating itemperpage state on rerenders, dependind on user's device
+      setWidth(window.innerWidth)
+     
+    },[])
   
 
   //declaring functions
-  const handleUserNameChange = (e: any) => {
+  const handleUserNameChange = (e) => {
     setUser({ ...user, userName: e.target.value})
   }
 
-  const handleUserSecretChange = (e: any) => {
+  const handleUserSecretChange = (e) => {
     setUser({ ...user, userSecret: e.target.value})
   }
 
@@ -67,13 +86,13 @@ const Page = () => {
   }
   if (loading) { return <Loading/>} else {
   return (
-    wrongCred ? (<Layout logOutButtonDisabled="true">
+    wrongCred ? (<Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
       <div className="wrapper">
       <div>Wrong Credentials</div>
       <button onClick={() => setWrongCred(false)}>Try again</button>
       </div>
     </Layout>) : (
-    <Layout logOutButtonDisabled="true">
+    <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
       <div className='wrapper'>
     <div className="login">
       <h1>Login</h1>

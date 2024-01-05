@@ -274,7 +274,7 @@ const AllFeatures = (props) => {
      //checking if data exists
 
     <Layout lastitem={lastitem} title='' navbar="" setNav={props.setNav} nav={props.nav} screen={width}>
-        <div>
+        
             {/* <div className="search-container">
                 <label>
                     
@@ -284,10 +284,10 @@ const AllFeatures = (props) => {
     
     <div className="products-item-container">
     
-    {filteredData.slice(index, index+itemsPerPage).map((item, subIndex) => (
+    {filteredData.map((item, subIndex) => (
         //slicing data to show only wanted number of items
         
-        <div className={subIndex % 2 !== 0 ? "products-item focused" : "products-item"} key={subIndex}>
+        <div className={subIndex % 2 !== 0 ? "products-item" : "products-item"} key={subIndex}>
         <p>{item.name}</p>
         <Image onClick={() => handleDetailsClick(item.id, item.image_path)} src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
         <div className="products-item-buttons">
@@ -314,12 +314,12 @@ const AllFeatures = (props) => {
         </div>))}
         
         
-        <button className="swiper-nav-button-prev" onClick={prevItems}><BsFillArrowLeftCircleFill/></button>
-        <button className="swiper-nav-button-next" onClick={nextItems}><BsFillArrowRightCircleFill/></button>
+        {/* <button className="swiper-nav-button-prev" onClick={prevItems}><BsFillArrowLeftCircleFill/></button>
+        <button className="swiper-nav-button-next" onClick={nextItems}><BsFillArrowRightCircleFill/></button> */}
         
         </div>
         
-        </div>
+        
         </Layout>
     
        

@@ -12,6 +12,8 @@ import Link from 'next/link';
 const Header = (props) => {
   const icon = props.icon
   const screen = props.screen
+  const headerDisabled = props.headerDisabled
+  if (headerDisabled !== 1) {
   return (
     <div className="header">
       
@@ -47,7 +49,7 @@ const Header = (props) => {
             
         </div>
         
-  )
+  )}
 }
 
 export default Header

@@ -50,13 +50,16 @@ const Menuv2 = (props) => {
       
   if (admin == 1) { return (
     <div className="nav-container">
+      
     <ul className="navbuttons">
         <button className={'btn'} onClick={() => window.location.replace("/features")}>All Features</button>
         <button className={'btn'} onClick={() => window.location.replace("/createFeature")}>Add Feature</button>
         <button className={'btn'} onClick={() => window.location.replace("/deleteFeature")}>Delete Feature</button>
         <button className='btn' onClick={handleLogout}>Log Out</button>
+        <h1>asd</h1>
        
     </ul>
+    
     {/* <ul className="menu-cta">
 
     
@@ -65,6 +68,7 @@ const Menuv2 = (props) => {
 <li><FaSkype/></li>
 </ul> */}
     </div>
+    
 
     
     

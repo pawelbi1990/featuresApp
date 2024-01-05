@@ -26,6 +26,7 @@ const Layout = (props) => {
     const next = props.next
     const previous = props.previous
     const icon= props.icon
+    const headerDisabled = props.headerDisabled
     const logOutButtonDisabled = props.logOutButtonDisabled
     const lastitem = props.lastitem
     const navbar = props.navbar
@@ -39,18 +40,20 @@ const Layout = (props) => {
     <div className="layout">
     
     
-    <div className="headerMenuContainer">
-    <Header title={title} icon={icon} screen={screen}/>
+    <div className={headerDisabled !== 1 ? "headerMenuContainer" : "disabled"}>
+    
+    <Header title={title} icon={icon} screen={screen} headerDisabled={headerDisabled}/>
+    
     {!logOutButtonDisabled ? <Menuv2 setNav={props.setNav} nav={props.nav}/> : null}
     </div>
     
-    <Content>
-        
-        {props.children}
-    </Content>
     
-    
+    <div className="content">
+                            {props.children}
+        </div>
     </div>
+    
+    
     </>)
   }
 

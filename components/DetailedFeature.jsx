@@ -53,8 +53,8 @@ const Page = (props) => {
     
 
     data.map((item) => (
-      <Layout screen={screen} key={item.id} title={item.name} setNav={props.setNav} logOutButtonDisabled="true">
-        <Menuv2/>
+      <Layout screen={screen} key={item.id} title={item.name} setNav={props.setNav}>
+        {/* <Menuv2/> */}
       
       <ImageAndText key={item.id} id={item.id} text={item.long_desc} image={props.image}>
        
