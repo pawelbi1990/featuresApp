@@ -17,7 +17,7 @@ const pool = new Pool({
 
 })
 
-export async function POST(req, res) {
+async function POST(req, res) {
     const data = await req.json()
     const userId = parseInt(data.userId)
     console.log(userId)
@@ -25,31 +25,70 @@ export async function POST(req, res) {
     
     
       if (auth === true) {
-      // const client = await pool.connect();
+      const sqlQueryCheck = async (id) => {
+        switch (id) {
+          case 2:
+            return 'SELECT * from public.admin_view';
+            break;
+          case 106:
+            return `SELECT * FROM public.eb`;          
+            break;
+          case 119: 
+            return `SELECT * FROM public.forbet`;
+            break;
+          case 123:
+            return `SELECT * FROM public.betfan`;
+            break;
+          case 143:
+            return `SELECT * FROM public.etoto`;
+            break;
+          case 133:
+            return `SELECT * FROM public.fuksiarz`;
+            break;
+          case 98:
+            return `SELECT * FROM public.merrybet`;
+            break;
+          case 165:
+            return `SELECT * FROM public.premierlotto`;
+            break;
+          case 112:
+            return `SELECT * FROM public.premierbetzone`;
+            break;
+          case 116:
+            return `SELECT * FROM public.totalbet`;
+            break;
+          case 121:
+            return `SELECT * FROM public.croco`
+            break;
+        
+          default:
+            return null
+            break;
+        }
+      
+
+      }
+
+      
         
       const sqlAdminQuery = `SELECT * FROM public.features`;
-      const sqlQuery = `SELECT * FROM public.features WHERE client = $1`;
+      const sqlQuery = await sqlQueryCheck(userId)
         
       const values = [userId]
       let result = null
-      if ((userId === 1) || (userId === 2)) {
-        result = await pool.query(sqlAdminQuery);
-      } else {
-        result = await pool.query(sqlQuery, values)
-      }
+      
+      result = await pool.query(sqlQuery)
+      
       const dbData = await result.rows
-      console.log(dbData)
-      
   
       
-      // await client.release();
-  
-      
-      return NextResponse.json(dbData);
+      return NextResponse.json(dbData, {status: 200});
     } else {
         return NextResponse.json({message: "Session invalid"}, {status: 401})
     }
 };
+
+export {POST, pool}
   
 
 

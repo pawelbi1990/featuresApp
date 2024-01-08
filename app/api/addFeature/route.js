@@ -3,17 +3,18 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import {adminSessionChecker} from '../sessionCheck/route'
+import {pool} from '../route'
 
 let dataValid = false
 
-const pool = new Pool({
-    host: process.env.DATABASE_HOST_NAME,
-    user: process.env.DATABASE_USER_NAME,
-    database: process.env.DATABASE_NAME,
-    password: process.env.DATABASE_PASSWORD,
-    port: process.env.DATABASE_PORT
+// const pool = new Pool({
+//     host: process.env.DATABASE_HOST_NAME,
+//     user: process.env.DATABASE_USER_NAME,
+//     database: process.env.DATABASE_NAME,
+//     password: process.env.DATABASE_PASSWORD,
+//     port: process.env.DATABASE_PORT
 
-})
+// })
 
 
 

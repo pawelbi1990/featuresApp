@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { sessionChecker } from "../sessionCheck/route"
-
+import {pool} from '../route'
+let sqlQuery = ''
 
 
 
@@ -52,8 +53,21 @@ import { sessionChecker } from "../sessionCheck/route"
   });
   if (response.ok) {
     const responseBody = await response.json()
+    
     taskId = responseBody.issue.id
-    taskTitle = responseBody.issue.subject     
+    taskTitle = responseBody.issue.subject
+    const id = async (userId) => {
+      switch(userId) {
+        case 119:
+          return 'UPDATE public.forbet SET task_id = $1';
+          break;
+    }
+    const sqlQuery = await id(userId)
+    const values = [taskId]
+    await pool.query(sqlQuery, values)
+    
+
+    }     
     // const taskStatus = ({
     //   taskid: responseBody.issue.id,
     //   owner: responseBody.issue.project.name,

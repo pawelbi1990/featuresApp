@@ -23,6 +23,9 @@ const AllFeatures = (props) => {
     const [imagePath, setImagePath] = useState(null)
     const [guest, setGuest] = useState(null)
     const [processing, setProcessing] = useState(false)
+    let dbData = []
+
+    
     
     const text = "Create task"
     const blocked =[]
@@ -89,6 +92,7 @@ const AllFeatures = (props) => {
 
   useEffect(() => {
     getData()
+    setClientId(sessionStorage.getItem("user"))
   }, [])
     
   useEffect(() => {
@@ -169,16 +173,15 @@ const AllFeatures = (props) => {
         })
         
         if (response.ok) {
-        const dbData = await response.json()
+        dbData = await response.json()
+        console.log(response.status)
         
         
         setData(dbData)
+        
         sessionStorage.setItem("cachedAllData", JSON.stringify(dbData))
-        if ((dbData[0].client !== 119) && (dbData[0].client !== 106) && (dbData[0].client !== 121)) {
-          setGuest(true)
-        }
-        } else {
-          
+        
+        }  else {
           window.location.replace("/401")
         }
       }
@@ -258,12 +261,12 @@ const AllFeatures = (props) => {
         
     // }, [])
 
-    let lastitem = data.length
+  
 
     
     
     const filteredData = data.filter(item => item.name.toLowerCase().includes(search)) //filtering data depending on search state that's beeing updated by search bar
-    
+    const data119 = data.filter(item => item.client === 123)
     if (sessionLoaded) {
     if (loggedIn && !processing && filteredData.length>0) {
 
@@ -273,7 +276,7 @@ const AllFeatures = (props) => {
   return (
      //checking if data exists
 
-    <Layout lastitem={lastitem} title='' navbar="" setNav={props.setNav} nav={props.nav} screen={width}>
+    <Layout  title='' navbar="" setNav={props.setNav} nav={props.nav} screen={width}>
         
             {/* <div className="search-container">
                 <label>
@@ -288,14 +291,18 @@ const AllFeatures = (props) => {
         //slicing data to show only wanted number of items
         
         <div className={subIndex % 2 !== 0 ? "products-item" : "products-item"} key={subIndex}>
-        <p>{item.name}</p>
+        <p>{clientId == 2 ? item.clientname+' ' +item.name : item.name}</p>
         <Image onClick={() => handleDetailsClick(item.id, item.image_path)} src={item.image_path} width={500} height={500} alt={item.name} className="products-image" key={item.id} placeholder="empty" blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=='/>
         <div className="products-item-buttons">
         {!guest? (
+          item.task_id === null? (
           <button className='btn' onClick={() => createTask(item.name, item.short_desc, item.assigned, sessionStorage.getItem("user"))}>
             Create task
             
           </button> 
+          ) : (
+            <button className="btn" href={`https://sb-betting.easyredmine.com/issues/+${item.taskId}`}>{item.taskId}</button>
+          )
           
           ) : (
        
