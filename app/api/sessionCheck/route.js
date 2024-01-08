@@ -23,12 +23,12 @@ const adminSessionChecker = async (reqData, res)=> {
     const userId = await data.user
     const admin = await data.admin
     
-    const client = await pool.connect()
+    // const client = await pool.connect()
     
     
     const sqlQuery = `SELECT * FROM public.users WHERE id = $1`
     const values = [userId]
-    const dbData = await client.query(sqlQuery, values)
+    const dbData = await pool.query(sqlQuery, values)
     const dbDataRows = await dbData.rows[0]
     
     const dbSession = await dbDataRows.session
@@ -38,7 +38,7 @@ const adminSessionChecker = async (reqData, res)=> {
     console.log(admin)
     console.log(admin==dbAdmin)
     
-    await client.release()
+    // await client.release()
     
 
     if ((sessionId == dbSession)&&(admin == dbAdmin)) {

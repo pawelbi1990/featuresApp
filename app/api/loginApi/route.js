@@ -17,10 +17,10 @@ const POST = async (req, res) => {
     const user = await req.json()
     const userName = await user.userName
     const password = await user.userSecret
-    const client = await pool.connect()
+    // const client = await pool.connect()
     const sqlQuery = `SELECT * FROM public.users where username = $1`;
     const values = [userName]
-    const dbData = await client.query(sqlQuery, values)
+    const dbData = await pool.query(sqlQuery, values)
     const dbDataRows = dbData.rows
     if (dbDataRows.length === 0) {
         return NextResponse.json({message: "User not found"}, {status: 404})
@@ -47,10 +47,10 @@ const POST = async (req, res) => {
     if (login) {
         const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`
         const sessionValues = [token, clientId]
-        const sessionUpdateResult = await client.query(sessionUpdateQuery, sessionValues)
+        const sessionUpdateResult = await pool.query(sessionUpdateQuery, sessionValues)
         console.log(sessionUpdateResult)
     }
-    client.release()
+    // client.release()
      if (login) {return NextResponse.json({login: token, admin: userRole, clientId: clientId })}
      else {return NextResponse.json({message: "Wrong credentials"}, {status: 401})}
     } catch (err) {

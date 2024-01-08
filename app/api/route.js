@@ -25,7 +25,7 @@ export async function POST(req, res) {
     
     
       if (auth === true) {
-      const client = await pool.connect();
+      // const client = await pool.connect();
         
       const sqlAdminQuery = `SELECT * FROM public.features`;
       const sqlQuery = `SELECT * FROM public.features WHERE client = $1`;
@@ -33,16 +33,16 @@ export async function POST(req, res) {
       const values = [userId]
       let result = null
       if ((userId === 1) || (userId === 2)) {
-        result = await client.query(sqlAdminQuery);
+        result = await pool.query(sqlAdminQuery);
       } else {
-        result = await client.query(sqlQuery, values)
+        result = await pool.query(sqlQuery, values)
       }
       const dbData = await result.rows
       console.log(dbData)
       
   
       
-      await client.release();
+      // await client.release();
   
       
       return NextResponse.json(dbData);
