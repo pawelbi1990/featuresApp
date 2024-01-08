@@ -271,7 +271,7 @@ button {
   transition: 2s all;
   border-radius: 2rem;
   /* background-color: rgb(1,7,41); */
-background: linear-gradient(130deg, rgba(1,7,41,1) 0%, rgba(4,2,53,1) 100%);
+/* background: linear-gradient(130deg, rgba(1,7,41,1) 0%, rgba(4,2,53,1) 100%); */
 -webkit-box-shadow: 10px 10px 40px 5px rgba(0, 0, 0, 1);
 -moz-box-shadow: 10px 10px 40px 5px rgba(0, 0, 0, 1);
 box-shadow: 10px 10px 40px 5px rgba(0, 0, 0, 1);
@@ -537,6 +537,8 @@ box-shadow: 20px 20px 40px 25px rgba(0, 0, 0, 1); */
   min-height: 100vh;
   width: 100vw;
   margin: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
   
   /* -webkit-box-shadow: 23px 14px 39px -1px rgba(7, 1, 51, 1);
 -moz-box-shadow: 23px 14px 39px -1px rgba(7, 1, 51, 1);
@@ -852,8 +854,8 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
 }
 
 .headerMenuContainer {
-  background: rgb(1,7,41);
-background: linear-gradient(130deg, rgba(1,7,41,1) 0%, rgba(4,2,53,1) 100%);
+  /* background: rgb(1,7,41); */
+/* background: linear-gradient(130deg, rgba(1,7,41,1) 0%, rgba(4,2,53,1) 100%); */
 padding: 1rem;
 border-radius: 1rem;
 -webkit-box-shadow: 10px 10px 20px -3px rgba(0, 0, 0, 1);
@@ -1056,7 +1058,7 @@ min-height: 20vh;
   flex-shrink: 0;
   flex-wrap: nowrap;
   width: 100%;
-  padding-left: 16px;
+  padding: 16px;
   z-index: 2;
   
   margin: 0;
@@ -1356,13 +1358,21 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
   justify-content: center;
   margin: auto;
   width: fit-content;
-  border: 1px solid aliceblue;
+  border: 1px solid var(--color-orange);
+  /* border: 1px solid aliceblue; */
   border-radius: 2rem;
   padding: 4rem 4rem;
   backdrop-filter: blur(4px);
   -webkit-box-shadow: 10px 10px 40px 5px rgba(0, 0, 0, 1);
 -moz-box-shadow: 10px 10px 40px 5px rgba(0, 0, 0, 1);
 box-shadow: 10px 10px 40px 5px rgba(0, 0, 0, 1);
+}
+
+.loginImage {
+ 
+  z-index: 2;
+  margin-top: -70%;
+ 
 }
 
 .wrapper {

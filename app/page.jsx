@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Layout from '@/components/Layout'
 import Loading from '@/components/Loading'
 
@@ -95,6 +96,7 @@ const Page = () => {
     <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
       <div className='wrapper'>
     <div className="login">
+      <Image className="loginImage" src="/sb-logo-small.png" width={100} height={100}/>
       <h1>Login</h1>
       <input className="input"
         type="text"

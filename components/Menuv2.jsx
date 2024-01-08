@@ -56,7 +56,7 @@ const Menuv2 = (props) => {
         <button className={'btn'} onClick={() => window.location.replace("/createFeature")}>Add Feature</button>
         <button className={'btn'} onClick={() => window.location.replace("/deleteFeature")}>Delete Feature</button>
         <button className='btn' onClick={handleLogout}>Log Out</button>
-        <h1>asd</h1>
+        {/* <h1>asd</h1> */}
        
     </ul>
     
