@@ -1270,12 +1270,21 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
 }
 
 @media only screen and (max-width : 1200px) {
+  .imageandtext-container {
+    flex-direction: column;
+    /* height: 80vh; */
+    overflow-y: scroll;
+    margin: 1rem;
+    text-align: justify;
+   
+    
+  }
   .products-item p {
     font-size: 0.8rem;
   }
-  .image-container {
+  /* .image-container {
     display: none;
-  }
+  } */
   
   }
 
@@ -1306,7 +1315,7 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
 
 
 @media only screen and (max-width: 800px) {
-
+  
   .products-item {
     min-width: 300px;
     max-width: 300px;

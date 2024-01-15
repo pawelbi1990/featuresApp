@@ -46,10 +46,14 @@ const POST = async (req, res) => {
     const key = process.env.JWT_KEY
     const token = jwt.sign(user, key, {expiresIn: '1h'})
     if (login) {
+        try {
         const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`
         const sessionValues = [token, clientId]
         const sessionUpdateResult = await pool.query(sessionUpdateQuery, sessionValues)
         // console.log(sessionUpdateResult)
+    } catch(err) {
+        console.log(err)
+    }
     }
     // client.release()
      if (login) {return NextResponse.json({login: token, admin: userRole, clientId: clientId })}
