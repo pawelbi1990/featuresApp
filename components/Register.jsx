@@ -39,7 +39,7 @@ export default function Register() {
   };
   
   return (
-    <Layout>
+    <div className="layout">
     <div className='register'>
       <h1>Register</h1>
       <input
@@ -62,7 +62,7 @@ export default function Register() {
       />
       <button className="btn" onClick={handleRegister}>Register</button>
     </div>
-    </Layout>
+    </div>
   );}
   
 
