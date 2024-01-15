@@ -34,15 +34,17 @@ const adminSessionChecker = async (reqData, res)=> {
     
     const dbSession = await dbDataRows.session
     const dbAdmin = await dbDataRows.admin
-    console.log(dbDataRows)
-    console.log(sessionId == dbSession)
-    console.log(admin)
-    console.log(admin==dbAdmin)
+    // console.log(dbDataRows)
+    // console.log(sessionId == dbSession)
+    // console.log(admin)
+    // console.log(admin==dbAdmin)
+    
     
     // await client.release()
     
 
     if ((sessionId == dbSession)&&(admin == dbAdmin)) {
+    console.log("Admin session approved")
     return true
 } else {
     return false
@@ -50,7 +52,7 @@ const adminSessionChecker = async (reqData, res)=> {
 }
 const sessionChecker = async (reqData, res) => {
     const data = await reqData 
-    console.log(data)
+    // console.log(data)
     
     
     const sessionId = await data.session
@@ -65,12 +67,13 @@ const sessionChecker = async (reqData, res) => {
     const dbDataRows = await dbData.rows[0]
     const dbSession = await dbDataRows.session
     
-    console.log(sessionId == dbSession)
+    // console.log(sessionId == dbSession)
     
     
     
 
     if (sessionId == dbSession) {
+    console.log("Session approved")
     return true
 } else {
     return false

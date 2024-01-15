@@ -1,6 +1,6 @@
 
 
-import { Pool } from 'pg';
+import { Pool, Client } from 'pg';
 import { NextResponse } from 'next/server';
 import { sessionChecker } from './sessionCheck/route';
 
@@ -13,9 +13,11 @@ const pool = new Pool({
     user: process.env.DATABASE_USER_NAME,
     database: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
-    port: process.env.DATABASE_PORT
+    port: process.env.DATABASE_PORT,
+    
 
 })
+
 
 async function POST(req, res) {
     const data = await req.json()
@@ -70,16 +72,17 @@ async function POST(req, res) {
       }
 
       
-        
+      
       const sqlAdminQuery = `SELECT * FROM public.features`;
       const sqlQuery = await sqlQueryCheck(userId)
         
       const values = [userId]
-      let result = null
       
-      result = await pool.query(sqlQuery)
+      
+      const result = await pool.query(sqlQuery)
       
       const dbData = await result.rows
+      
   
       
       return NextResponse.json(dbData, {status: 200});

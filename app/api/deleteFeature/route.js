@@ -19,6 +19,7 @@ import {adminSessionChecker} from '../sessionCheck/route'
 export async function POST(request, res) {
 
     const data = await request.formData();
+    
    
     const checkData = {
         session: await data.get("session"),

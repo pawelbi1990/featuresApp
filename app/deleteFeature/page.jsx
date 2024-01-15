@@ -138,7 +138,7 @@ const DeleteFeature = (props) => {
     const getData = async () => {
       try {
         // Check if the data is already in the cache
-        const cachedDeleteData = JSON.parse(sessionStorage.getItem('cachedData'));
+        const cachedDeleteData = await JSON.parse(sessionStorage.getItem('cachedData'));
   
         if (cachedDeleteData) {
           setData(cachedDeleteData);

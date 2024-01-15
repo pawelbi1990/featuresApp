@@ -17,6 +17,8 @@ let sqlQuery = ''
     const desc = await data.desc
     const userId = await data.userId
     const assigned = await data.assigned
+    const featureId = await data.id
+    
 
     const booleaner = (tf) => {
       return tf
@@ -59,12 +61,13 @@ let sqlQuery = ''
     const id = async (userId) => {
       switch(userId) {
         case 119:
-          return 'UPDATE public.forbet SET task_id = $1';
+          return 'UPDATE public.forbet SET task_id = $1 WHERE id = $2';
           break;
     }
-    const sqlQuery = await id(userId)
-    const values = [taskId]
+    const sqlQuery = 'UPDATE public.forbet SET task_id = $1 WHERE id = $2'
+    const values = [taskId, featureId]
     await pool.query(sqlQuery, values)
+    pool.end()
     
 
     }     

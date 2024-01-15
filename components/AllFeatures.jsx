@@ -162,7 +162,7 @@ const AllFeatures = (props) => {
         //fetching data from api and saving it do dbData state
         let data = ({session: sessionStorage.getItem("session") || null,
                     userId: sessionStorage.getItem("user") || null})
-        const cachedAllData = JSON.parse(sessionStorage.getItem("cachedAllData"))
+        const cachedAllData = await JSON.parse(sessionStorage.getItem("cachedAllData"))
         
         if (cachedAllData) {
           setData(cachedAllData)
@@ -222,13 +222,14 @@ const AllFeatures = (props) => {
 
     
     
-    const createTask = async (taskName, desc, assigned, userId) => {
+    const createTask = async (taskName, desc, assigned, userId, id) => {
       setProcessing(true)
       const requestData = {
         taskName: taskName,
         desc: desc,
         assigned: assigned,
-        userId, userId
+        userId, userId,
+        id: id
       }
       const response = await fetch("/api/createTask", {
         method: "POST",
@@ -296,7 +297,7 @@ const AllFeatures = (props) => {
         <div className="products-item-buttons">
         {!guest? (
           item.task_id === null? (
-          <button className='btn' onClick={() => createTask(item.name, item.short_desc, item.assigned, sessionStorage.getItem("user"))}>
+          <button className='btn' onClick={() => createTask(item.name, item.short_desc, item.assigned, sessionStorage.getItem("user"), item.id)}>
             Create task
             
           </button> 
