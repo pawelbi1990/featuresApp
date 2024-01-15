@@ -45,6 +45,7 @@ const DeleteFeature = (props) => {
           admin: sessionStorage.getItem("superUser")
       }
 
+      if (dataCheck) {
     
       
       const response = await fetch('/api/adminSessionCheck', {
@@ -55,6 +56,7 @@ const DeleteFeature = (props) => {
       if (response.status === 401) {
           window.location.replace("/401")
       }
+    }
   
   }
 

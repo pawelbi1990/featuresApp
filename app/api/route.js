@@ -22,7 +22,7 @@ const pool = new Pool({
 async function POST(req, res) {
     const data = await req.json()
     const userId = parseInt(data.userId)
-    console.log(userId)
+    // console.log(userId)
     const auth = await sessionChecker(data, res)
     
     

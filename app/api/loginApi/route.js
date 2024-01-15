@@ -41,7 +41,7 @@ const POST = async (req, res) => {
             }
         });
     });
-    console.log(login)
+    // console.log(login)
     
     const key = process.env.JWT_KEY
     const token = jwt.sign(user, key, {expiresIn: '1h'})
@@ -49,7 +49,7 @@ const POST = async (req, res) => {
         const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`
         const sessionValues = [token, clientId]
         const sessionUpdateResult = await pool.query(sessionUpdateQuery, sessionValues)
-        console.log(sessionUpdateResult)
+        // console.log(sessionUpdateResult)
     }
     // client.release()
      if (login) {return NextResponse.json({login: token, admin: userRole, clientId: clientId })}
