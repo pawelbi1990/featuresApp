@@ -229,7 +229,14 @@ const Newfeature = (props) => {
             } : {
                 backgroundColor: "white"
             } 
-            }>EuropeBet</button>      
+            }>EuropeBet</button>
+            <button onClick={(e) => setClient(6)}style={
+                client === 6 ? {
+                backgroundColor: "green",
+            } : {
+                backgroundColor: "white"
+            } 
+            }>EuropeBet</button>           
         </div>
 
     
