@@ -1,6 +1,6 @@
-import {Pool} from 'pg'
-import { NextResponse } from 'next/server'
-import {pool} from '../route'
+import { Pool } from "pg";
+import { NextResponse } from "next/server";
+import { pool } from "../route";
 
 // const pool = new Pool({
 //     host: process.env.DATABASE_HOST_NAME,
@@ -11,16 +11,22 @@ import {pool} from '../route'
 
 // })
 
-const POST = async (req,res) => {
-        const data = await req.json()
-        const userId = await data.userId
-        console.log(data)
-        // const client = await pool.connect()
-        const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`
-        const sessionValues = [null, userId]
-        const sessionUpdateResult = await pool.query(sessionUpdateQuery, sessionValues)
-        // client.release()
-        return NextResponse.json({message: "logged out succesfully"}, {status: 200})
-}
+const POST = async (req, res) => {
+  const data = await req.json();
+  const userId = await data.userId;
+  console.log(data);
+  // const client = await pool.connect()
+  const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`;
+  const sessionValues = [null, userId];
+  const sessionUpdateResult = await pool.query(
+    sessionUpdateQuery,
+    sessionValues
+  );
+  // client.release()
+  return NextResponse.json(
+    { message: "logged out succesfully" },
+    { status: 200 }
+  );
+};
 
-export {POST}
+export { POST };

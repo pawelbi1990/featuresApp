@@ -1,122 +1,121 @@
-'use client'
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Layout from '@/components/Layout'
-import Loading from '@/components/Loading'
-
-
-
+"use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Layout from "@/components/Layout";
+import Loading from "@/components/Loading";
 
 const Page = () => {
   // declaring states
   const [user, setUser] = useState({
     userName: "",
-    userSecret: ""
-  })
-  const [wrongCred, setWrongCred] = useState(false)
-  const [loading, setLoading] = useState(false)
+    userSecret: "",
+  });
+  const [wrongCred, setWrongCred] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
 
-    const handleResize = () => {
-      //func used for screen width state management on resizes
-      setWidth(window.innerWidth)
-    }
+  const handleResize = () => {
+    //func used for screen width state management on resizes
+    setWidth(window.innerWidth);
+  };
 
-    useEffect(() => {
-      //updating width state on resizes      
-      window.addEventListener('resize', handleResize)     
+  useEffect(() => {
+    //updating width state on resizes
+    window.addEventListener("resize", handleResize);
+  }, [width]);
 
-    }, [width])
-
-    useEffect(() => {
-      //updating itemperpage state on rerenders, dependind on user's device
-      setWidth(window.innerWidth)
-     
-    },[])
-  
+  useEffect(() => {
+    //updating itemperpage state on rerenders, dependind on user's device
+    setWidth(window.innerWidth);
+  }, []);
 
   //declaring functions
   const handleUserNameChange = (e) => {
-    setUser({ ...user, userName: e.target.value})
-  }
+    setUser({ ...user, userName: e.target.value });
+  };
 
   const handleUserSecretChange = (e) => {
-    setUser({ ...user, userSecret: e.target.value})
-  }
+    setUser({ ...user, userSecret: e.target.value });
+  };
 
   const handleLogin = async () => {
-    setLoading(true)
-    const data = user
+    setLoading(true);
+    const data = user;
     try {
-    const response = await fetch('api/loginApi', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-    
+      const response = await fetch("api/loginApi", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+
       if (response.status === 200) {
-        const responseData = await response.json()
-        const session = await responseData.login
-        const clientId = await responseData.clientId
-        const admin = await responseData.admin
-        sessionStorage.setItem("session", session)
-        sessionStorage.setItem("user", clientId)
-        sessionStorage.setItem("superUser", admin)   
-        window.location.replace("/features")
-        setLoading(false)
+        const responseData = await response.json();
+        const session = await responseData.login;
+        const clientId = await responseData.clientId;
+        const admin = await responseData.admin;
+        sessionStorage.setItem("session", session);
+        sessionStorage.setItem("user", clientId);
+        sessionStorage.setItem("superUser", admin);
+        window.location.replace("/features");
+        setLoading(false);
       } else {
-        const responseData = await response.json()
+        const responseData = await response.json();
         if (response.status === 401) {
-          console.log(responseData.message)
-          setWrongCred(true)
-          setLoading(false)
+          console.log(responseData.message);
+          setWrongCred(true);
+          setLoading(false);
         } else if (response.status === 404) {
-          console.log(responseData.message)
-          setWrongCred(true)
-          setLoading(false)
-        } 
+          console.log(responseData.message);
+          setWrongCred(true);
+          setLoading(false);
+        }
       }
-      
-    } 
-    
-  catch (err) {
-    console.log(err)
-
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  if (loading) {
+    return <Loading />;
+  } else {
+    return wrongCred ? (
+      <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
+        <div className="wrapper">
+          <div>Wrong Credentials</div>
+          <button onClick={() => setWrongCred(false)}>Try again</button>
+        </div>
+      </Layout>
+    ) : (
+      <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
+        <div className="wrapper">
+          <div className="login">
+            <Image
+              className="loginImage"
+              src="/sb-logo-small.png"
+              width={100}
+              height={100}
+            />
+            <h1>Login</h1>
+            <input
+              className="input"
+              type="text"
+              placeholder="Username"
+              value={user.userName}
+              onChange={handleUserNameChange}
+            />
+            <input
+              className="input"
+              type="password"
+              placeholder="Password"
+              value={user.userSecret}
+              onChange={handleUserSecretChange}
+            />
+            <button className="btn" onClick={() => handleLogin()}>
+              Login
+            </button>
+          </div>
+        </div>
+      </Layout>
+    );
   }
-    
-    
-  }
-  if (loading) { return <Loading/>} else {
-  return (
-    wrongCred ? (<Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
-      <div className="wrapper">
-      <div>Wrong Credentials</div>
-      <button onClick={() => setWrongCred(false)}>Try again</button>
-      </div>
-    </Layout>) : (
-    <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
-      <div className='wrapper'>
-    <div className="login">
-      <Image className="loginImage" src="/sb-logo-small.png" width={100} height={100}/>
-      <h1>Login</h1>
-      <input className="input"
-        type="text"
-        placeholder="Username"
-        value={user.userName}
-        onChange={handleUserNameChange}
-      />
-      <input className="input"
-        type="password"
-        placeholder="Password"
-        value={user.userSecret}
-        onChange={handleUserSecretChange}
-      />
-      <button className="btn" onClick={() => handleLogin()}>Login</button>
-      
-      </div>
-      </div>
-      </Layout>)
-  )
-}
-}
+};
 
-export default Page
+export default Page;

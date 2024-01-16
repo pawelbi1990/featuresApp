@@ -1,6 +1,6 @@
-import { Pool } from 'pg';
-import { NextResponse } from 'next/server';
-import {pool} from '../route'
+import { Pool } from "pg";
+import { NextResponse } from "next/server";
+import { pool } from "../route";
 
 // const pool = new Pool({
 //     host: process.env.DATABASE_HOST_NAME,
@@ -12,28 +12,23 @@ import {pool} from '../route'
 // })
 
 export async function POST(request) {
-    const data = await request.json();
-    
+  const data = await request.json();
 
-    const client = await pool.connect();
+  const client = await pool.connect();
 
-    const sqlQuery = `
+  const sqlQuery = `
         INSERT into created_check (taskid, owner, featureid) VALUES ($1, $2, $3)
     `;
-    
-    const values = [data.taskid, data.owner, data.featureid];
 
-    try {
-        await client.query(sqlQuery, values);
-        client.release();
-        return NextResponse.json({ status: 'success' });
-    } catch (error) {
-        console.error('Error executing query:', error);
-        client.release();
-        return NextResponse.json({ status: 'error' });
-    }
+  const values = [data.taskid, data.owner, data.featureid];
 
-};
-
-
-
+  try {
+    await client.query(sqlQuery, values);
+    client.release();
+    return NextResponse.json({ status: "success" });
+  } catch (error) {
+    console.error("Error executing query:", error);
+    client.release();
+    return NextResponse.json({ status: "error" });
+  }
+}

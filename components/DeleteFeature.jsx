@@ -15,29 +15,24 @@
 //       if (sessionStorage.getItem("session")) {
 //           setSessionLoaded(true)
 //       }
-      
+
 //     })
-    
+
 //     const [data, setData] = useState([])
 //     const [dataToDelete, setDataToDelete] = useState(null)
 //     const [prompt, setPrompt] = useState(false)
 //     const [currentId, setCurrentId] = useState(null)
-   
-    
-    
 
 //     const deleteItem = async (id) => {
 //         const deleteMe = id.toString()
-        
-        
-        
+
 //         await fetch('/api/deleteFeature', {
 //             method: 'POST',
 //                 headers: {
 //                     'Content-Type': 'application/json',
 //                 },
 //                 body: JSON.stringify(deleteMe),
-                
+
 //         } )
 //         setPrompt(false)
 //     }
@@ -52,10 +47,6 @@
 //       setCurrentId(null)
 //     }
 
-    
-    
-    
-    
 //     const getData = async () => {
 //       let data = ({session: sessionStorage.getItem("session") || null,
 //                     userId: sessionStorage.getItem("user") || null})
@@ -67,13 +58,11 @@
 //         setData(dbData)
 
 //     }
-    
+
 //     useEffect(() => {
-        
+
 //          getData()
-         
-       
-        
+
 //     }, [data])
 //     if (sessionLoaded) {
 //     if (adminRights) {
@@ -82,20 +71,19 @@
 //     <Layout title="Choose feature to delete" setNav={props.setNav} nav={props.nav}>
 //        {
 //     <div className="products-item-container">
-        
+
 //         {data.map((item) => (
-        
+
 //         <div key={item.id} className="products-item">
 //         <div>{item.id}</div>
 //         <div>{item.name}</div>
 //         <button onClick={() => handlePrompt(item.id)}>Delete</button></div>
-       
-        
+
 //         )
 //         )}
 //         </div>
 //       }
-    
+
 //     </Layout>
 //   )} if (loggedIn && prompt) {
 //     return <DeletePrompt id={currentId} deleteItem={deleteItem} goBack={goBack}/>
