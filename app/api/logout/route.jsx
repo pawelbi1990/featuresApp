@@ -12,17 +12,19 @@ import { pool } from "../route";
 // })
 
 const POST = async (req, res) => {
+  const client = await pool.connect()
   const data = await req.json();
   const userId = await data.userId;
-  console.log(data);
+  
   // const client = await pool.connect()
   const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`;
   const sessionValues = [null, userId];
-  const sessionUpdateResult = await pool.query(
+  const sessionUpdateResult = await client.query(
     sessionUpdateQuery,
     sessionValues
   );
-  // client.release()
+  console.log("user "+userId+" logged out succesfully");
+  client.release()
   return NextResponse.json(
     { message: "logged out succesfully" },
     { status: 200 }

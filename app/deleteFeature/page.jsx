@@ -164,16 +164,18 @@ const DeleteFeature = (props) => {
                 {data.map((item) => (
                   <div key={item.id} className="products-item">
                     <p>{item.name}</p>
+                    <div className="products-image">
                     <Image
                       src={item.image_path}
                       width={500}
                       height={500}
                       alt={item.name}
-                      className="products-image"
+                      
                       key={item.id}
                       placeholder="empty"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
                     />
+                    </div>
                     {/* <div className="products-image-separator" ></div> */}
                     <div className="products-item-buttons">
                       <button

@@ -58,14 +58,15 @@ const sessionChecker = async (reqData, res) => {
     const sessionId = await data.session
     
     const userId = await data.userId
-    
+    const client = await pool.connect()
     
     
     const sqlQuery = `SELECT * FROM public.users WHERE id = $1`
     const values = [userId]
-    const dbData = await pool.query(sqlQuery, values)
+    const dbData = await client.query(sqlQuery, values)
     const dbDataRows = await dbData.rows[0]
     const dbSession = await dbDataRows.session
+    client.release()
     
     // console.log(sessionId == dbSession)
     

@@ -16,6 +16,7 @@ export async function POST(request) {
   const data = await request.json();
   const user = data.username;
   const password = data.password;
+  const client = await pool.connect()
 
   bcrypt.hash(password, saltRounds, (err, hash) => {
     const sqlQuery = `
@@ -24,12 +25,12 @@ export async function POST(request) {
     `;
     const values = [user, hash];
     try {
-      pool.query(sqlQuery, values);
-
+      client.query(sqlQuery, values);
+      client.release()
       return NextResponse.json({ status: "success" });
     } catch (error) {
       console.error("Error executing query:", error);
-
+      client.release()
       return NextResponse.json({ status: "error" });
     }
   });

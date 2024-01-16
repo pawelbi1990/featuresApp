@@ -28,7 +28,7 @@ export async function POST(request, res) {
   if (auth === false) {
     return NextResponse.json({ message: "unauthorized" }, { status: 401 });
   } else if (auth === true) {
-    // const client = await pool.connect();
+    const client = await pool.connect();
 
     const sqlQuery = `
         DELETE FROM public.features WHERE id = $1
@@ -37,12 +37,12 @@ export async function POST(request, res) {
     const values = [deleteMe];
 
     try {
-      await pool.query(sqlQuery, values);
-      // client.release();
+      await client.query(sqlQuery, values);
+      client.release();
       return NextResponse.json({ message: "Feature deleted" }, { status: 200 });
     } catch (error) {
       console.error("Error executing query:", error);
-      // client.release();
+      client.release();
       return NextResponse.json(
         { message: "something went wrong" },
         { status: 400 }

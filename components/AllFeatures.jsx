@@ -87,6 +87,7 @@ const AllFeatures = (props) => {
   useEffect(() => {
     getData();
     setClientId(sessionStorage.getItem("user"));
+    
   }, []);
 
   useEffect(() => {
@@ -97,33 +98,7 @@ const AllFeatures = (props) => {
 
       setSessionLoaded(true);
     }
-    // switch (clientId) {
-    //sets current data depending on which client is loggedIn
-    //2 - superuser - all data shown
-    //3 - forbet - project id 119
-    //
-    //   case 3:
-    //     setCurrentData(forbetData)
-    //     setCurrentProject(119)
-    //     setButtonActive(true)
-    //     break
-    //   case 2:
-    //     setCurrentData(allData)
-    //      break
-    //   case 5:
-    //     setCurrentData(crocoData)
-    //     setCurrentProject(121)
-    //     setButtonActive(true)
-    //     break
-    //   case 6:
-    //     setCurrentData(ebData)
-    //     setCurrentProject(106)
-    //     setButtonActive(true)
-    //     break
-    //   default:
-    //     setCurrentData(publicData)
-    //     break
-    // }
+   
   });
 
   const [data, setData] = useState([]);
@@ -153,6 +128,7 @@ const AllFeatures = (props) => {
       session: sessionStorage.getItem("session") || null,
       userId: sessionStorage.getItem("user") || null,
     };
+    
     const cachedAllData = await JSON.parse(
       sessionStorage.getItem("cachedAllData")
     );
@@ -218,8 +194,7 @@ const AllFeatures = (props) => {
       console.log("task created");
       setProcessing(false);
       window.location.replace("/taskCreated");
-      sessionStorage.setItem("taskId", responseData.taskId);
-      sessionStorage.setItem("taskTitle", responseData.taskTitle);
+      sessionStorage.removeItem("cachedAllData")
     } else {
       console.log("error creating task");
       setProcessing(false);
@@ -227,11 +202,7 @@ const AllFeatures = (props) => {
     }
   };
 
-  // useEffect(() => {
-
-  //      getData()
-
-  // }, [])
+  
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search)
@@ -288,7 +259,7 @@ const AllFeatures = (props) => {
                   />
                   </div>
                   <div className="products-item-buttons">
-                    {!guest ? (
+                    {clientId != 2 ? (
                       item.task_id === null ? (
                         <button
                           className="btn"
@@ -305,12 +276,13 @@ const AllFeatures = (props) => {
                           Create task
                         </button>
                       ) : (
+                        <Link href={`https://sb-betting.easyredmine.com/issues/${item.task_id}`}>
                         <button
                           className="btn"
-                          href={`https://sb-betting.easyredmine.com/issues/+${item.taskId}`}
                         >
-                          {item.taskId}
+                          {"Task "+item.task_id}
                         </button>
+                        </Link>
                       )
                     ) : (
                       <button className="btn" onClick={handleLogout}>

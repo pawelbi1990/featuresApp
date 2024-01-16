@@ -11,9 +11,45 @@ const POST = async (req, res) => {
   const data = await req.json();
   const taskName = await data.taskName;
   const desc = await data.desc;
-  const userId = await data.userId;
+  const userId = await parseInt(data.userId);
   const assigned = await data.assigned;
   const featureId = await data.id;
+  const id = async (user) => {
+    switch (user) {
+      case 119:
+        return "UPDATE public.forbet SET task_id = $1 WHERE id = $2";
+        break;
+      case 123:
+        return "UPDATE public.betfan SET task_id = $1 WHERE id = $2"
+        break;
+      case 121:
+        return "UPDATE public.croco SET task_id = $1 WHERE id = $2"
+        break;
+      case 106:
+        return "UPDATE public.eb SET task_id = $1 WHERE id = $2"
+        break;
+      case 143:
+        return "UPDATE public.etoto SET task_id = $1 WHERE id = $2"
+        break;
+      case 133:
+        return "UPDATE public.fuksiarz SET task_id = $1 WHERE id = $2"
+        break;
+      case 98:
+        return "UPDATE public.merrybet SET task_id = $1 WHERE id = $2"
+        break;
+      case 112:
+        return "UPDATE public.premierbetzone SET task_id = $1 WHERE id = $2"
+        break;
+      case 165:
+        return "UPDATE public.premierlotto SET task_id = $1 WHERE id = $2"
+        break;
+      case 116:
+        return "UPDATE public.totalbet SET task_id = $1 WHERE id = $2"
+        break;
+    }
+  
+    
+  }
 
   const booleaner = (tf) => {
     return tf;
@@ -53,21 +89,17 @@ const POST = async (req, res) => {
       );
       if (response.ok) {
         const responseBody = await response.json();
-
+        const client = await pool.connect()
         taskId = responseBody.issue.id;
         taskTitle = responseBody.issue.subject;
-        const id = async (userId) => {
-          switch (userId) {
-            case 119:
-              return "UPDATE public.forbet SET task_id = $1 WHERE id = $2";
-              break;
-          }
-          const sqlQuery =
-            "UPDATE public.forbet SET task_id = $1 WHERE id = $2";
+        
+        
+        const sqlQuery = await id(userId)
+          
           const values = [taskId, featureId];
-          await pool.query(sqlQuery, values);
-          pool.end();
-        };
+          console.log(sqlQuery)
+          await client.query(sqlQuery, values);
+          client.release();
         // const taskStatus = ({
         //   taskid: responseBody.issue.id,
         //   owner: responseBody.issue.project.name,

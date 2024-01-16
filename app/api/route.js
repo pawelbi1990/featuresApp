@@ -58,15 +58,16 @@ async function POST(req, res) {
           break;
       }
     };
-
+    const client = await pool.connect()
     const sqlAdminQuery = `SELECT * FROM public.features`;
     const sqlQuery = await sqlQueryCheck(userId);
 
     const values = [userId];
 
-    const result = await pool.query(sqlQuery);
+    const result = await client.query(sqlQuery);
 
     const dbData = await result.rows;
+    client.release()
 
     return NextResponse.json(dbData, { status: 200 });
   } else {
