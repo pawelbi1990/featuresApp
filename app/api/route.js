@@ -19,6 +19,9 @@ async function POST(req, res) {
   if (auth === true) {
     const sqlQueryCheck = async (id) => {
       switch (id) {
+        case 1:
+          return "SELECT * from public.admin_view";
+          break;
         case 2:
           return "SELECT * from public.admin_view";
           break;

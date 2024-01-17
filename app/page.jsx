@@ -10,6 +10,7 @@ const Page = () => {
     userName: "",
     userSecret: "",
   });
+  
   const [wrongCred, setWrongCred] = useState(false);
   const [loading, setLoading] = useState(false);
   const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
@@ -41,6 +42,45 @@ const Page = () => {
   const handleLogin = async () => {
     setLoading(true);
     const data = user;
+    try {
+      const response = await fetch("api/loginApi", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+
+      if (response.status === 200) {
+        const responseData = await response.json();
+        const session = await responseData.login;
+        const clientId = await responseData.clientId;
+        const admin = await responseData.admin;
+        sessionStorage.setItem("session", session);
+        sessionStorage.setItem("user", clientId);
+        sessionStorage.setItem("superUser", admin);
+        window.location.replace("/features");
+        setLoading(false);
+      } else {
+        const responseData = await response.json();
+        if (response.status === 401) {
+          console.log(responseData.message);
+          setWrongCred(true);
+          setLoading(false);
+        } else if (response.status === 404) {
+          console.log(responseData.message);
+          setWrongCred(true);
+          setLoading(false);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleGuest = async () => {
+    setLoading(true);
+    const data = {
+      userName: "asd",
+      userSecret: "asd"
+    };
     try {
       const response = await fetch("api/loginApi", {
         method: "POST",
@@ -110,6 +150,9 @@ const Page = () => {
             />
             <button className="btn" onClick={() => handleLogin()}>
               Login
+            </button>
+            <button className="btn" onClick={() => handleGuest()}>
+              Or enter as a guest
             </button>
           </div>
         </div>
