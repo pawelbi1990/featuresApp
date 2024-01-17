@@ -319,6 +319,7 @@ const AllFeatures = (props) => {
             handleLogout={handleLogout}
             createTask={createTask}
             guest={guest}
+            clientId={clientId}
           />
         );
       } else {

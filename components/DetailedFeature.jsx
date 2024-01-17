@@ -9,6 +9,7 @@ import Menuv2 from "./Menuv2";
 const Page = (props) => {
   const guest = props.guest;
   const screen = props.screen;
+  const clientId = props.clientId
   const [data, setData] = useState([]);
   const [slide, setSlide] = useState(null);
   const [loggedIn, setLoggedin] = useState();
@@ -55,7 +56,7 @@ const Page = (props) => {
           <button className="btn" onClick={() => props.goBack(false)}>
             Go back
           </button>
-          {!guest ? (
+          {clientId != 2 ? (
             <button
               className="btn"
               onClick={() =>
