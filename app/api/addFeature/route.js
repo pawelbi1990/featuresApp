@@ -38,21 +38,7 @@ export async function POST(request, res) {
 
     }
     
-    const dataCheck = async (name, longDesc, shortDesc, customer, team) => {
-        if (name === null || name === undefined || name === '' ||
-            longDesc === null || longDesc === undefined || longDesc === '' ||
-            shortDesc === null || shortDesc === undefined || shortDesc === '' ||
-            customer === null || customer === undefined || customer === '' ||
-            team === null || team === undefined || team === '') {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     
-
-    const dataValid = await dataCheck(name, longDesc, shortDesc, customer, team)
     console.log("datavalid "+dataValid)
     
 
