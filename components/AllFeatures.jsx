@@ -259,7 +259,7 @@ const AllFeatures = (props) => {
                   />
                   </div>
                   <div className="products-item-buttons">
-                    {clientId != 2 ? (
+                    {clientId != 2 && clientId !=1 ? (
                       item.task_id === null ? (
                         <button
                           className="btn"
