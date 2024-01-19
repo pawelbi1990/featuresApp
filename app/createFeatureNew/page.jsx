@@ -221,8 +221,8 @@ const Newfeature = (props) => {
                 <button className="btn" onClick={() => getTemplate()}>Pobierz dane taska-templatki</button>
                 </div>
                 <h3 className="add-feature-buttons-header centered">Podgląd treści taska w ERM</h3>
-                <div className="text-container-preview centered">
-                  <div dangerouslySetInnerHTML={{ __html: templateData.titlePreview }}></div>
+                <div className="text-container-preview">
+                  <div className="centered" dangerouslySetInnerHTML={{ __html: templateData.titlePreview }}></div>
                   <div dangerouslySetInnerHTML={{ __html: templateData.descPreview }}></div>
                 </div>
                   
