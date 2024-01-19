@@ -40,13 +40,48 @@ export async function POST(request, res) {
         }
     }
 
+    const queryLoop = async (array, client) => {
+        for (const tableName of array) {
+            let sqlQuery = `
+                INSERT INTO ${tableName} (name)
+                VALUES ($1)
+                returning ID
+                `;
+            console.log(sqlQuery);
+            
+            const values = [tableName];
+    
+            try {
+                const result = await client.query(sqlQuery, values);
+                console.log(`Inserted into ${tableName}. ID: ${result.rows[0].id}`);
+                
+            } catch (error) {
+                console.error(`Error inserting into ${tableName}: ${error.message}`);
+            }
+        }
+    };
     
 
-    const dataValid = await dataCheck(frontTaskData.clientId)
     
-    let clientArray = frontTaskData.clientId.split(',').map(Number);
-    console.log(clientArray)
-    clientArray.map((i) => console.log(i))
+
+    dataValid = await dataCheck(frontTaskData.clientId)
+    
+    let clientArray = await frontTaskData.clientId.split(',').map(Number);
+    const mapping = {
+        123: "public.betfan",
+        121: "public.croco",
+        106: "public.eb",
+        143: "public.etoto",
+        119: "public.forbet",
+        133: "public.fuksiarz",
+        98: "public.merrybet",
+        112: "public.premierbetzone",
+        165: "public.premierlotto",
+        116: "public.totalbet"
+    }
+    const mappedArray = await clientArray.map(value => mapping[value])
+    
+    
    
     
     const auth = await adminSessionChecker(checkData, res)
@@ -56,22 +91,29 @@ export async function POST(request, res) {
         return NextResponse.json({message: "You need to fill all required fields"}, {status: 400})
         
      } else if (auth && dataValid) {
+        const client = await pool.connect()
+    const result = await queryLoop(mappedArray, client)
+    client.release()
+    console.log(result)
         return NextResponse.json({message: "Success"}, {status:200})
      }
 
-//     else if (auth) {
+    else if (auth) {
        
      
      
-//     const client = await pool.connect();
-     
-//     const sqlQuery = `
-//         INSERT INTO public.features (name, long_desc, image_path, short_desc, client, assigned)
-//         VALUES ($1,$2,$3,$4,$5,$6)
-//         RETURNING id
-//     `;
+    // const client = await pool.connect();
     
-//     const values = [name, longDesc, null, shortDesc, customer, team];
+
+    
+     
+    // const sqlQuery = `
+    //     INSERT INTO public.features (name, long_desc, image_path, short_desc, client, assigned)
+    //     VALUES ($1,$2,$3,$4,$5,$6)
+    //     RETURNING id
+    // `;
+    
+    
 
 //     try {
 //         const result = await client.query(sqlQuery, values);
@@ -113,7 +155,7 @@ export async function POST(request, res) {
 //         return NextResponse.json({ status: 'error' });
     
 // }
-//     } 
+    } 
 
     
 };

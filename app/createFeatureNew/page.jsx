@@ -5,6 +5,7 @@ import img from "../../public/image.png";
 import Loading from "@/components/Loading";
 import Login from "@/components/Login";
 import Menuv2 from "@/components/Menuv2";
+import Header from "@/components/Header";
 
 const Newfeature = (props) => {
   useEffect(() => {
@@ -30,14 +31,26 @@ const Newfeature = (props) => {
   const [session, setSession] = useState();
   const [user, setUser] = useState();
   const [clientId, setClientId] = useState([])
-  const [taskData, setTaskData] = useState({
-    clientName: "",
-    userSecret: "",
-  });
+  const [templateId, setTemplateId] = useState()
+  const [templateData, setTemplateData] = useState({
+    title: null,
+    desc: null,
+    titlePreview: null,
+    descPreview: null
+  })
+  
   const color = "white"
   const [buttonStates, setButtonStates] = useState({
     button1: false,
     button2: false,
+    button3: false,
+    button4: false,
+    button5: false,
+    button6: false,
+    button7: false,
+    button8: false,
+    button9: false,
+    button10: false,
     // Add more buttons as needed
   });
 
@@ -48,12 +61,16 @@ const Newfeature = (props) => {
     adminCheck();
   }, []);
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log(templateData)
+  }, [templateData]);
   useEffect(() => {
     if (image) {
       setImagePreviewURL(URL.createObjectURL(image)); // Set the image preview URL
     }
   }, [image]);
+
+  
 
   const handleClientIdChange = (e, buttonName) => {
     if (clientId.includes(e)) {
@@ -76,13 +93,7 @@ const Newfeature = (props) => {
     
   };
 
-  const colorToggle = (id) => {
-    if (clientId.includes(id)) {
-      return "green"
-    } else {
-      return "white"
-    }
-  }
+  
 
   const handle = (e) => {
     setUser({ ...user, userSecret: e.target.value });
@@ -112,7 +123,34 @@ const Newfeature = (props) => {
   const prevPage = () => {
     setPage(1);
   };
+  const getTemplate = async () => {
+    const formData = new FormData()
+    // formData.append("admin", admin);
+    // formData.append("session", session);
+    // formData.append("userId", user);
+    formData.append("templateId", templateId)
+    
 
+    try {
+      const response = await fetch("/api/getTaskTemplate", {
+        method: "POST",
+        body: formData
+      })
+      if (response.status === 200) {
+        const responseData = await response.json()
+        setTemplateData({
+          title: await responseData.title,
+          desc: await responseData.desc,
+          titlePreview: await responseData.title.replace(/<\/p>/g, '<br>').replace(/DLA PO[\s\S]*/g, '').replace(/<(?!br\s*\/?>)[^>]*>/g, ''),
+          descPreview: await responseData.desc.replace(/<\/p>/g, '<br>').replace(/DLA PO[\s\S]*/g, '').replace(/<(?!br\s*\/?>)[^>]*>/g, '')
+        })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+
+     
+  }
   const handleData = async () => {
     const formData = new FormData();
     formData.append("clientId", clientId);
@@ -156,29 +194,18 @@ const Newfeature = (props) => {
   }, [client]);
 
   if (sessionLoaded) {
-    if (adminRights) {
-      if (page === 1) {
+    
+      
         return (
-          <>
+            
             <div className="layout-new-feature">
-              <div className="header">
-                <div className="logo" />
-                <input
-                  type="text"
-                  placeholder="title"
-                  name="\"
-                  id=""
-                  className="preview-header-title"
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </div>
+              <Header/>
               <Menuv2 />
 
-              <div className="addfeature-wrapper-column">
+                <h3 className="add-feature-buttons-header centered">Wybierz grafikę do featura</h3>
                 <div
-                  className="image-container-preview"
-                  style={{ backgroundImage: `url(${imagePreviewURL})` }}
+                  className="image-container-preview centered"
+                  style={{ backgroundImage: `url(${imagePreviewURL})`, backgroundRepeat: 'no-repeat', backgroundSize: "contain", backgroundPosition: "center" }}
                 >
                   <input
                     type="file"
@@ -187,152 +214,122 @@ const Newfeature = (props) => {
                     onChange={(e) => setImage(e.target.files[0])}
                   />
                 </div>
-                <div className="text-container-preview">
-                  <textarea
-                    rows="18"
-                    name=""
-                    id=""
-                    placeholder="description"
-                    className="text-container-preview-input"
-                    onChange={(e) => setLongDesc(e.target.value)}
-                    required
-                  />
+                <h3 className="add-feature-buttons-header centered">Podaj id taska-templatki, żeby go pobrać</h3>
+                <div>
+                  <div className="centered">
+                <input type="text" onChange={(e) => setTemplateId(e.target.value)}></input>
+                <button className="btn" onClick={() => getTemplate()}>Pobierz dane taska-templatki</button>
                 </div>
-                <button className="btn bottom-left-anchor" onClick={nextPage}>
-                  Continue
-                </button>
-              </div>
-            </div>
-          </>
-        );
-      }
-      if (page === 2) {
-        return (
-          <>
-            <div className="layout">
-              <div className="header">
-                <div className="logo" />
-              </div>
-              <div className="content">
-                <div className="addfeature-wrapper-column">
-                  <div>
-                    <legend>Select team</legend>
-                    <button
-                      onClick={(e) => setTeam(6)}
-                      style={
-                        team === 6
-                          ? {
-                              backgroundColor: "green",
-                            }
-                          : {
-                              backgroundColor: "white",
-                            }
-                      }
-                    >
-                      Alpha
-                    </button>
-
-                    <button
-                      onClick={(e) => setTeam(13)}
-                      style={
-                        team === 13
-                          ? {
-                              backgroundColor: "green",
-                            }
-                          : {
-                              backgroundColor: "white",
-                            }
-                      }
-                    >
-                      Omega
-                    </button>
-                  </div>
-                  <div>
-                    <legend>Select client</legend>
+                <h3 className="add-feature-buttons-header centered">Podgląd treści taska w ERM</h3>
+                <div className="text-container-preview centered">
+                  <div dangerouslySetInnerHTML={{ __html: templateData.titlePreview }}></div>
+                  <div dangerouslySetInnerHTML={{ __html: templateData.descPreview }}></div>
+                </div>
+                  
+                </div>
+                
+              
+            
+          
+      
+     
+        
+          
+            
+                <h3 className="add-feature-buttons-header centered">Wybierz klienta lub klientów dla których chcesz dodać feature (wymagane)</h3>
+                    <div className="add-feature-buttons centered">
+                    
                     <button
                       
-                      onClick={() => handleClientIdChange(3, 'button1')}
-                      className={buttonStates.button1 ? "btn" : ""}
+                      onClick={() => handleClientIdChange(123, 'button1')}
+                      className={buttonStates.button1 ? "btn-off" : "btn-on"}
                     >
-                      ForBet
+                      BetFan
                     </button>
                     <button
                       
-                      onClick={() => handleClientIdChange(4, 'button2')}
-                      className={buttonStates.button2 ? "btn" : ""}
-                    >
-                      ForBet
-                    </button>
-                    {/* <button
-                      onClick={(e) => setClient(5)}
-                      style={
-                        client === 5
-                          ? {
-                              backgroundColor: "green",
-                            }
-                          : {
-                              backgroundColor: "white",
-                            }
-                      }
+                      onClick={() => handleClientIdChange(121, 'button2')}
+                      className={buttonStates.button2 ? "btn-off" : "btn-on"}
                     >
                       CrocoBet
                     </button>
                     <button
-                      onClick={(e) => setClient(6)}
-                      style={
-                        client === 6
-                          ? {
-                              backgroundColor: "green",
-                            }
-                          : {
-                              backgroundColor: "white",
-                            }
-                      }
+                      
+                      onClick={() => handleClientIdChange(106, 'button3')}
+                      className={buttonStates.button3 ? "btn-off" : "btn-on"}
                     >
                       EuropeBet
                     </button>
                     <button
-                      onClick={(e) => setClient(6)}
-                      style={
-                        client === 6
-                          ? {
-                              backgroundColor: "green",
-                            }
-                          : {
-                              backgroundColor: "white",
-                            }
-                      }
+                      
+                      onClick={() => handleClientIdChange(143, 'button4')}
+                      className={buttonStates.button4 ? "btn-off" : "btn-on"}
                     >
-                      EuropeBet
-                    </button> */}
-                  </div>
+                      eToto
+                    </button>
+                    <button
+                      
+                      onClick={() => handleClientIdChange(119, 'button5')}
+                      className={buttonStates.button5 ? "btn-off" : "btn-on"}
+                    >
+                      forBET
+                    </button>
+                    <button
+                      
+                      onClick={() => handleClientIdChange(133, 'button6')}
+                      className={buttonStates.button6 ? "btn-off" : "btn-on"}
+                    >
+                      Fuksiarz
+                    </button>
+                    <button
+                      
+                      onClick={() => handleClientIdChange(98, 'button7')}
+                      className={buttonStates.button7 ? "btn-off" : "btn-on"}
+                    >
+                      MerryBet
+                    </button>
+                    <button
+                      
+                      onClick={() => handleClientIdChange(112, 'button8')}
+                      className={buttonStates.button8 ? "btn-off" : "btn-on"}
+                    >
+                      PremierBet Zone
+                    </button>
+                    <button
+                      
+                      onClick={() => handleClientIdChange(165, 'button9')}
+                      className={buttonStates.button9 ? "btn-off" : "btn-on"}
+                    >
+                      Premier Loto
+                    </button>
+                    <button
+                      
+                      onClick={() => handleClientIdChange(116, 'button10')}
+                      className={buttonStates.button10 ? "btn-off" : "btn-on"}
+                    >
+                      TotalBet
+                    </button>
+                    </div>
+                    
+                  
 
-                  <div className="text-container-preview">
-                    <textarea
-                      rows="18"
-                      name=""
-                      id=""
-                      placeholder="easy redmine task desciption"
-                      className="text-container-preview-input"
-                      onChange={(e) => setShortDesc(e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="bottom-left-anchor">
-                  <button className="btn" onClick={prevPage}>
-                    Go back
-                  </button>
+                  
+                
+                <div className="add-feature-buttons">
+        
                   <button className="btn" onClick={handleData}>
                     Submit task
                   </button>
                 </div>
-              </div>
-            </div>
-          </>
-        );
-      }
-    } else return <Login />;
+                </div>
+                
+              
+            
+            )
+          
+        
+      
+    
   } else return <Loading />;
 };
 
