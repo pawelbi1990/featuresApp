@@ -154,6 +154,9 @@ const Newfeature = (props) => {
   const handleData = async () => {
     const formData = new FormData();
     formData.append("clientId", clientId);
+    formData.append("image", image)
+    formData.append("name", templateData.title)
+    formData.append("short_desc", templateData.desc)
     formData.append("admin", admin);
     formData.append("session", session);
     formData.append("userId", user);
