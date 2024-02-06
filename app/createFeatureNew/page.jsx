@@ -31,6 +31,8 @@ const Newfeature = (props) => {
   const [session, setSession] = useState();
   const [user, setUser] = useState();
   const [clientId, setClientId] = useState([])
+  const [assigneeId, setAssigneeId] = useState()
+  const [frontDesc, setFrontDesc] = useState()
   const [templateId, setTemplateId] = useState()
   const [templateData, setTemplateData] = useState({
     title: null,
@@ -51,6 +53,10 @@ const Newfeature = (props) => {
     button8: false,
     button9: false,
     button10: false,
+    button11: false,
+    button12: false,
+    button13: false,
+    button14: false,
     // Add more buttons as needed
   });
 
@@ -89,7 +95,19 @@ const Newfeature = (props) => {
       [buttonName]: true,
     }));
   }
-    console.log(clientId)
+    
+    
+  };
+
+  const handleAssigneeChange = (e) => {
+    if (assigneeId === e) {
+      setAssigneeId(null)
+      
+      } else {
+    setAssigneeId(e);
+   
+  }
+    
     
   };
 
@@ -157,6 +175,8 @@ const Newfeature = (props) => {
     formData.append("image", image)
     formData.append("name", templateData.title)
     formData.append("short_desc", templateData.desc)
+    formData.append("long_desc", frontDesc)
+    formData.append("assigned", assigneeId)
     formData.append("admin", admin);
     formData.append("session", session);
     formData.append("userId", user);
@@ -186,6 +206,8 @@ const Newfeature = (props) => {
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    sessionStorage.removeItem("cachedAllData")
+    location.reload()
   };
 
   useEffect(() => {
@@ -227,6 +249,13 @@ const Newfeature = (props) => {
                 <div className="text-container-preview">
                   <div className="centered" dangerouslySetInnerHTML={{ __html: templateData.titlePreview }}></div>
                   <div dangerouslySetInnerHTML={{ __html: templateData.descPreview }}></div>
+                </div>
+                <h3 className="add-feature-buttons-header centered">Podaj opis taska do wyświetlenia w aplikacji</h3>
+                <div className="text-container-preview">
+                  <textarea rows="30" className="text-container-preview-input" onChange={(e) => setFrontDesc(e.target.value)}>
+                    
+                  </textarea>
+                  
                 </div>
                   
                 </div>
@@ -311,6 +340,38 @@ const Newfeature = (props) => {
                       className={buttonStates.button10 ? "btn-off" : "btn-on"}
                     >
                       TotalBet
+                    </button>
+                    </div>
+                    <h3 className="add-feature-buttons-header centered">{assigneeId}Wybierz team, do którego ma być domyślnie przekazany task (wymagane)</h3>
+
+                    <div className="add-feature-buttons centered">
+                    <button
+                      
+                      onClick={() => handleAssigneeChange(6)}
+                      className={assigneeId === 6 ? "btn-off" : "btn-on"}
+                    >
+                      Alpha
+                    </button>
+                    <button
+                      
+                      onClick={() => handleAssigneeChange(13)}
+                      className={assigneeId === 13 ? "btn-off" : "btn-on"}
+                    >
+                      Omega
+                    </button>
+                    <button
+                      
+                      onClick={() => handleAssigneeChange(7)}
+                      className={assigneeId === 7 ? "btn-off" : "btn-on"}
+                    >
+                      Admins
+                    </button>
+                    <button
+                      
+                      onClick={() => handleAssigneeChange(192)}
+                      className={assigneeId === 192 ? "btn-off" : "btn-on"}
+                    >
+                      Database
                     </button>
                     </div>
                     

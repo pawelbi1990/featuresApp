@@ -7,7 +7,7 @@ import Login from "@/components/Login";
 import Menuv2 from "./Menuv2";
 
 const Page = (props) => {
-  const guest = props.guest;
+  // const guest = props.guest;
   const screen = props.screen;
   const clientId = props.clientId
   const [data, setData] = useState([]);
@@ -18,7 +18,12 @@ const Page = (props) => {
   });
 
   const getData = async () => {
-    const response = await fetch(`/api/${props.id}`);
+    const formData = new FormData();
+    formData.append("clientId", clientId);
+    const response = await fetch(`/api/${props.id}`, {
+      method: "POST",
+      body: formData,
+    });
     const dbData = await response.json();
     setData(dbData);
   };

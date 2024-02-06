@@ -243,7 +243,7 @@ const AllFeatures = (props) => {
                   <p>
                     {clientId == 2
                       ? item.clientname + " " + item.name
-                      : item.name}
+                      : item.name}{item.id}
                   </p>
                   <div className="products-image">
                   <Image
@@ -318,7 +318,7 @@ const AllFeatures = (props) => {
             image={imagePath}
             handleLogout={handleLogout}
             createTask={createTask}
-            guest={guest}
+            // guest={guest}
             clientId={clientId}
           />
         );

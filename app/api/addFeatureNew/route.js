@@ -58,14 +58,14 @@ export async function POST(request, res) {
         for (const tableName of array) {
             
             let sqlQuery = `
-            INSERT into ${tableName} (name, short_desc)
-            VALUES ($1, $2)
+            INSERT into ${tableName} (name, short_desc, long_desc, assigned)
+            VALUES ($1, $2, $3, $4)
             RETURNING id
                 `;
            
             console.log(sqlQuery);
             
-            const values = [frontTaskData.name, frontTaskData.short_desc];
+            const values = [frontTaskData.name, frontTaskData.short_desc, frontTaskData.long_desc, frontTaskData.assigned];
     
             try {
                 const result = await client.query(sqlQuery, values);
