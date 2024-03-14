@@ -48,6 +48,7 @@ a {
   box-sizing: border-box;
   --color-bg: #070133;
   --color-orange: #fea62e;
+  --color-lightblue: #00e2ef;
   --color-blue: #1c4892;
   --color-orange-rgba: rgba(254, 166, 46, 0.4);
   --color-blue-rgba: rgba(28, 72, 146, 0.8);
@@ -67,6 +68,10 @@ h2,
 p,
 ul {
   color: white;
+}
+
+.h1black {
+  color: black;
 }
 
 ul {
@@ -132,13 +137,17 @@ button {
   background-color: var(--color-blue);
   color: white;
   border: 1px solid transparent;
+  cursor:pointer;
 }
 
 .btn-off {
   background-color: var(--color-orange);
   color: var(--color-bg);
   border: 1px solid transparent;
+  cursor:pointer;
 }
+
+
 
 .bottom-left-anchor {
   position: fixed;
