@@ -252,6 +252,7 @@ const AllFeatures = (props) => {
                     width={500}
                     height={500}
                     alt={item.name}
+                    className="client-image"
                     
                     key={item.id}
                     placeholder="empty"

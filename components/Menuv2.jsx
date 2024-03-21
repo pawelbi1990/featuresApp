@@ -56,6 +56,12 @@ const Menuv2 = (props) => {
           >
             Delete Feature
           </button>
+          <button
+            className={"btn"}
+            onClick={() => window.location.replace("/manageUsers")}
+          >
+            Manage users
+          </button>
           <button className="btn" onClick={handleLogout}>
             Log Out
           </button>

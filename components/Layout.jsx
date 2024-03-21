@@ -40,7 +40,7 @@ const Layout = (props) => {
     <div className="layout">
     
     
-    <div className={headerDisabled !== 1 ? "headerMenuContainer" : "disabled"}>
+    <div className={headerDisabled != 1 ? "headerMenuContainer" : "disabled"}>
     
     <Header title={title} icon={icon} screen={screen} headerDisabled={headerDisabled}/>
     
