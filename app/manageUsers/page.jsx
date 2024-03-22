@@ -4,7 +4,7 @@ import Layout from "@/components/Layout"
 import Loading from "@/components/Loading"
 import Image from "next/image"
 
-const page = (props) => {
+const Page = (props) => {
     const [data, setData] = useState([])
     const [admin, setAdmin] = useState()
     const [session, setSession] = useState()
@@ -149,4 +149,4 @@ const page = (props) => {
 }
 }
 
-export default page
+export default Page
