@@ -77,7 +77,7 @@ const Page = (props) => {
             </button>
           ) : (
             <button className="btn" onClick={props.handleLogout}>
-              Login as client to create task
+              Login as a client to create the task
             </button>
           )}
         </div>

@@ -287,7 +287,7 @@ const AllFeatures = (props) => {
                       )
                     ) : (
                       <button className="btn" onClick={handleLogout}>
-                        Login as client to create task
+                        Login as a client to create the task
                       </button>
                     )}
 
@@ -297,7 +297,7 @@ const AllFeatures = (props) => {
                         handleDetailsClick(item.id, item.image_path)
                       }
                     >
-                      Details
+                      Show details
                     </button>
                   </div>
                   {/* <div className="products-image-separator" ></div> */}

@@ -269,7 +269,7 @@ button {
 .products-item {
   flex-grow: 0;
   flex-shrink: 0;
-  padding-top: 1rem;
+  padding: 0.5rem;
 
   min-width: 350px;
   max-width: 350px;
@@ -1144,6 +1144,7 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
 
 .menu-cta * {
   font-size: 2rem;
+  
 }
 
 .menu-cta * :hover {
