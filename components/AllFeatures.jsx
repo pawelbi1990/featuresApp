@@ -323,9 +323,10 @@ const AllFeatures = (props) => {
             clientId={clientId}
           />
         );
-      } else {
-        return <Login nav={props.nav} setNav={props.setNav} />;
       }
+      //  else {
+      //   return <Login nav={props.nav} setNav={props.setNav} />;
+      // }
     } else {
       return <Loading />;
     }

@@ -96,7 +96,7 @@ const Page = () => {
         sessionStorage.setItem("user", clientId);
         sessionStorage.setItem("superUser", admin);
         window.location.replace("/features");
-        setLoading(false);
+        // setLoading(false);
       } else {
         const responseData = await response.json();
         if (response.status === 401) {
@@ -115,16 +115,15 @@ const Page = () => {
   };
   if (loading) {
     return <Loading />;
-  } else {
-    return wrongCred ? (
-      <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
+  } else if (!loading && wrongCred) {
+    return  <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
         <div className="wrapper">
           <div>Wrong Credentials</div>
           <button onClick={() => setWrongCred(false)}>Try again</button>
         </div>
       </Layout>
-    ) : (
-      <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
+   } else if (!loading && !wrongCred) {
+    return  <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
         <div className="wrapper">
           <div className="login">
             <Image
@@ -157,7 +156,7 @@ const Page = () => {
           </div>
         </div>
       </Layout>
-    );
+   
   }
 };
 
