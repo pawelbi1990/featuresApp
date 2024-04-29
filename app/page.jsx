@@ -57,7 +57,7 @@ const Page = () => {
         sessionStorage.setItem("user", clientId);
         sessionStorage.setItem("superUser", admin);
         window.location.replace("/features");
-        setLoading(false);
+        // setLoading(false);
       } else {
         const responseData = await response.json();
         if (response.status === 401) {
