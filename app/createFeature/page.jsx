@@ -61,6 +61,10 @@ const Newfeature = (props) => {
   });
 
   useEffect(() => {
+    console.log(clientId)
+  },)
+
+  useEffect(() => {
     setAdmin(sessionStorage.getItem("superUser"));
     setSession(sessionStorage.getItem("session"));
     setUser(sessionStorage.getItem("user"));
@@ -82,7 +86,7 @@ const Newfeature = (props) => {
     if (clientId.includes(e)) {
       let index = clientId.indexOf(e)
       if (index !== -1) {
-      clientId.splice(index)
+      clientId.splice(index, 1)
       setButtonStates((prevButtonStates) => ({
       ...prevButtonStates,
       [buttonName]: false,
@@ -180,6 +184,11 @@ const Newfeature = (props) => {
     formData.append("admin", admin);
     formData.append("session", session);
     formData.append("userId", user);
+
+  //   for (const entry of formData.entries()) {
+  //     const [key, value] = entry;
+  //     alert(`Key: ${key}, Value: ${value}`);
+  // }
     
 
     try {

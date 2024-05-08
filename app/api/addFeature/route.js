@@ -35,6 +35,7 @@ export async function POST(request, res) {
 
 
     }
+    // console.log(frontTaskData)
 
     const backendTaskData = {
 
@@ -69,7 +70,7 @@ export async function POST(request, res) {
     
             try {
                 const result = await client.query(sqlQuery, values);
-                console.log(`Inserted into ${tableName}. ID: ${result.rows[0].id}`);
+                // console.log(`Inserted into ${tableName}. ID: ${result.rows[0].id}`);
                 
                 if (imageFile) {
                     insertedId = await result.rows[0].id;
@@ -100,10 +101,9 @@ export async function POST(request, res) {
                 
             } catch (error) {
                 console.error(`Error inserting into ${tableName}: ${error.message}`);
-            } finally {
-                return true
-            }
+            } 
         }
+        return true
     };
 
     
@@ -127,6 +127,10 @@ export async function POST(request, res) {
         116: "public.totalbet"
     }
     const mappedArray = await clientArray.map(value => mapping[value])
+
+    // for (const i of mappedArray) {
+    //     console.log("Klienct "+i)
+    // }
     
     
    
@@ -149,7 +153,7 @@ export async function POST(request, res) {
 
         }
         
-        console.log(result)
+        // console.log(result)
         return NextResponse.json({message: "Success"}, {status:200})
      
 
