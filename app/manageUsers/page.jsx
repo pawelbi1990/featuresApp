@@ -1,11 +1,14 @@
 'use client'
 import { useState, useEffect } from "react"
 import Layout from "@/components/Layout"
-import Loading from "@/components/Loading"
 import Image from "next/image"
+import Loading from "@/components/Loading"
+
 
 const Page = (props) => {
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [success, setSuccess] = useState(0)
     const [admin, setAdmin] = useState()
     const [session, setSession] = useState()
     const [user, setUser] = useState()
@@ -37,6 +40,7 @@ const Page = (props) => {
         formData.append("userId", user);
 
         if (password === confirmPassword && formData) {
+            setLoading(true)
             for (const [key, value] of formData.entries()) {
                 console.log(`${key}: ${value}`);
             }
@@ -45,9 +49,21 @@ const Page = (props) => {
                 method: "POST",
                 body: formData,
             })
+            if (response.status === 200) {
+                const data = await response.json()
+                alert(data.status)
+                setLoading(false)
+                setSuccess(2)
+            } else if (response.status === 400) {
+                const data = await response.json()
+                alert(data.status)
+                setLoading(false)
+                setSuccess(1)
+            }
         } else {
             console.error("Passwords dont match")
         }
+        
     }
     const getUsers = async () => {
         const response = await fetch("api/getUsers", {
@@ -119,6 +135,8 @@ const Page = (props) => {
   )
 } else if (data.length && modal.toggled) {
     return (
+        !loading ?
+        
         <Layout
             title=""
             navbar=""
@@ -127,6 +145,8 @@ const Page = (props) => {
             nav={props.nav}
             screen="1024"
         >
+            {success === 0 ?
+            <div className="wrapper">
             <div className="modal-form">
             <div>{modal.username}</div>
             <div>New password</div>
@@ -140,11 +160,19 @@ const Page = (props) => {
                 <button className="btn" onClick={() => passwordChangeModalToggle(null, null)}>Back</button>
             </div>
             </div>
-            </Layout>
+            </div>
+            : success === 2 ? <div className="modal-form">Password changed<button className="btn" onClick={() => setSuccess(0)}>OK</button></div>
+                                
+            : success === 1 ? <div className="modal-form">Password change failed<button className="btn" onClick={() => setSuccess(0)}>Try again</button></div>
+            : null}
+            </Layout>           
+            
+           
+            : <Loading/>
     )
 } else {
     return (
-        <Loading/>
+        <Loading />
     )
 }
 }
