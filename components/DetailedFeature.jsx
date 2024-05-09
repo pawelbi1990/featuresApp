@@ -5,6 +5,7 @@ import ImageAndText from "@/components/ImageAndText";
 import Loading from "@/components/Loading";
 import Login from "@/components/Login";
 import Menuv2 from "./Menuv2";
+import Image from "next/image";
 
 const Page = (props) => {
   // const guest = props.guest;
@@ -42,21 +43,25 @@ const Page = (props) => {
     setSlide(slide + 1);
   };
   if (data.length > 0) {
-    return data.map((item) => (
+    return  (
       <Layout
         screen={screen}
-        key={item.id}
-        title={item.name}
+        key={props.id}
+        title={props.name}
         setNav={props.setNav}
       >
         {/* <Menuv2/> */}
 
-        <ImageAndText
-          key={item.id}
-          id={item.id}
-          text={item.long_desc}
-          image={props.image}
-        ></ImageAndText>
+        <div className="imageandtext-container">
+          <div className="image-container"><Image src={props.image} width={400} height={400}/></div>
+          <div className="text-container">
+          {props.long_desc}
+          </div>
+          </div>
+
+
+
+
         <div className="products-item-buttons margin-left-16">
           <button className="btn" onClick={() => props.goBack(false)}>
             Go back
@@ -82,7 +87,7 @@ const Page = (props) => {
           )}
         </div>
       </Layout>
-    ));
+    );
   } else {
     return <Loading />;
   }

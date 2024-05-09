@@ -14,6 +14,7 @@ import DetailedFeature from "@/components/DetailedFeature";
 import Image from "next/image";
 
 const AllFeatures = (props) => {
+  const [longdesc, setLongdesc] = useState()
   const [loggedIn, setLoggedin] = useState(null);
   const [itemsPerPage, setItemPerPage] = useState(); //this variable determines number of slides shown on single page, undefined, by default, updates on screen resizes and first render, depending on width state
   const [index, setIndex] = useState(0); //index of first shown slide, 0 by default
@@ -87,7 +88,7 @@ const AllFeatures = (props) => {
   useEffect(() => {
     getData();
     setClientId(sessionStorage.getItem("user"));
-    
+
   }, []);
 
   useEffect(() => {
@@ -98,7 +99,7 @@ const AllFeatures = (props) => {
 
       setSessionLoaded(true);
     }
-   
+
   });
 
   const [data, setData] = useState([]);
@@ -128,7 +129,7 @@ const AllFeatures = (props) => {
       session: sessionStorage.getItem("session") || null,
       userId: sessionStorage.getItem("user") || null,
     };
-    
+
     const cachedAllData = await JSON.parse(
       sessionStorage.getItem("cachedAllData")
     );
@@ -154,9 +155,10 @@ const AllFeatures = (props) => {
     }
   };
 
-  const handleDetailsClick = (id, image) => {
+  const handleDetailsClick = (id, image, longdesc) => {
     setDetails(true);
     setId(id);
+    setLongdesc(longdesc)
     setImagePath(image);
   };
 
@@ -202,7 +204,7 @@ const AllFeatures = (props) => {
     }
   };
 
-  
+
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search)
@@ -225,7 +227,7 @@ const AllFeatures = (props) => {
           >
             {/* <div className="search-container">
                 <label>
-                    
+
             <       input type="text" className="searchbar" placeholder='Search' onChange={(event) => {setSearch(event.target.value.toLowerCase())}}/>
                 </label>
             </div> */}
@@ -247,13 +249,13 @@ const AllFeatures = (props) => {
                   </p>
                   <div className="products-image">
                   <Image
-                    onClick={() => handleDetailsClick(item.id, item.image_path)}
+                    onClick={() => handleDetailsClick(item.id, item.image_path, item.long_desc)}
                     src={item.image_path}
                     width={500}
                     height={500}
                     alt={item.name}
                     className="client-image"
-                    
+
                     key={item.id}
                     placeholder="empty"
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
@@ -294,7 +296,7 @@ const AllFeatures = (props) => {
                     <button
                       className="btn"
                       onClick={() =>
-                        handleDetailsClick(item.id, item.image_path)
+                        handleDetailsClick(item.id, item.image_path, item.long_desc)
                       }
                     >
                       Show details
@@ -319,6 +321,7 @@ const AllFeatures = (props) => {
             image={imagePath}
             handleLogout={handleLogout}
             createTask={createTask}
+            long_desc={longdesc}
             // guest={guest}
             clientId={clientId}
           />

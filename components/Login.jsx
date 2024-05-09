@@ -17,7 +17,7 @@ import WrongCredentials from './WrongCredentials';
 
 export default function Login(props) {
 
-  
+
   const router = useRouter()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -42,13 +42,13 @@ export default function Login(props) {
   //   })
 
   // }
-    
 
-  
 
-  
-  
- 
+
+
+
+
+
   const registerRedirect = () => {
     window.location.replace("/register")
   }
@@ -60,7 +60,7 @@ export default function Login(props) {
         "password": pass
     }
     try {
-      
+
 
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -76,15 +76,15 @@ export default function Login(props) {
         sessionStorage.setItem("session", sessionId)
         sessionStorage.setItem("mode", "dark")
         setNav("allfeatures")
-        
-      
+
+
         if (responseData.admin === true) {
           sessionStorage.setItem("superUser", responseData.admin)
         }
-        
-        
-        
-        
+
+
+
+
       } if (sessionStorage.getItem('session')) {
           setSessionLoaded(true)
           // window.location.replace('/products')
@@ -92,8 +92,8 @@ export default function Login(props) {
         setVerifying(false)
         setWrongCredentials(true)
       }
-      
-      
+
+
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -102,8 +102,9 @@ export default function Login(props) {
     if (!verifying) {
       if (!wrongCredentials) {
   return (
-    
+
     <Layout logOutButtonDisabled="true" setNav={setNav} nav={nav}>
+      <div className='wrapper'>
     <div className="login">
       <h1>Login</h1>
       <input className="input"
@@ -118,9 +119,10 @@ export default function Login(props) {
         value={password}
         onChange={e => setPassword(e.target.value)}
       />
-      
+
       <button className="btn" onClick={() => handleLogin(username, password)}>Login</button>
       <button className="btn" onClick={registerRedirect}>Register</button>
+    </div>
     </div>
     </Layout>
   )} else return <WrongCredentials wrongCredentials={wrongCredentials} setWrongCredentials={setWrongCredentials}/>
