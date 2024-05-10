@@ -116,14 +116,16 @@ const Page = () => {
   if (loading) {
     return <Loading />;
   } else if (!loading && wrongCred) {
-    return  <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
+    return  (
         <div className="wrapper">
           <div>Wrong Credentials</div>
           <button onClick={() => setWrongCred(false)}>Try again</button>
         </div>
-      </Layout>
+    )
+      
    } else if (!loading && !wrongCred) {
-    return  <Layout logOutButtonDisabled="true" screen={width} headerDisabled={1}>
+    return  (
+      <div className="layout">
         <div className="wrapper">
           <div className="login">
             <Image
@@ -155,7 +157,8 @@ const Page = () => {
             </button>
           </div>
         </div>
-      </Layout>
+        </div>)
+      
    
   }
 };

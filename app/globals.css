@@ -90,6 +90,7 @@ button {
 
 .loading {
   animation: 2s infinite loading;
+  color: aliceblue;
 }
 
 @keyframes loading {

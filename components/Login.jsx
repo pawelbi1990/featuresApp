@@ -103,7 +103,7 @@ export default function Login(props) {
       if (!wrongCredentials) {
   return (
 
-    <Layout logOutButtonDisabled="true" setNav={setNav} nav={nav}>
+      
       <div className='wrapper'>
     <div className="login">
       <h1>Login</h1>
@@ -124,7 +124,7 @@ export default function Login(props) {
       <button className="btn" onClick={registerRedirect}>Register</button>
     </div>
     </div>
-    </Layout>
+    
   )} else return <WrongCredentials wrongCredentials={wrongCredentials} setWrongCredentials={setWrongCredentials}/>
 } else return <Loading/>
 } if (sessionLoaded === false) {

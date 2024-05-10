@@ -27,12 +27,14 @@ const Page = (props) => {
     });
     const dbData = await response.json();
     setData(dbData);
+    console.log(data)
   };
   useEffect(() => {
     setSlide(props.id);
   });
   useEffect(() => {
     getData();
+    
   }, []);
 
   const handlePrevious = () => {
@@ -42,6 +44,10 @@ const Page = (props) => {
   const handleNext = () => {
     setSlide(slide + 1);
   };
+
+  const goBack=()=>{
+    window.location.href = "/features"
+  }
   if (data.length > 0) {
     return  (
       <Layout
@@ -53,9 +59,9 @@ const Page = (props) => {
         {/* <Menuv2/> */}
 
         <div className="imageandtext-container">
-          <div className="image-container"><Image src={props.image} width={400} height={400}/></div>
+          <div className="image-container"><Image src={"/"+props.id+".png"} width={400} height={400}/></div>
           <div className="text-container">
-          {props.long_desc}
+          {data[0].long_desc}
           </div>
           </div>
 
@@ -63,7 +69,7 @@ const Page = (props) => {
 
 
         <div className="products-item-buttons margin-left-16">
-          <button className="btn" onClick={() => props.goBack(false)}>
+          <button className="btn" onClick={goBack}>
             Go back
           </button>
           {clientId != 2 ? (
@@ -81,7 +87,7 @@ const Page = (props) => {
               Create task
             </button>
           ) : (
-            <button className="btn" onClick={props.handleLogout}>
+            <button className="btn" onClick={goBack}>
               Login as a client to create the task
             </button>
           )}

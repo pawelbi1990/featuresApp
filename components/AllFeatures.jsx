@@ -150,7 +150,7 @@ const AllFeatures = (props) => {
 
         sessionStorage.setItem("cachedAllData", JSON.stringify(dbData));
       } else {
-        window.location.replace("/401");
+        window.location.href = "/401";
       }
     }
   };
@@ -160,6 +160,7 @@ const AllFeatures = (props) => {
     setId(id);
     setLongdesc(longdesc)
     setImagePath(image);
+    window.location.href = `features/${id}`
   };
 
   const goBack = (state) => {
@@ -173,7 +174,7 @@ const AllFeatures = (props) => {
       body: JSON.stringify(data),
     });
     sessionStorage.clear();
-    window.location.replace("/");
+    window.location.href = "/";
   };
 
   const createTask = async (taskName, desc, assigned, userId, id) => {
@@ -195,12 +196,12 @@ const AllFeatures = (props) => {
       const responseData = await response.json();
       console.log("task created");
       setProcessing(false);
-      window.location.replace("/taskCreated");
+      window.location.href = "/taskCreated";
       sessionStorage.removeItem("cachedAllData")
     } else {
       console.log("error creating task");
       setProcessing(false);
-      window.location.replace("/taskCreationFailed");
+      window.location.href = "/taskCreationFailed";
     }
   };
 
