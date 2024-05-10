@@ -31,15 +31,14 @@ export async function POST(request, res) {
         image_file: await data.get('image'),
         assigned: await data.get("assigned"),
         template_id: await data.get("template_id")
-        
+
 
 
     }
     // console.log(frontTaskData)
 
-    const backendTaskData = {
+    const clientIdArray = frontTaskData.clientId.split(",")
 
-    }
     const checkData = {
         session: await data.get("session"),
         user: parseInt(await data.get("userId")),
@@ -55,64 +54,67 @@ export async function POST(request, res) {
         }
     }
 
-    const queryLoop = async (array, client, imageFile) => {
-        for (const tableName of array) {
-            
+    const queryLoop = async (array, client, imageFile, clientId, clientName) => {
+        for (let i=0;i<array.length;i++) {
+            for (let item of clientId) {
+                console.log(item)
+            }
+
             let sqlQuery = `
-            INSERT into ${tableName} (name, short_desc, long_desc, assigned)
-            VALUES ($1, $2, $3, $4)
+            INSERT into ${array[i]} (name, short_desc, long_desc, assigned, client, clientname)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id
                 `;
-           
+
             console.log(sqlQuery);
-            
-            const values = [frontTaskData.name, frontTaskData.short_desc, frontTaskData.long_desc, frontTaskData.assigned];
-    
+
+            const values = [frontTaskData.name, frontTaskData.short_desc, frontTaskData.long_desc, frontTaskData.assigned, clientId[i], clientName[i]];
+
             try {
                 const result = await client.query(sqlQuery, values);
                 // console.log(`Inserted into ${tableName}. ID: ${result.rows[0].id}`);
-                
+
                 if (imageFile) {
                     insertedId = await result.rows[0].id;
                     const imageExtension = path.extname(imageFile.name);
-                    
+
                     const insertedImageFilename = `${insertedId}${imageExtension}`;
                     const imagePath = path.join(process.cwd(), 'public',insertedImageFilename);
                     const dbPath = `/${insertedId}${imageExtension}`
                     await fs.mkdir(path.dirname(imagePath), { recursive: true });
-                    
-                    const imageBuffer = await imageFile.arrayBuffer();           
+
+                    const imageBuffer = await imageFile.arrayBuffer();
                     await fs.writeFile(imagePath, Buffer.from(imageBuffer));
-            
+
                     const normalizedImagePath = path.normalize(imagePath).replace(/\\/g, '/');
-                    
-                    
-                    
+
+
+
                     const updateImagePathQuery = `
-                        UPDATE ${tableName}
+                        UPDATE ${array[i]}
                         SET image_path = $1
                         WHERE id = $2
                     `;
-        
+
                     const updatedValues = [dbPath, insertedId];
-        
+
                     await client.query(updateImagePathQuery, updatedValues)
                 }
-                
+
             } catch (error) {
                 console.error(`Error inserting into ${tableName}: ${error.message}`);
-            } 
+            }
         }
         return true
     };
 
-    
-    
 
-    
+
+
+
 
     dataValid = await dataCheck(frontTaskData.clientId)
-    
+
     let clientArray = await frontTaskData.clientId.split(',').map(Number);
     const mapping = {
         123: "public.betfan",
@@ -127,37 +129,39 @@ export async function POST(request, res) {
         116: "public.totalbet"
     }
     const mappedArray = await clientArray.map(value => mapping[value])
+    const mappedArrayTextAfterDot = await mappedArray.map(value => value.substring(value.indexOf('.') + 1));
+    console.log(mappedArrayTextAfterDot)
 
     // for (const i of mappedArray) {
     //     console.log("Klienct "+i)
     // }
-    
-    
-   
-    
+
+
+
+
     const auth = await adminSessionChecker(checkData, res)
      if (auth === false) {
         return NextResponse.json({message: "unauthorized"}, {status: 401})
     } else if(dataValid === false) {
         return NextResponse.json({message: "You need to fill all required fields"}, {status: 400})
-        
+
      } else if (auth) {
-        
+
         const client = await pool.connect()
-        result = await queryLoop(mappedArray, client, frontTaskData.image_file)
+        result = await queryLoop(mappedArray, client, frontTaskData.image_file, clientIdArray, mappedArrayTextAfterDot)
         if (result === true) {
             await client.release()
         }
-        
-       
+
+
 
         }
-        
+
         // console.log(result)
         return NextResponse.json({message: "Success"}, {status:200})
-     
 
-    
 
-    
+
+
+
 };

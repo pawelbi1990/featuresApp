@@ -14,13 +14,13 @@ import Menuv2 from './Menuv2'
 const Layout = (props) => {
 
 
-    
 
-  
 
- 
-    
-                          
+
+
+
+
+
     const screen = props.screen
     const title = props.title
     const next = props.next
@@ -31,36 +31,36 @@ const Layout = (props) => {
     const lastitem = props.lastitem
     const navbar = props.navbar
     const [mode, setMode] = useState()
-    
-   
-    
-      
+
+
+
+
     return (
     <>
     <div className="layout">
-    
-    
-    <div className={headerDisabled != 1 ? "headerMenuContainer" : "disabled"}>
-    
+
+
+    <div className={headerDisabled != 1 ? "headerMenuContainer" : "headerMenuContainer disabled"}>
+
     <Header title={title} icon={icon} screen={screen} headerDisabled={headerDisabled}/>
-    
+
     {!logOutButtonDisabled ? <Menuv2 setNav={props.setNav} nav={props.nav}/> : null}
     </div>
-    
-    
+
+
     <div className="content">
                             {props.children}
         </div>
     </div>
-    
-    
+
+
     </>)
   }
 
-    
-    
-    
-  
+
+
+
+
 
 
 export default Layout

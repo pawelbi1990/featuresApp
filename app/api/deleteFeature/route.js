@@ -23,6 +23,9 @@ export async function POST(request, res) {
   };
 
   const deleteMe = await data.get("deleteId");
+  const clientId = await data.get("client")
+  const clientName = await data.get('clientName')
+  const clientIdToDelete = parseInt(clientId)
   const auth = await adminSessionChecker(checkData, res);
 
   if (auth === false) {
@@ -31,10 +34,10 @@ export async function POST(request, res) {
     const client = await pool.connect();
 
     const sqlQuery = `
-        DELETE FROM public.features WHERE id = $1
+        DELETE FROM public.${clientName} WHERE id = $1 and client =$2
     `;
 
-    const values = [deleteMe];
+    const values = [deleteMe, clientIdToDelete];
 
     try {
       await client.query(sqlQuery, values);

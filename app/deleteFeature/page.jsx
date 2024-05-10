@@ -17,6 +17,8 @@ const DeleteFeature = (props) => {
   const [session, setSession] = useState();
   const [user, setUser] = useState();
   const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
+  const [currentClient, setCurrentClient] = useState()
+  const [currentClientName, setCurrentClientName] = useState()
 
   const handleResize = () => {
     //func used for screen width state management on resizes
@@ -77,7 +79,7 @@ const DeleteFeature = (props) => {
   const [prompt, setPrompt] = useState(false);
   const [currentId, setCurrentId] = useState(null);
 
-  const deleteItem = async (id) => {
+  const deleteItem = async (id, client, clientName) => {
     const deleteMe = await id.toString();
     const formData = new FormData();
 
@@ -85,6 +87,8 @@ const DeleteFeature = (props) => {
     formData.append("session", session);
     formData.append("userId", user);
     formData.append("deleteId", deleteMe);
+    formData.append("client", client)
+    formData.append("clientName", clientName)
 
     const response = await fetch("/api/deleteFeature", {
       method: "POST",
@@ -93,18 +97,22 @@ const DeleteFeature = (props) => {
     if (response.status === 200) {
       const responseData = await response.json();
       console.log(responseData.message);
+      // sessionStorage.removeItem("cachedDeleteData")
       window.location.replace("/deleteFeature");
     } else if (response.status === 401) {
       const responseData = await response.json();
       console.log(responseData.message);
       window.location.replace("/401");
     }
+
     setPrompt(false);
   };
 
-  const handlePrompt = (id) => {
+  const handlePrompt = (id, client, clientName) => {
     setPrompt(true);
     setCurrentId(id);
+    setCurrentClient(client)
+    setCurrentClientName(clientName)
   };
 
   const goBack = () => {
@@ -166,11 +174,12 @@ const DeleteFeature = (props) => {
                     <p>{item.name}</p>
                     <div className="products-image">
                     <Image
+                    className="client-image"
                       src={item.image_path}
                       width={500}
                       height={500}
                       alt={item.name}
-                      
+
                       key={item.id}
                       placeholder="empty"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
@@ -180,7 +189,7 @@ const DeleteFeature = (props) => {
                     <div className="products-item-buttons">
                       <button
                         className="btn"
-                        onClick={() => handlePrompt(item.id)}
+                        onClick={() => handlePrompt(item.id, item.client, item.clientname)}
                       >
                         Delete
                       </button>
@@ -196,6 +205,8 @@ const DeleteFeature = (props) => {
         return (
           <DeletePrompt
             id={currentId}
+            client={currentClient}
+            clientName={currentClientName}
             deleteItem={deleteItem}
             goBack={goBack}
           />

@@ -40,7 +40,7 @@ const Newfeature = (props) => {
     titlePreview: null,
     descPreview: null
   })
-  
+
   const color = "white"
   const [buttonStates, setButtonStates] = useState({
     button1: false,
@@ -80,7 +80,7 @@ const Newfeature = (props) => {
     }
   }, [image]);
 
-  
+
 
   const handleClientIdChange = (e, buttonName) => {
     if (clientId.includes(e)) {
@@ -99,23 +99,23 @@ const Newfeature = (props) => {
       [buttonName]: true,
     }));
   }
-    
-    
+
+
   };
 
   const handleAssigneeChange = (e) => {
     if (assigneeId === e) {
       setAssigneeId(null)
-      
+
       } else {
     setAssigneeId(e);
-   
+
   }
-    
-    
+
+
   };
 
-  
+
 
   const handle = (e) => {
     setUser({ ...user, userSecret: e.target.value });
@@ -151,7 +151,7 @@ const Newfeature = (props) => {
     // formData.append("session", session);
     // formData.append("userId", user);
     formData.append("templateId", templateId)
-    
+
 
     try {
       const response = await fetch("/api/getTaskTemplate", {
@@ -171,7 +171,7 @@ const Newfeature = (props) => {
       console.log(err)
     }
 
-     
+
   }
   const handleData = async () => {
     const formData = new FormData();
@@ -189,7 +189,7 @@ const Newfeature = (props) => {
   //     const [key, value] = entry;
   //     alert(`Key: ${key}, Value: ${value}`);
   // }
-    
+
 
     try {
       const response = await fetch("/api/addFeature", {
@@ -228,14 +228,14 @@ const Newfeature = (props) => {
   }, [client]);
 
   if (sessionLoaded) {
-    
-      
+
+
         return (
-            
+
             <div className="layout-new-feature">
               <Header/>
               <Menuv2 />
-
+                <div className="content-new-feature">
                 <h3 className="add-feature-buttons-header centered">Wybierz grafikę do featura</h3>
                 <div
                   className="image-container-preview centered"
@@ -262,89 +262,90 @@ const Newfeature = (props) => {
                 <h3 className="add-feature-buttons-header centered">Podaj opis taska do wyświetlenia w aplikacji</h3>
                 <div className="text-container-preview">
                   <textarea rows="30" className="text-container-preview-input" onChange={(e) => setFrontDesc(e.target.value)}>
-                    
+
                   </textarea>
-                  
+
+
                 </div>
-                  
+
                 </div>
-                
-              
-            
-          
-      
-     
-        
-          
-            
+
+
+
+
+
+
+
+
+
                 <h3 className="add-feature-buttons-header centered">Wybierz klienta lub klientów dla których chcesz dodać feature (wymagane)</h3>
                     <div className="add-feature-buttons centered">
-                    
+
                     <button
-                      
+
                       onClick={() => handleClientIdChange(123, 'button1')}
                       className={buttonStates.button1 ? "btn-off" : "btn-on"}
                     >
                       BetFan
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(121, 'button2')}
                       className={buttonStates.button2 ? "btn-off" : "btn-on"}
                     >
                       CrocoBet
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(106, 'button3')}
                       className={buttonStates.button3 ? "btn-off" : "btn-on"}
                     >
                       EuropeBet
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(143, 'button4')}
                       className={buttonStates.button4 ? "btn-off" : "btn-on"}
                     >
                       eToto
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(119, 'button5')}
                       className={buttonStates.button5 ? "btn-off" : "btn-on"}
                     >
                       forBET
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(133, 'button6')}
                       className={buttonStates.button6 ? "btn-off" : "btn-on"}
                     >
                       Fuksiarz
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(98, 'button7')}
                       className={buttonStates.button7 ? "btn-off" : "btn-on"}
                     >
                       MerryBet
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(112, 'button8')}
                       className={buttonStates.button8 ? "btn-off" : "btn-on"}
                     >
                       PremierBet Zone
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(165, 'button9')}
                       className={buttonStates.button9 ? "btn-off" : "btn-on"}
                     >
                       Premier Loto
                     </button>
                     <button
-                      
+
                       onClick={() => handleClientIdChange(116, 'button10')}
                       className={buttonStates.button10 ? "btn-off" : "btn-on"}
                     >
@@ -355,54 +356,55 @@ const Newfeature = (props) => {
 
                     <div className="add-feature-buttons centered">
                     <button
-                      
+
                       onClick={() => handleAssigneeChange(6)}
                       className={assigneeId === 6 ? "btn-off" : "btn-on"}
                     >
                       Alpha
                     </button>
                     <button
-                      
+
                       onClick={() => handleAssigneeChange(13)}
                       className={assigneeId === 13 ? "btn-off" : "btn-on"}
                     >
                       Omega
                     </button>
                     <button
-                      
+
                       onClick={() => handleAssigneeChange(7)}
                       className={assigneeId === 7 ? "btn-off" : "btn-on"}
                     >
                       Admins
                     </button>
                     <button
-                      
+
                       onClick={() => handleAssigneeChange(192)}
                       className={assigneeId === 192 ? "btn-off" : "btn-on"}
                     >
                       Database
                     </button>
                     </div>
-                    
-                  
 
-                  
-                
+
+
+
+
                 <div className="add-feature-buttons">
-        
+
                   <button className="btn" onClick={handleData}>
                     Submit task
                   </button>
                 </div>
                 </div>
-                
-              
-            
+                </div>
+
+
+
             )
-          
-        
-      
-    
+
+
+
+
   } else return <Loading />;
 };
 
