@@ -59,7 +59,7 @@ const Page = (props) => {
         {/* <Menuv2/> */}
 
         <div className="imageandtext-container">
-          <div className="image-container"><Image src={"/"+props.id+".png"} width={400} height={400}/></div>
+          <div className="image-container"><Image src={"/"+props.image+".jpg"} width={400} height={400}/></div>
           <div className="text-container">
           {data[0].long_desc}
           </div>

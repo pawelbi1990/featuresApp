@@ -3,7 +3,7 @@ import React from 'react'
 import DetailedFeature from "@/components/DetailedFeature";
 import { useState, useEffect } from 'react';
 
-const page = ({params}) => {
+const Page = ({params}) => {
   const [clientId, setClientId] = useState(sessionStorage.getItem("user"));
   useEffect(() => {
     
@@ -15,4 +15,4 @@ const page = ({params}) => {
   )
 }
 
-export default page
+export default Page
