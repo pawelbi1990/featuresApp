@@ -46,6 +46,9 @@ const POST = async (req, res) => {
       case 116:
         return "UPDATE public.totalbet SET task_id = $1 WHERE id = $2"
         break;
+      case 126:
+      return "UPDATE public.testclient SET task_id = $1 WHERE id = $2"
+      break;
     }
   
     
@@ -78,11 +81,12 @@ const POST = async (req, res) => {
 
     try {
       const response = await fetch(
-        "https://easy-redmine-tools-api.sb-betting.com/issues/create?apiKey=7b18a7458a71f97279d0af0a365557ec4b231200",
+        "https://sb-betting.easyredmine.com/issues.json",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "X-REDMINE-API-KEY": process.env.API_KEY,
           },
           body: jsonString,
         }

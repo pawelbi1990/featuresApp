@@ -102,7 +102,7 @@ export async function POST(request, res) {
                 }
 
             } catch (error) {
-                console.error(`Error inserting into ${tableName}: ${error.message}`);
+                console.error(`Error inserting into  ${error.message}`);
             }
         }
         return true
@@ -126,7 +126,8 @@ export async function POST(request, res) {
         98: "public.merrybet",
         112: "public.premierbetzone",
         165: "public.premierlotto",
-        116: "public.totalbet"
+        116: "public.totalbet",
+        126: "public.testclient"
     }
     const mappedArray = await clientArray.map(value => mapping[value])
     const mappedArrayTextAfterDot = await mappedArray.map(value => value.substring(value.indexOf('.') + 1));

@@ -55,6 +55,8 @@ async function POST(req, res) {
         case 121:
           return `SELECT * FROM public.croco`;
           break;
+        case 126:
+          return `SELECT * FROM public.testclient`
 
         default:
           return null;

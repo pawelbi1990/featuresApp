@@ -351,6 +351,13 @@ const Newfeature = (props) => {
                     >
                       TotalBet
                     </button>
+                    <button
+
+                      onClick={() => handleClientIdChange(126, 'button11')}
+                      className={buttonStates.button11 ? "btn-off" : "btn-on"}
+                    >
+                      TestClient
+                    </button>
                     </div>
                     <h3 className="add-feature-buttons-header centered">{assigneeId}Wybierz team, do którego ma być domyślnie przekazany task (wymagane)</h3>
 
