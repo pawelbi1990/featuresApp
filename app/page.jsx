@@ -10,7 +10,7 @@ const Page = () => {
     userName: "",
     userSecret: "",
   });
-  
+
   const [wrongCred, setWrongCred] = useState(false);
   const [loading, setLoading] = useState(false);
   const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
@@ -114,7 +114,7 @@ const Page = () => {
     }
   };
   if (loading) {
-    return <Loading />;
+    return <Loading text="Loading"/>;
   } else if (!loading && wrongCred) {
     return  (
         <div className="wrapper">
@@ -122,7 +122,7 @@ const Page = () => {
           <button onClick={() => setWrongCred(false)}>Try again</button>
         </div>
     )
-      
+
    } else if (!loading && !wrongCred) {
     return  (
       <div className="layout">
@@ -158,8 +158,8 @@ const Page = () => {
           </div>
         </div>
         </div>)
-      
-   
+
+
   }
 };
 

@@ -1,8 +1,8 @@
 import Layout from "./Layout"
 
-const Loading = () => {
+const Loading = (props) => {
   return (
-    <div className="layout"><div className="wrapper"><div className="loading">Loading...</div></div></div>
+    <div className="layout"><div className="wrapper"><div className="loading">{props.text}...</div></div></div>
   )
 }
 

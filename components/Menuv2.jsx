@@ -5,9 +5,11 @@ import { useState, useEffect } from "react";
 import { FaLinkedin } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 import { FaSkype } from "react-icons/fa";
+import { useGlobalState } from "../context/GlobalState"
 
 const Menuv2 = (props) => {
   const [admin, setAdmin] = useState(0);
+  const {state, setState} = useGlobalState()
 
   useEffect(() => {
     if (sessionStorage.getItem("superUser") == 1) {
@@ -18,11 +20,14 @@ const Menuv2 = (props) => {
   }, [sessionStorage.getItem("superUser")]);
 
   const handleLogout = async () => {
+    setState((prevState) => ({...prevState, loggingOut: true}))
     const data = { userId: parseInt(sessionStorage.getItem("user")) };
     await fetch("/api/logout", {
       method: "POST",
       body: JSON.stringify(data),
     });
+    setState((prevState) => ({...prevState, loggingOut: false}))
+
     sessionStorage.clear();
     window.location.replace("/");
   };
@@ -70,7 +75,7 @@ const Menuv2 = (props) => {
 
         {/* <ul className="menu-cta">
 
-    
+
 <li><FaLinkedin/></li>
 <li><TbWorldWww/></li>
 <li><FaSkype/></li>

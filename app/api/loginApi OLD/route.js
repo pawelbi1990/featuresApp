@@ -1,22 +1,27 @@
 import { NextResponse } from "next/server";
+import { Pool } from "pg";
 import bcrypt from "bcrypt";
 const jwt = require("jsonwebtoken");
-import {Pool} from "pg";
-let pool;
-if (!pool) {
-    pool = new Pool()
-}
+import { pool } from "../route";
+
+// const pool = new Pool({
+//     host: process.env.DATABASE_HOST_NAME,
+//     user: process.env.DATABASE_USER_NAME,
+//     database: process.env.DATABASE_NAME,
+//     password: process.env.DATABASE_PASSWORD,
+//     port: process.env.DATABASE_PORT
+
+// })
 
 const POST = async (req, res) => {
-
-    try {
+  try {
     const user = await req.json();
     const userName = await user.userName;
     const password = await user.userSecret;
+    const client = await pool.connect()
     const sqlQuery = `SELECT * FROM public.users where username = $1`;
     const values = [userName];
-
-    const dbData = await pool.query(sqlQuery, values);
+    const dbData = await client.query(sqlQuery, values);
     const dbDataRows = dbData.rows;
     if (dbDataRows.length === 0) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -24,6 +29,8 @@ const POST = async (req, res) => {
     const userHash = dbDataRows[0].hash;
     const userRole = dbDataRows[0].admin;
     const clientId = dbDataRows[0].id;
+
+    // console.log(clientId)
     const login = await new Promise((resolve, reject) => {
       bcrypt.compare(password, userHash, (err, result) => {
         if (err) {
@@ -33,45 +40,39 @@ const POST = async (req, res) => {
         }
       });
     });
+    // console.log(login)
+
     const key = process.env.JWT_KEY;
     const token = jwt.sign(user, key, { expiresIn: "1h" });
     if (login) {
       try {
-
         const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`;
-
         const sessionValues = [token, clientId];
-
-        const sessionUpdateResult = await pool.query(
+        const sessionUpdateResult = await client.query(
           sessionUpdateQuery,
           sessionValues
-        ) ;
-
-
+        );
         // console.log(sessionUpdateResult)
       } catch (err) {
-
         console.log(err);
       }
     }
-
+    client.release()
     if (login) {
-
       return NextResponse.json({
         login: token,
         admin: userRole,
         clientId: clientId,
       });
     } else {
-
       return NextResponse.json(
         { message: "Wrong credentials" },
         { status: 401 }
       );
     }
-} catch (err) {
-    console.log(err)
-    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-export { POST, pool };
+export { POST };

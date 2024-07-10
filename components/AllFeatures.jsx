@@ -10,10 +10,13 @@ import {
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
 import DetailedFeature from "@/components/DetailedFeature";
+import { useGlobalState } from "../context/GlobalState"
+
 
 import Image from "next/image";
 
 const AllFeatures = (props) => {
+  const {state, setState} = useGlobalState()
   const [longdesc, setLongdesc] = useState()
   const [loggedIn, setLoggedin] = useState(null);
   const [itemsPerPage, setItemPerPage] = useState(); //this variable determines number of slides shown on single page, undefined, by default, updates on screen resizes and first render, depending on width state
@@ -212,7 +215,7 @@ const AllFeatures = (props) => {
   ); //filtering data depending on search state that's beeing updated by search bar
   const data119 = data.filter((item) => item.client === 123);
   if (sessionLoaded) {
-    if (loggedIn && !processing && filteredData.length > 0) {
+    if (loggedIn && !processing && filteredData.length > 0 && !state.loggingOut) {
       //checking if user is loggedin (session stored in localStorage), if not - returns login screen
 
       if (!details) {
@@ -332,7 +335,7 @@ const AllFeatures = (props) => {
       //   return <Login nav={props.nav} setNav={props.setNav} />;
       // }
     } else {
-      return <Loading />;
+      return (!state.loggingOut ? <Loading text={"Loading"}/> : <Loading text={"Logging Out"}/>);
     }
   }
 };

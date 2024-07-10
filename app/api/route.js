@@ -1,16 +1,16 @@
-import { Pool, Client } from "pg";
+
 import { NextResponse } from "next/server";
 import { sessionChecker } from "./sessionCheck/route";
+import {Pool} from "pg";
+let pool;
+if (!pool) {
+    pool = new Pool()
+}
 
-const pool = new Pool({
-  host: process.env.DATABASE_HOST_NAME,
-  user: process.env.DATABASE_USER_NAME,
-  database: process.env.DATABASE_NAME,
-  password: process.env.DATABASE_PASSWORD,
-  port: process.env.DATABASE_PORT,
-});
+
 
 async function POST(req, res) {
+
   const data = await req.json();
   const userId = parseInt(data.userId);
   // console.log(userId)
@@ -61,21 +61,27 @@ async function POST(req, res) {
           break;
       }
     };
-    const client = await pool.connect()
+
     const sqlAdminQuery = `SELECT * FROM public.features`;
     const sqlQuery = await sqlQueryCheck(userId);
 
     const values = [userId];
-
-    const result = await client.query(sqlQuery);
+    try {
+    const result = await pool.query(sqlQuery);
 
     const dbData = await result.rows;
-    client.release()
-
     return NextResponse.json(dbData, { status: 200 });
+  } catch (err) {
+    console.log(err)
+  }
+
+
+
   } else {
+
+
     return NextResponse.json({ message: "Session invalid" }, { status: 401 });
   }
 }
 
-export { POST, pool };
+export { POST };

@@ -1,92 +1,72 @@
 import { NextResponse } from "next/server"
-import { Pool } from 'pg'
+
 import bcrypt from 'bcrypt'
-import {pool} from '../route'
+import {Pool} from "pg";
+let pool;
+if (!pool) {
+    pool = new Pool()
+}
 
 
-// const pool = new Pool({
-//     host: process.env.DATABASE_HOST_NAME,
-//     user: process.env.DATABASE_USER_NAME,
-//     database: process.env.DATABASE_NAME,
-//     password: process.env.DATABASE_PASSWORD,
-//     port: process.env.DATABASE_PORT
-
-// })
 const adminSessionChecker = async (reqData, res)=> {
+
     const data = await reqData
-    console.log(data) 
-    
-    
-    
+    console.log(data)
     const sessionId = await data.session
-    
-    
     const userId = await data.user
     const admin = await data.admin
-    
-    // const client = await pool.connect()
-    
-    
+
+
+
+    try {
     const sqlQuery = `SELECT * FROM public.users WHERE id = $1`
     const values = [userId]
     const dbData = await pool.query(sqlQuery, values)
     const dbDataRows = await dbData.rows[0]
-    
     const dbSession = await dbDataRows.session
     const dbAdmin = await dbDataRows.admin
-    // console.log(dbDataRows)
-    // console.log(sessionId == dbSession)
-    // console.log(admin)
-    // console.log(admin==dbAdmin)
-    
-    
-    // await client.release()
-    
 
     if ((sessionId == dbSession)&&(admin == dbAdmin)) {
-    console.log("Admin session approved")
-    return true
-} else {
-    return false
+        console.log("Admin session approved")
+        return true
+    } else {
+        return false
+    }
+} catch (err) {
+    console.log(err)
 }
 }
 const sessionChecker = async (reqData, res) => {
-    const data = await reqData 
-    // console.log(data)
-    
-    
+
+    const data = await reqData
     const sessionId = await data.session
-    
     const userId = await data.userId
-    const client = await pool.connect()
-    
-    
+try {
     const sqlQuery = `SELECT * FROM public.users WHERE id = $1`
     const values = [userId]
-    const dbData = await client.query(sqlQuery, values)
+    const dbData = await pool.query(sqlQuery, values)
     const dbDataRows = await dbData.rows[0]
     const dbSession = await dbDataRows.session
-    client.release()
-    
-    // console.log(sessionId == dbSession)
-    
-    
-    
-
     if (sessionId == dbSession) {
     console.log("Session approved")
     return true
 } else {
+
     return false
+}
+} catch (err) {
+    console.log(err)
 }
 }
 
 const POST = async (req, res) => {
-    
+
     const auth = await sessionChecker(req, res)
     if (auth === true) {
+
         return NextResponse.json({message: "Session valid"}, {status: 200})
     } else {
+
         return NextResponse.json({message: "Invalid session"}, {status: 401})
     }
 }
