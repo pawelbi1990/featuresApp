@@ -74,4 +74,4 @@ const POST = async (req, res) => {
     }
 };
 
-export { POST, pool };
+export { POST };

@@ -86,4 +86,4 @@ async function POST(req, res) {
   }
 }
 
-export { POST };
+export { POST,pool };
