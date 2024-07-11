@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { FaLinkedin } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 import { FaSkype } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { useGlobalState } from "../context/GlobalState"
 import {mapping} from "../utils/functions"
 
@@ -68,7 +69,11 @@ const Menuv2 = (props) => {
       handleLogout()
     }
   },[expires])
+  const toggleHamburgerMenu = () => {
+    setState((prevState) => ({ hamburgerOn: !prevState.hamburgerOn }))
+    console.log(state)
 
+  }
   const handleLogout = async () => {
     setState((prevState) => ({...prevState, loggingOut: true}))
     const data = { userId: parseInt(sessionStorage.getItem("user")) };
@@ -143,6 +148,7 @@ const Menuv2 = (props) => {
   } else if (admin == 0) {
     return (
       <>
+      {state.screenSize >= 800 ?
       <ul className="navbuttons">
         <button
           className={"btn"}
@@ -158,6 +164,16 @@ const Menuv2 = (props) => {
         </button>
         <p className="session-counter">Welcome {username}, your session expires in {expiresm}:{expiress}.</p>
       </ul>
+      : <div>
+        
+        <p className="session-counter">Welcome {username}, your session expires in {expiresm}:{expiress}.</p>
+        <div className="hamburger-wrapper" >
+        <RxHamburgerMenu className="hamburger" onClick={() => toggleHamburgerMenu()}/>
+         
+        </div>
+      </div>
+      }
+       
       
       </>
     );

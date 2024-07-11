@@ -41,6 +41,9 @@ const AllFeatures = (props) => {
   const handleResize = () => {
     //func used for screen width state management on resizes
     setWidth(window.innerWidth);
+    setState((prevState) => ({...prevState, screenSize: width}))
+    
+    
     if (width >= 1500) {
       setItemPerPage(3);
     }
@@ -50,7 +53,7 @@ const AllFeatures = (props) => {
     if (width < 1000) {
       setItemPerPage(1);
     }
-    console.log(width);
+    // console.log(width);
   };
 
   useEffect(() => {
@@ -61,6 +64,7 @@ const AllFeatures = (props) => {
   useEffect(() => {
     //updating itemperpage state on rerenders, dependind on user's device
     setWidth(window.innerWidth);
+    setState((prevState) => ({...prevState, screenSize: width}))
     if (window.innerWidth >= 1500) {
       setItemPerPage(3);
     }
@@ -70,7 +74,7 @@ const AllFeatures = (props) => {
     if (window.innerWidth < 1000) {
       setItemPerPage(1);
     }
-  });
+  },[]);
 
   const nextItems = () => {
     //function responsible for navigation between slide groups shown on page, attached to `next` arrow

@@ -5,7 +5,9 @@ const GlobalStateContext = createContext();
 
 export const GlobalStateProvider = ({ children }) => {
   const [state, setState] = useState({
-    loggingOut: false
+    loggingOut: false,
+    screenSize: null,
+    hamburgerOn: false
   });
 
   return (
