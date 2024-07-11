@@ -81,7 +81,7 @@ const Page = (props) => {
           <button className="btn" onClick={goBack}>
             Go back
           </button>
-          {clientId != 2 ? (
+          {clientId != 2 && clientId !=1 ? (
             data[0].task_id === null ?
             <button
               className="btn"

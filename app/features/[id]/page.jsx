@@ -9,7 +9,7 @@ const Page = ({params}) => {
     
     setClientId(sessionStorage.getItem("user"));
 
-  }, []);
+  },[]);
   return (
     <div><DetailedFeature clientId={clientId} id={params.id}/></div>
   )
