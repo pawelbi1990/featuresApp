@@ -6,11 +6,13 @@ import Loading from "@/components/Loading";
 import Login from "@/components/Login";
 import Menuv2 from "./Menuv2";
 import Image from "next/image";
+import {createTask} from "../utils/functions"
 
 const Page = (props) => {
   // const guest = props.guest;
   const screen = props.screen;
   const clientId = props.clientId
+  const [processing, setProcessing] = useState(false)
   const [data, setData] = useState([]);
   const [slide, setSlide] = useState(null);
   const [loggedIn, setLoggedin] = useState();
@@ -18,6 +20,12 @@ const Page = (props) => {
     setLoggedin(sessionStorage.getItem("session"));
   });
 
+  const processTaskCreation = async (taskName, desc, assigned, userId, id) => {
+    setProcessing(true)
+    await createTask(taskName, desc, assigned, userId, id)
+    setProcessing(false)
+
+  }
   const getData = async () => {
     const formData = new FormData();
     formData.append("clientId", clientId);
@@ -27,7 +35,7 @@ const Page = (props) => {
     });
     const dbData = await response.json();
     setData(dbData);
-    console.log(data)
+    console.log(dbData)
   };
   useEffect(() => {
     setSlide(props.id);
@@ -50,6 +58,7 @@ const Page = (props) => {
   }
   if (data.length > 0) {
     return  (
+      processing ? <Loading text="Creating a task"/> :
       <Layout
         screen={screen}
         key={props.id}
@@ -59,9 +68,9 @@ const Page = (props) => {
         {/* <Menuv2/> */}
 
         <div className="imageandtext-container">
-          <div className="image-container"><Image src={"/"+props.image+".jpg"} width={400} height={400}/></div>
-          <div className="text-container">
-          {data[0].long_desc}
+          <div className="image-container"><Image src={data[0].image_path} width={400} height={400} style={{objectFit: "contain"}} className="preview-image"/></div>
+          <div className="text-container" dangerouslySetInnerHTML={{ __html: data[0].long_desc }}>
+          
           </div>
           </div>
 
@@ -73,19 +82,26 @@ const Page = (props) => {
             Go back
           </button>
           {clientId != 2 ? (
+            data[0].task_id === null ?
             <button
               className="btn"
               onClick={() =>
-                props.createTask(
-                  item.name,
-                  item.short_desc,
-                  item.assigned,
-                  sessionStorage.getItem("user")
+                processTaskCreation(
+                  data[0].name,
+                  data[0].short_desc,
+                  data[0].assigned,
+                  sessionStorage.getItem("user"),
+                  data[0].id
                 )
               }
             >
               Create task
             </button>
+            : <button
+            className="btn btn-green"
+          >
+            {"Task "+data[0].task_id}
+          </button>
           ) : (
             <button className="btn" onClick={goBack}>
               Login as a client to create the task
@@ -95,7 +111,7 @@ const Page = (props) => {
       </Layout>
     );
   } else {
-    return <Loading />;
+    return <Loading text="Getting feature details..."/>;
   }
 };
 

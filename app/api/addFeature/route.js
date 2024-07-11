@@ -1,20 +1,17 @@
-import { Pool } from 'pg';
+
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import {adminSessionChecker} from '../sessionCheck/route'
-import {pool} from '../route'
+import {Pool} from "pg";
+let pool;
+if (!pool) {
+    pool = new Pool()
+}
 
 let dataValid = false
 
-// const pool = new Pool({
-//     host: process.env.DATABASE_HOST_NAME,
-//     user: process.env.DATABASE_USER_NAME,
-//     database: process.env.DATABASE_NAME,
-//     password: process.env.DATABASE_PASSWORD,
-//     port: process.env.DATABASE_PORT
 
-// })
 
 
 
@@ -71,7 +68,7 @@ export async function POST(request, res) {
             const values = [frontTaskData.name, frontTaskData.short_desc, frontTaskData.long_desc, frontTaskData.assigned, clientId[i], clientName[i]];
 
             try {
-                const result = await client.query(sqlQuery, values);
+                const result = await pool.query(sqlQuery, values);
                 // console.log(`Inserted into ${tableName}. ID: ${result.rows[0].id}`);
 
                 if (imageFile) {
@@ -98,7 +95,7 @@ export async function POST(request, res) {
 
                     const updatedValues = [dbPath, insertedId];
 
-                    await client.query(updateImagePathQuery, updatedValues)
+                    await pool.query(updateImagePathQuery, updatedValues)
                 }
 
             } catch (error) {
@@ -148,11 +145,9 @@ export async function POST(request, res) {
 
      } else if (auth) {
 
-        const client = await pool.connect()
+        
         result = await queryLoop(mappedArray, client, frontTaskData.image_file, clientIdArray, mappedArrayTextAfterDot)
-        if (result === true) {
-            await client.release()
-        }
+        
 
 
 

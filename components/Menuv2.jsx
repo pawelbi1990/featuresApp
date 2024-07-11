@@ -39,6 +39,11 @@ const Menuv2 = (props) => {
     }
   };
 
+  const clearCache = () => {
+    sessionStorage.removeItem("cachedAllData")
+    window.location.reload()
+  }
+
   if (admin == 1) {
     return (
       <div className="nav-container">
@@ -70,6 +75,9 @@ const Menuv2 = (props) => {
           <button className="btn" onClick={handleLogout}>
             Log Out
           </button>
+          <button className="btn" onClick={clearCache}>
+          Clear cache
+        </button>
           {/* <h1>asd</h1> */}
         </ul>
 
@@ -93,6 +101,9 @@ const Menuv2 = (props) => {
         </button>
         <button className="btn" onClick={handleLogout}>
           Log Out
+        </button>
+        <button className="btn" onClick={clearCache}>
+          Clear cache
         </button>
       </ul>
     );

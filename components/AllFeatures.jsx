@@ -166,6 +166,8 @@ const AllFeatures = (props) => {
     window.location.href = `features/${id}`
   };
 
+  
+
   const goBack = (state) => {
     setDetails(state);
   };
@@ -198,6 +200,9 @@ const AllFeatures = (props) => {
     if (response.ok) {
       const responseData = await response.json();
       console.log("task created");
+      console.log(responseData)
+      sessionStorage.setItem("taskId", responseData.taskId)
+    sessionStorage.setItem("taskTitle", responseData.taskTitle)
       setProcessing(false);
       window.location.href = "/taskCreated";
       sessionStorage.removeItem("cachedAllData")
@@ -246,12 +251,6 @@ const AllFeatures = (props) => {
                   }
                   key={subIndex}
                 >
-                  <p>
-                    {clientId == 2
-                      ? item.clientname + " " + item.name
-                      : item.name}{item.id}
-                  </p>
-                  <div className="products-image">
                   <Image
                     onClick={() => handleDetailsClick(item.id, item.image_path, item.long_desc)}
                     src={item.image_path}
@@ -264,6 +263,13 @@ const AllFeatures = (props) => {
                     placeholder="empty"
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
                   />
+                  <p>
+                    {clientId == 2
+                      ? item.clientname + " " + item.name.replaceAll("[PLAN]","")
+                      : item.name.replaceAll("[PLAN]","")}
+                  </p>
+                  <div className="products-image">
+                  
                   </div>
                   <div className="products-item-buttons">
                     {clientId != 2 && clientId !=1 ? (
@@ -285,7 +291,7 @@ const AllFeatures = (props) => {
                       ) : (
                         <Link href={`https://sb-betting.easyredmine.com/issues/${item.task_id}`}>
                         <button
-                          className="btn"
+                          className="btn btn-green"
                         >
                           {"Task "+item.task_id}
                         </button>

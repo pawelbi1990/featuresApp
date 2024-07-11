@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { sessionChecker } from "../sessionCheck/route";
-import { pool } from "../route";
+import {Pool} from "pg";
+let pool;
+if (!pool) {
+    pool = new Pool()
+}
+
+let dataValid = false
 let sqlQuery = "";
 
 const POST = async (req, res) => {
@@ -93,7 +99,7 @@ const POST = async (req, res) => {
       );
       if (response.ok) {
         const responseBody = await response.json();
-        const client = await pool.connect()
+        
         taskId = responseBody.issue.id;
         taskTitle = responseBody.issue.subject;
         
@@ -102,8 +108,8 @@ const POST = async (req, res) => {
           
           const values = [taskId, featureId];
           console.log(sqlQuery)
-          await client.query(sqlQuery, values);
-          client.release();
+          await pool.query(sqlQuery, values);
+          
         // const taskStatus = ({
         //   taskid: responseBody.issue.id,
         //   owner: responseBody.issue.project.name,

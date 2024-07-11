@@ -1,16 +1,13 @@
-import { Pool } from 'pg';
+
 import { NextResponse } from 'next/server';
-import { pool } from '../route'
+import {Pool} from "pg";
+let pool;
+if (!pool) {
+    pool = new Pool()
+}
 
 
-// const pool = new Pool({
-//     host: process.env.DATABASE_HOST_NAME,
-//     user: process.env.DATABASE_USER_NAME,
-//     database: process.env.DATABASE_NAME,
-//     password: process.env.DATABASE_PASSWORD,
-//     port: process.env.DATABASE_PORT
 
-// })
 
 export async function POST(req, {params}) {
     const data = await req.formData();
@@ -56,7 +53,7 @@ export async function POST(req, {params}) {
             return `SELECT * FROM public.croco`;
             break;
           case 126: 
-            return `SELECT * FROM public.testclient`;
+            return `SELECT * FROM public.testclient WHERE id = ${postId}`;
             break;
   
           default:
@@ -70,7 +67,7 @@ export async function POST(req, {params}) {
     let client;
     try {
         
-        client = await pool.connect();
+        
     
         
         // const sqlQuery = `SELECT * FROM public.admin_view WHERE id = ${postID}`;
@@ -79,8 +76,8 @@ export async function POST(req, {params}) {
         
         
         
-        const res = await client.query(sqlQuery);
-        const data = res.rows;
+        const res = await pool.query(sqlQuery);
+        const data = await res.rows;
         
        
         return NextResponse.json(data);
@@ -88,10 +85,5 @@ export async function POST(req, {params}) {
         
         console.error('Error executing SQL query:', error);
         return NextResponse.error(error);
-    } finally {
-        
-        if (client) {
-            client.release();
-        }
-    }
+    } 
 }
