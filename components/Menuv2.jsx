@@ -6,10 +6,17 @@ import { FaLinkedin } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 import { FaSkype } from "react-icons/fa";
 import { useGlobalState } from "../context/GlobalState"
+import {mapping} from "../utils/functions"
 
 const Menuv2 = (props) => {
   const [admin, setAdmin] = useState(0);
+  const [user, setUser] = useState()
+  const [username, setUsername] = useState()
+  const [expires, setExpires] = useState()
+  const [expiresm, setExpiresm] = useState()
+  const [expiress, setExpiress] = useState()
   const {state, setState} = useGlobalState()
+  
 
   useEffect(() => {
     if (sessionStorage.getItem("superUser") == 1) {
@@ -18,6 +25,49 @@ const Menuv2 = (props) => {
       setAdmin(0);
     }
   }, [sessionStorage.getItem("superUser")]);
+
+  useEffect(() => {
+    setUser(sessionStorage.getItem("user"))
+    
+  },[sessionStorage.getItem("user")])
+
+  useEffect(() => {
+    const client = mapping[parseInt(user)]
+    setUsername(client)
+    console.log(username)
+    
+  },[user])
+
+  useEffect(() => {
+    setExpires(600)
+  },[])
+
+  useEffect(() => {
+    const countdown = setInterval(() => {
+      setExpires((prevCount) => prevCount - 1); // Reduce count by 1 every second
+      
+    }, 1000); // Repeat every second (1000ms)
+
+    // Clean up the interval on unmount
+    return () => clearInterval(countdown);
+  }, []);
+
+  useEffect(() => {
+      let minutes = Math.floor(expires/60)
+      let seconds = expires % 60
+      setExpiresm(minutes)
+      if (expiress<=10 && expiress > 0) {
+      setExpiress("0"+seconds)
+      }else{
+        setExpiress(seconds)
+      }
+  },[expires])
+
+  useEffect(() => {
+    if (expires === 0) {
+      handleLogout()
+    }
+  },[expires])
 
   const handleLogout = async () => {
     setState((prevState) => ({...prevState, loggingOut: true}))
@@ -92,6 +142,7 @@ const Menuv2 = (props) => {
     );
   } else if (admin == 0) {
     return (
+      <>
       <ul className="navbuttons">
         <button
           className={"btn"}
@@ -105,7 +156,10 @@ const Menuv2 = (props) => {
         <button className="btn" onClick={clearCache}>
           Clear cache
         </button>
+        <p className="session-counter">Welcome {username}, your session expires in {expiresm}:{expiress}.</p>
       </ul>
+      
+      </>
     );
   }
 };

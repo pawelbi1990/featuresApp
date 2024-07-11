@@ -1051,6 +1051,11 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
   margin: 0;
 }
 
+.session-counter {
+  width: 100%;
+  text-align: right;
+}
+
 .nav-arrow {
   font-size: 4rem;
   color: aliceblue;

@@ -28,3 +28,18 @@ export const createTask = async (taskName, desc, assigned, userId, id) => {
       window.location.href = "/taskCreationFailed";
     }
   };
+
+  export const mapping = {
+    1: "Guest",
+    123: "Betfan",
+    121: "Croco",
+    106: "Europebet",
+    143: "eToto",
+    119: "forBET",
+    133: "Fuskiarz",
+    98: "Merrybet",
+    112: "PremierbetZone",
+    165: "PremierLoto",
+    116: "Totalbet",
+    126: "TestClient"
+}

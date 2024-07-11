@@ -7,16 +7,23 @@ import { useRouter } from "next/navigation";
 
 import { useState, useEffect } from 'react';
 import Loading from "./Loading";
+import {mapping} from "../utils/functions"
 
 const Page = () => {
   const router = useRouter()
   const [auth, setAuth] = useState();
+  const [user, setUser] = useState()
+  const [username, setUserName] = useState()
   const [loading, setLoading] = useState(true);
   const [admin, setAdmin] = useState(false)
 
   useEffect(() => {
     setAuth(sessionStorage.getItem("session"))
-    setAdmin(sessionStorage.getItem("superUser"))
+    setAdmin(sessionStorage.getItem("superUser"))    
+    setUser(sessionStorage.getItem("user"))
+    const client = mapping.filter((item) => item.id=user)
+    setUserName(client)
+    
     setLoading(false)
                  
   }, [])
