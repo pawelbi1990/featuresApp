@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 const jwt = require("jsonwebtoken");
-import {Pool} from "pg";
+import { Pool } from "pg";
 let pool;
 if (!pool) {
-    pool = new Pool()
+  pool = new Pool();
 }
 
 const POST = async (req, res) => {
-
-    try {
+  try {
     const user = await req.json();
     const userName = await user.userName;
     const password = await user.userSecret;
@@ -37,7 +36,6 @@ const POST = async (req, res) => {
     const token = jwt.sign(user, key, { expiresIn: "1h" });
     if (login) {
       try {
-
         const sessionUpdateQuery = `UPDATE public.users SET session = $1 WHERE id = $2`;
 
         const sessionValues = [token, clientId];
@@ -45,33 +43,29 @@ const POST = async (req, res) => {
         const sessionUpdateResult = await pool.query(
           sessionUpdateQuery,
           sessionValues
-        ) ;
-
+        );
 
         // console.log(sessionUpdateResult)
       } catch (err) {
-
         console.log(err);
       }
     }
 
     if (login) {
-
       return NextResponse.json({
         login: token,
         admin: userRole,
         clientId: clientId,
       });
     } else {
-
       return NextResponse.json(
         { message: "Wrong credentials" },
         { status: 401 }
       );
     }
-} catch (err) {
-    console.log(err)
-    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export { POST };

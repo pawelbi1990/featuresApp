@@ -1,5 +1,5 @@
-'use client'
-import { createContext, useContext, useState } from 'react';
+"use client";
+import { createContext, useContext, useState } from "react";
 
 const GlobalStateContext = createContext();
 
@@ -7,7 +7,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [state, setState] = useState({
     loggingOut: false,
     screenSize: null,
-    hamburgerOn: false
+    hamburgerOn: false,
   });
 
   return (

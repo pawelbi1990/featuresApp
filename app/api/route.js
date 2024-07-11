@@ -1,16 +1,12 @@
-
 import { NextResponse } from "next/server";
 import { sessionChecker } from "./sessionCheck/route";
-import {Pool} from "pg";
+import { Pool } from "pg";
 let pool;
 if (!pool) {
-    pool = new Pool()
+  pool = new Pool();
 }
 
-
-
 async function POST(req, res) {
-
   const data = await req.json();
   const userId = parseInt(data.userId);
   // console.log(userId)
@@ -56,7 +52,7 @@ async function POST(req, res) {
           return `SELECT * FROM public.croco`;
           break;
         case 126:
-          return `SELECT * FROM public.testclient`
+          return `SELECT * FROM public.testclient`;
 
         default:
           return null;
@@ -69,21 +65,16 @@ async function POST(req, res) {
 
     const values = [userId];
     try {
-    const result = await pool.query(sqlQuery);
+      const result = await pool.query(sqlQuery);
 
-    const dbData = await result.rows;
-    return NextResponse.json(dbData, { status: 200 });
-  } catch (err) {
-    console.log(err)
-  }
-
-
-
+      const dbData = await result.rows;
+      return NextResponse.json(dbData, { status: 200 });
+    } catch (err) {
+      console.log(err);
+    }
   } else {
-
-
     return NextResponse.json({ message: "Session invalid" }, { status: 401 });
   }
 }
 
-export { POST,pool };
+export { POST, pool };

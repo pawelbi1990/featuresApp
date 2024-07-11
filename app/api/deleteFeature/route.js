@@ -23,9 +23,9 @@ export async function POST(request, res) {
   };
 
   const deleteMe = await data.get("deleteId");
-  const clientId = await data.get("client")
-  const clientName = await data.get('clientName')
-  const clientIdToDelete = parseInt(clientId)
+  const clientId = await data.get("client");
+  const clientName = await data.get("clientName");
+  const clientIdToDelete = parseInt(clientId);
   const auth = await adminSessionChecker(checkData, res);
 
   if (auth === false) {

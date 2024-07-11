@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import { NextResponse } from "next/server";
 let pool;
 if (!pool) {
-    pool = new Pool()
+  pool = new Pool();
 }
 
 const POST = async (req, res) => {
@@ -14,7 +14,7 @@ const POST = async (req, res) => {
     sessionUpdateQuery,
     sessionValues
   );
-  console.log("user "+userId+" logged out succesfully");
+  console.log("user " + userId + " logged out succesfully");
   return NextResponse.json(
     { message: "logged out succesfully" },
     { status: 200 }

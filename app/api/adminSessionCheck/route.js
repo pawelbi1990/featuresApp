@@ -21,7 +21,7 @@ const adminLiveSessionChecker = async (reqData, res) => {
   const userId = await data.user;
   const admin = await data.admin;
 
-  const client = await pool.connect()
+  const client = await pool.connect();
 
   const sqlQuery = `SELECT * FROM public.users WHERE id = $1`;
   const values = [userId];
@@ -35,7 +35,7 @@ const adminLiveSessionChecker = async (reqData, res) => {
   console.log(admin);
   console.log(admin == dbAdmin);
 
-  client.release()
+  client.release();
 
   if (sessionId == dbSession && admin == dbAdmin) {
     return true;

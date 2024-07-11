@@ -6,18 +6,17 @@ import { FaLinkedin } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 import { FaSkype } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useGlobalState } from "../context/GlobalState"
-import {mapping} from "../utils/functions"
+import { useGlobalState } from "../context/GlobalState";
+import { mapping } from "../utils/functions";
 
 const Menuv2 = (props) => {
   const [admin, setAdmin] = useState(0);
-  const [user, setUser] = useState()
-  const [username, setUsername] = useState()
-  const [expires, setExpires] = useState()
-  const [expiresm, setExpiresm] = useState()
-  const [expiress, setExpiress] = useState()
-  const {state, setState} = useGlobalState()
-  
+  const [user, setUser] = useState();
+  const [username, setUsername] = useState();
+  const [expires, setExpires] = useState();
+  const [expiresm, setExpiresm] = useState();
+  const [expiress, setExpiress] = useState();
+  const { state, setState } = useGlobalState();
 
   useEffect(() => {
     if (sessionStorage.getItem("superUser") == 1) {
@@ -28,25 +27,22 @@ const Menuv2 = (props) => {
   }, [sessionStorage.getItem("superUser")]);
 
   useEffect(() => {
-    setUser(sessionStorage.getItem("user"))
-    
-  },[sessionStorage.getItem("user")])
+    setUser(sessionStorage.getItem("user"));
+  }, [sessionStorage.getItem("user")]);
 
   useEffect(() => {
-    const client = mapping[parseInt(user)]
-    setUsername(client)
-    console.log(username)
-    
-  },[user])
+    const client = mapping[parseInt(user)];
+    setUsername(client);
+    console.log(username);
+  }, [user]);
 
   useEffect(() => {
-    setExpires(600)
-  },[])
+    setExpires(600);
+  }, []);
 
   useEffect(() => {
     const countdown = setInterval(() => {
       setExpires((prevCount) => prevCount - 1); // Reduce count by 1 every second
-      
     }, 1000); // Repeat every second (1000ms)
 
     // Clean up the interval on unmount
@@ -54,34 +50,33 @@ const Menuv2 = (props) => {
   }, []);
 
   useEffect(() => {
-      let minutes = Math.floor(expires/60)
-      let seconds = expires % 60
-      setExpiresm(minutes)
-      if (expiress<=10 && expiress > 0 || expires == 600) {
-      setExpiress("0"+seconds)
-      }else{
-        setExpiress(seconds)
-      }
-  },[expires])
+    let minutes = Math.floor(expires / 60);
+    let seconds = expires % 60;
+    setExpiresm(minutes);
+    if ((expiress <= 10 && expiress > 0) || expires == 600) {
+      setExpiress("0" + seconds);
+    } else {
+      setExpiress(seconds);
+    }
+  }, [expires]);
 
   useEffect(() => {
     if (expires === 0) {
-      handleLogout()
+      handleLogout();
     }
-  },[expires])
+  }, [expires]);
   const toggleHamburgerMenu = () => {
-    setState((prevState) => ({ hamburgerOn: !prevState.hamburgerOn }))
-    console.log(state)
-
-  }
+    setState((prevState) => ({ hamburgerOn: !prevState.hamburgerOn }));
+    console.log(state);
+  };
   const handleLogout = async () => {
-    setState((prevState) => ({...prevState, loggingOut: true}))
+    setState((prevState) => ({ ...prevState, loggingOut: true }));
     const data = { userId: parseInt(sessionStorage.getItem("user")) };
     await fetch("/api/logout", {
       method: "POST",
       body: JSON.stringify(data),
     });
-    setState((prevState) => ({...prevState, loggingOut: false}))
+    setState((prevState) => ({ ...prevState, loggingOut: false }));
 
     sessionStorage.clear();
     window.location.replace("/");
@@ -95,13 +90,13 @@ const Menuv2 = (props) => {
   };
 
   const clearCache = () => {
-    sessionStorage.removeItem("cachedAllData")
-    window.location.reload()
-  }
+    sessionStorage.removeItem("cachedAllData");
+    window.location.reload();
+  };
 
   const handleSessionExtend = () => {
-    setExpires(600)
-  }
+    setExpires(600);
+  };
 
   if (admin == 1) {
     return (
@@ -135,8 +130,8 @@ const Menuv2 = (props) => {
             Log Out
           </button>
           <button className="btn" onClick={clearCache}>
-          Clear cache
-        </button>
+            Clear cache
+          </button>
           {/* <h1>asd</h1> */}
         </ul>
 
@@ -152,33 +147,49 @@ const Menuv2 = (props) => {
   } else if (admin == 0) {
     return (
       <>
-      {state.screenSize >= 800 ?
-      <ul className="navbuttons">
-        <button
-          className={"btn"}
-          onClick={() => window.location.replace("/features")}
-        >
-          All features
-        </button>
-        <button className="btn" onClick={handleLogout}>
-          Log Out
-        </button>
-        <button className="btn" onClick={clearCache}>
-          Clear cache
-        </button>
-        <p className="session-counter">Welcome {username}, session expires in {expiresm}:{expiress} <span style={{ color: expires < 60 ? 'red' : '' }} onClick={() => handleSessionExtend()}>Extend.</span></p>
-      </ul>
-      : <div>
-        
-        <p className="session-counter">Welcome {username}, session expires in {expiresm}:{expiress} <span style={{ color: expires < 60 ? 'red' : '' }} onClick={() => handleSessionExtend()}>Extend.</span></p>
-        <div className="hamburger-wrapper" >
-        <RxHamburgerMenu className="hamburger" onClick={() => toggleHamburgerMenu()}/>
-         
-        </div>
-      </div>
-      }
-       
-      
+        {state.screenSize >= 800 ? (
+          <ul className="navbuttons">
+            <button
+              className={"btn"}
+              onClick={() => window.location.replace("/features")}
+            >
+              All features
+            </button>
+            <button className="btn" onClick={handleLogout}>
+              Log Out
+            </button>
+            <button className="btn" onClick={clearCache}>
+              Clear cache
+            </button>
+            <p className="session-counter">
+              Welcome {username}, session expires in {expiresm}:{expiress}{" "}
+              <span
+                style={{ color: expires < 60 ? "red" : "" }}
+                onClick={() => handleSessionExtend()}
+              >
+                Extend.
+              </span>
+            </p>
+          </ul>
+        ) : (
+          <div>
+            <p className="session-counter">
+              Welcome {username}, session expires in {expiresm}:{expiress}{" "}
+              <span
+                style={{ color: expires < 60 ? "red" : "" }}
+                onClick={() => handleSessionExtend()}
+              >
+                Extend.
+              </span>
+            </p>
+            <div className="hamburger-wrapper">
+              <RxHamburgerMenu
+                className="hamburger"
+                onClick={() => toggleHamburgerMenu()}
+              />
+            </div>
+          </div>
+        )}
       </>
     );
   }

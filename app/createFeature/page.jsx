@@ -30,18 +30,18 @@ const Newfeature = (props) => {
   const [admin, setAdmin] = useState();
   const [session, setSession] = useState();
   const [user, setUser] = useState();
-  const [clientId, setClientId] = useState([])
-  const [assigneeId, setAssigneeId] = useState()
-  const [frontDesc, setFrontDesc] = useState()
-  const [templateId, setTemplateId] = useState()
+  const [clientId, setClientId] = useState([]);
+  const [assigneeId, setAssigneeId] = useState();
+  const [frontDesc, setFrontDesc] = useState();
+  const [templateId, setTemplateId] = useState();
   const [templateData, setTemplateData] = useState({
     title: null,
     desc: null,
     titlePreview: null,
-    descPreview: null
-  })
+    descPreview: null,
+  });
 
-  const color = "white"
+  const color = "white";
   const [buttonStates, setButtonStates] = useState({
     button1: false,
     button2: false,
@@ -61,8 +61,8 @@ const Newfeature = (props) => {
   });
 
   useEffect(() => {
-    console.log(clientId)
-  },)
+    console.log(clientId);
+  });
 
   useEffect(() => {
     setAdmin(sessionStorage.getItem("superUser"));
@@ -72,7 +72,7 @@ const Newfeature = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(templateData)
+    console.log(templateData);
   }, [templateData]);
   useEffect(() => {
     if (image) {
@@ -80,42 +80,32 @@ const Newfeature = (props) => {
     }
   }, [image]);
 
-
-
   const handleClientIdChange = (e, buttonName) => {
     if (clientId.includes(e)) {
-      let index = clientId.indexOf(e)
+      let index = clientId.indexOf(e);
       if (index !== -1) {
-      clientId.splice(index, 1)
-      setButtonStates((prevButtonStates) => ({
-      ...prevButtonStates,
-      [buttonName]: false,
-    }));
+        clientId.splice(index, 1);
+        setButtonStates((prevButtonStates) => ({
+          ...prevButtonStates,
+          [buttonName]: false,
+        }));
       }
     } else {
-    clientId.push(e);
-    setButtonStates((prevButtonStates) => ({
-      ...prevButtonStates,
-      [buttonName]: true,
-    }));
-  }
-
-
+      clientId.push(e);
+      setButtonStates((prevButtonStates) => ({
+        ...prevButtonStates,
+        [buttonName]: true,
+      }));
+    }
   };
 
   const handleAssigneeChange = (e) => {
     if (assigneeId === e) {
-      setAssigneeId(null)
-
-      } else {
-    setAssigneeId(e);
-
-  }
-
-
+      setAssigneeId(null);
+    } else {
+      setAssigneeId(e);
+    }
   };
-
-
 
   const handle = (e) => {
     setUser({ ...user, userSecret: e.target.value });
@@ -146,50 +136,52 @@ const Newfeature = (props) => {
     setPage(1);
   };
   const getTemplate = async () => {
-    const formData = new FormData()
+    const formData = new FormData();
     // formData.append("admin", admin);
     // formData.append("session", session);
     // formData.append("userId", user);
-    formData.append("templateId", templateId)
-
+    formData.append("templateId", templateId);
 
     try {
       const response = await fetch("/api/getTaskTemplate", {
         method: "POST",
-        body: formData
-      })
+        body: formData,
+      });
       if (response.status === 200) {
-        const responseData = await response.json()
+        const responseData = await response.json();
         setTemplateData({
           title: await responseData.title,
           desc: await responseData.desc,
-          titlePreview: await responseData.title.replace(/<\/p>/g, '<br>').replace(/DLA PO[\s\S]*/g, '').replace(/<(?!br\s*\/?>)[^>]*>/g, ''),
-          descPreview: await responseData.desc.replace(/<\/p>/g, '<br>').replace(/DLA PO[\s\S]*/g, '').replace(/<(?!br\s*\/?>)[^>]*>/g, '')
-        })
+          titlePreview: await responseData.title
+            .replace(/<\/p>/g, "<br>")
+            .replace(/DLA PO[\s\S]*/g, "")
+            .replace(/<(?!br\s*\/?>)[^>]*>/g, ""),
+          descPreview: await responseData.desc
+            .replace(/<\/p>/g, "<br>")
+            .replace(/DLA PO[\s\S]*/g, "")
+            .replace(/<(?!br\s*\/?>)[^>]*>/g, ""),
+        });
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-
-
-  }
+  };
   const handleData = async () => {
     const formData = new FormData();
     formData.append("clientId", clientId);
-    formData.append("image", image)
-    formData.append("name", templateData.title)
-    formData.append("short_desc", templateData.desc)
-    formData.append("long_desc", frontDesc)
-    formData.append("assigned", assigneeId)
+    formData.append("image", image);
+    formData.append("name", templateData.title);
+    formData.append("short_desc", templateData.desc);
+    formData.append("long_desc", frontDesc);
+    formData.append("assigned", assigneeId);
     formData.append("admin", admin);
     formData.append("session", session);
     formData.append("userId", user);
 
-  //   for (const entry of formData.entries()) {
-  //     const [key, value] = entry;
-  //     alert(`Key: ${key}, Value: ${value}`);
-  // }
-
+    //   for (const entry of formData.entries()) {
+    //     const [key, value] = entry;
+    //     alert(`Key: ${key}, Value: ${value}`);
+    // }
 
     try {
       const response = await fetch("/api/addFeature", {
@@ -215,8 +207,8 @@ const Newfeature = (props) => {
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    sessionStorage.removeItem("cachedAllData")
-    location.reload()
+    sessionStorage.removeItem("cachedAllData");
+    location.reload();
   };
 
   useEffect(() => {
@@ -228,190 +220,179 @@ const Newfeature = (props) => {
   }, [client]);
 
   if (sessionLoaded) {
+    return (
+      <div className="layout-new-feature">
+        <Header />
+        <Menuv2 />
+        <div className="content-new-feature">
+          <h3 className="add-feature-buttons-header centered">
+            Wybierz grafikę do featura
+          </h3>
+          <div
+            className="image-container-preview centered"
+            style={{
+              backgroundImage: `url(${imagePreviewURL})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+            }}
+          >
+            <input
+              type="file"
+              name=""
+              id=""
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
+          <h3 className="add-feature-buttons-header centered">
+            Podaj id taska-templatki, żeby go pobrać
+          </h3>
+          <div>
+            <div className="centered">
+              <input
+                type="text"
+                onChange={(e) => setTemplateId(e.target.value)}
+              ></input>
+              <button className="btn" onClick={() => getTemplate()}>
+                Pobierz dane taska-templatki
+              </button>
+            </div>
+            <h3 className="add-feature-buttons-header centered">
+              Podgląd treści taska w ERM
+            </h3>
+            <div className="text-container-preview">
+              <div
+                className="centered"
+                dangerouslySetInnerHTML={{ __html: templateData.titlePreview }}
+              ></div>
+              <div
+                dangerouslySetInnerHTML={{ __html: templateData.descPreview }}
+              ></div>
+            </div>
+            <h3 className="add-feature-buttons-header centered">
+              Podaj opis taska do wyświetlenia w aplikacji
+            </h3>
+            <div className="text-container-preview">
+              <textarea
+                rows="30"
+                className="text-container-preview-input"
+                onChange={(e) => setFrontDesc(e.target.value)}
+              ></textarea>
+            </div>
+          </div>
 
+          <h3 className="add-feature-buttons-header centered">
+            Wybierz klienta lub klientów dla których chcesz dodać feature
+            (wymagane)
+          </h3>
+          <div className="add-feature-buttons centered">
+            <button
+              onClick={() => handleClientIdChange(123, "button1")}
+              className={buttonStates.button1 ? "btn-off" : "btn-on"}
+            >
+              BetFan
+            </button>
+            <button
+              onClick={() => handleClientIdChange(121, "button2")}
+              className={buttonStates.button2 ? "btn-off" : "btn-on"}
+            >
+              CrocoBet
+            </button>
+            <button
+              onClick={() => handleClientIdChange(106, "button3")}
+              className={buttonStates.button3 ? "btn-off" : "btn-on"}
+            >
+              EuropeBet
+            </button>
+            <button
+              onClick={() => handleClientIdChange(143, "button4")}
+              className={buttonStates.button4 ? "btn-off" : "btn-on"}
+            >
+              eToto
+            </button>
+            <button
+              onClick={() => handleClientIdChange(119, "button5")}
+              className={buttonStates.button5 ? "btn-off" : "btn-on"}
+            >
+              forBET
+            </button>
+            <button
+              onClick={() => handleClientIdChange(133, "button6")}
+              className={buttonStates.button6 ? "btn-off" : "btn-on"}
+            >
+              Fuksiarz
+            </button>
+            <button
+              onClick={() => handleClientIdChange(98, "button7")}
+              className={buttonStates.button7 ? "btn-off" : "btn-on"}
+            >
+              MerryBet
+            </button>
+            <button
+              onClick={() => handleClientIdChange(112, "button8")}
+              className={buttonStates.button8 ? "btn-off" : "btn-on"}
+            >
+              PremierBet Zone
+            </button>
+            <button
+              onClick={() => handleClientIdChange(165, "button9")}
+              className={buttonStates.button9 ? "btn-off" : "btn-on"}
+            >
+              Premier Loto
+            </button>
+            <button
+              onClick={() => handleClientIdChange(116, "button10")}
+              className={buttonStates.button10 ? "btn-off" : "btn-on"}
+            >
+              TotalBet
+            </button>
+            <button
+              onClick={() => handleClientIdChange(126, "button11")}
+              className={buttonStates.button11 ? "btn-off" : "btn-on"}
+            >
+              TestClient
+            </button>
+          </div>
+          <h3 className="add-feature-buttons-header centered">
+            {assigneeId}Wybierz team, do którego ma być domyślnie przekazany
+            task (wymagane)
+          </h3>
 
-        return (
+          <div className="add-feature-buttons centered">
+            <button
+              onClick={() => handleAssigneeChange(6)}
+              className={assigneeId === 6 ? "btn-off" : "btn-on"}
+            >
+              Alpha
+            </button>
+            <button
+              onClick={() => handleAssigneeChange(13)}
+              className={assigneeId === 13 ? "btn-off" : "btn-on"}
+            >
+              Omega
+            </button>
+            <button
+              onClick={() => handleAssigneeChange(7)}
+              className={assigneeId === 7 ? "btn-off" : "btn-on"}
+            >
+              Admins
+            </button>
+            <button
+              onClick={() => handleAssigneeChange(192)}
+              className={assigneeId === 192 ? "btn-off" : "btn-on"}
+            >
+              Database
+            </button>
+          </div>
 
-            <div className="layout-new-feature">
-              <Header/>
-              <Menuv2 />
-                <div className="content-new-feature">
-                <h3 className="add-feature-buttons-header centered">Wybierz grafikę do featura</h3>
-                <div
-                  className="image-container-preview centered"
-                  style={{ backgroundImage: `url(${imagePreviewURL})`, backgroundRepeat: 'no-repeat', backgroundSize: "contain", backgroundPosition: "center" }}
-                >
-                  <input
-                    type="file"
-                    name=""
-                    id=""
-                    onChange={(e) => setImage(e.target.files[0])}
-                  />
-                </div>
-                <h3 className="add-feature-buttons-header centered">Podaj id taska-templatki, żeby go pobrać</h3>
-                <div>
-                  <div className="centered">
-                <input type="text" onChange={(e) => setTemplateId(e.target.value)}></input>
-                <button className="btn" onClick={() => getTemplate()}>Pobierz dane taska-templatki</button>
-                </div>
-                <h3 className="add-feature-buttons-header centered">Podgląd treści taska w ERM</h3>
-                <div className="text-container-preview">
-                  <div className="centered" dangerouslySetInnerHTML={{ __html: templateData.titlePreview }}></div>
-                  <div dangerouslySetInnerHTML={{ __html: templateData.descPreview }}></div>
-                </div>
-                <h3 className="add-feature-buttons-header centered">Podaj opis taska do wyświetlenia w aplikacji</h3>
-                <div className="text-container-preview">
-                  <textarea rows="30" className="text-container-preview-input" onChange={(e) => setFrontDesc(e.target.value)}>
-
-                  </textarea>
-
-
-                </div>
-
-                </div>
-
-
-
-
-
-
-
-
-
-                <h3 className="add-feature-buttons-header centered">Wybierz klienta lub klientów dla których chcesz dodać feature (wymagane)</h3>
-                    <div className="add-feature-buttons centered">
-
-                    <button
-
-                      onClick={() => handleClientIdChange(123, 'button1')}
-                      className={buttonStates.button1 ? "btn-off" : "btn-on"}
-                    >
-                      BetFan
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(121, 'button2')}
-                      className={buttonStates.button2 ? "btn-off" : "btn-on"}
-                    >
-                      CrocoBet
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(106, 'button3')}
-                      className={buttonStates.button3 ? "btn-off" : "btn-on"}
-                    >
-                      EuropeBet
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(143, 'button4')}
-                      className={buttonStates.button4 ? "btn-off" : "btn-on"}
-                    >
-                      eToto
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(119, 'button5')}
-                      className={buttonStates.button5 ? "btn-off" : "btn-on"}
-                    >
-                      forBET
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(133, 'button6')}
-                      className={buttonStates.button6 ? "btn-off" : "btn-on"}
-                    >
-                      Fuksiarz
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(98, 'button7')}
-                      className={buttonStates.button7 ? "btn-off" : "btn-on"}
-                    >
-                      MerryBet
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(112, 'button8')}
-                      className={buttonStates.button8 ? "btn-off" : "btn-on"}
-                    >
-                      PremierBet Zone
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(165, 'button9')}
-                      className={buttonStates.button9 ? "btn-off" : "btn-on"}
-                    >
-                      Premier Loto
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(116, 'button10')}
-                      className={buttonStates.button10 ? "btn-off" : "btn-on"}
-                    >
-                      TotalBet
-                    </button>
-                    <button
-
-                      onClick={() => handleClientIdChange(126, 'button11')}
-                      className={buttonStates.button11 ? "btn-off" : "btn-on"}
-                    >
-                      TestClient
-                    </button>
-                    </div>
-                    <h3 className="add-feature-buttons-header centered">{assigneeId}Wybierz team, do którego ma być domyślnie przekazany task (wymagane)</h3>
-
-                    <div className="add-feature-buttons centered">
-                    <button
-
-                      onClick={() => handleAssigneeChange(6)}
-                      className={assigneeId === 6 ? "btn-off" : "btn-on"}
-                    >
-                      Alpha
-                    </button>
-                    <button
-
-                      onClick={() => handleAssigneeChange(13)}
-                      className={assigneeId === 13 ? "btn-off" : "btn-on"}
-                    >
-                      Omega
-                    </button>
-                    <button
-
-                      onClick={() => handleAssigneeChange(7)}
-                      className={assigneeId === 7 ? "btn-off" : "btn-on"}
-                    >
-                      Admins
-                    </button>
-                    <button
-
-                      onClick={() => handleAssigneeChange(192)}
-                      className={assigneeId === 192 ? "btn-off" : "btn-on"}
-                    >
-                      Database
-                    </button>
-                    </div>
-
-
-
-
-
-                <div className="add-feature-buttons">
-
-                  <button className="btn" onClick={handleData}>
-                    Submit task
-                  </button>
-                </div>
-                </div>
-                </div>
-
-
-
-            )
-
-
-
-
+          <div className="add-feature-buttons">
+            <button className="btn" onClick={handleData}>
+              Submit task
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   } else return <Loading />;
 };
 

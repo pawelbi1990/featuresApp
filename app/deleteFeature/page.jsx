@@ -17,8 +17,8 @@ const DeleteFeature = (props) => {
   const [session, setSession] = useState();
   const [user, setUser] = useState();
   const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
-  const [currentClient, setCurrentClient] = useState()
-  const [currentClientName, setCurrentClientName] = useState()
+  const [currentClient, setCurrentClient] = useState();
+  const [currentClientName, setCurrentClientName] = useState();
 
   const handleResize = () => {
     //func used for screen width state management on resizes
@@ -87,8 +87,8 @@ const DeleteFeature = (props) => {
     formData.append("session", session);
     formData.append("userId", user);
     formData.append("deleteId", deleteMe);
-    formData.append("client", client)
-    formData.append("clientName", clientName)
+    formData.append("client", client);
+    formData.append("clientName", clientName);
 
     const response = await fetch("/api/deleteFeature", {
       method: "POST",
@@ -111,8 +111,8 @@ const DeleteFeature = (props) => {
   const handlePrompt = (id, client, clientName) => {
     setPrompt(true);
     setCurrentId(id);
-    setCurrentClient(client)
-    setCurrentClientName(clientName)
+    setCurrentClient(client);
+    setCurrentClientName(clientName);
   };
 
   const goBack = () => {
@@ -173,23 +173,24 @@ const DeleteFeature = (props) => {
                   <div key={item.id} className="products-item">
                     <p>{item.name}</p>
                     <div className="products-image">
-                    <Image
-                    className="client-image"
-                      src={item.image_path}
-                      width={500}
-                      height={500}
-                      alt={item.name}
-
-                      key={item.id}
-                      placeholder="empty"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
-                    />
+                      <Image
+                        className="client-image"
+                        src={item.image_path}
+                        width={500}
+                        height={500}
+                        alt={item.name}
+                        key={item.id}
+                        placeholder="empty"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
+                      />
                     </div>
                     {/* <div className="products-image-separator" ></div> */}
                     <div className="products-item-buttons">
                       <button
                         className="btn"
-                        onClick={() => handlePrompt(item.id, item.client, item.clientname)}
+                        onClick={() =>
+                          handlePrompt(item.id, item.client, item.clientname)
+                        }
                       >
                         Delete
                       </button>

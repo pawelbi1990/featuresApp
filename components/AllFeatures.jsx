@@ -10,14 +10,13 @@ import {
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
 import DetailedFeature from "@/components/DetailedFeature";
-import { useGlobalState } from "../context/GlobalState"
-
+import { useGlobalState } from "../context/GlobalState";
 
 import Image from "next/image";
 
 const AllFeatures = (props) => {
-  const {state, setState} = useGlobalState()
-  const [longdesc, setLongdesc] = useState()
+  const { state, setState } = useGlobalState();
+  const [longdesc, setLongdesc] = useState();
   const [loggedIn, setLoggedin] = useState(null);
   const [itemsPerPage, setItemPerPage] = useState(); //this variable determines number of slides shown on single page, undefined, by default, updates on screen resizes and first render, depending on width state
   const [index, setIndex] = useState(0); //index of first shown slide, 0 by default
@@ -41,9 +40,8 @@ const AllFeatures = (props) => {
   const handleResize = () => {
     //func used for screen width state management on resizes
     setWidth(window.innerWidth);
-    setState((prevState) => ({...prevState, screenSize: width}))
-    
-    
+    setState((prevState) => ({ ...prevState, screenSize: width }));
+
     if (width >= 1500) {
       setItemPerPage(3);
     }
@@ -64,7 +62,7 @@ const AllFeatures = (props) => {
   useEffect(() => {
     //updating itemperpage state on rerenders, dependind on user's device
     setWidth(window.innerWidth);
-    setState((prevState) => ({...prevState, screenSize: width}))
+    setState((prevState) => ({ ...prevState, screenSize: width }));
     if (window.innerWidth >= 1500) {
       setItemPerPage(3);
     }
@@ -74,7 +72,7 @@ const AllFeatures = (props) => {
     if (window.innerWidth < 1000) {
       setItemPerPage(1);
     }
-  },[]);
+  }, []);
 
   const nextItems = () => {
     //function responsible for navigation between slide groups shown on page, attached to `next` arrow
@@ -95,7 +93,6 @@ const AllFeatures = (props) => {
   useEffect(() => {
     getData();
     setClientId(sessionStorage.getItem("user"));
-
   }, []);
 
   useEffect(() => {
@@ -106,7 +103,6 @@ const AllFeatures = (props) => {
 
       setSessionLoaded(true);
     }
-
   });
 
   const [data, setData] = useState([]);
@@ -165,12 +161,10 @@ const AllFeatures = (props) => {
   const handleDetailsClick = (id, image, longdesc) => {
     setDetails(true);
     setId(id);
-    setLongdesc(longdesc)
+    setLongdesc(longdesc);
     setImagePath(image);
-    window.location.href = `features/${id}`
+    window.location.href = `features/${id}`;
   };
-
-  
 
   const goBack = (state) => {
     setDetails(state);
@@ -204,12 +198,12 @@ const AllFeatures = (props) => {
     if (response.ok) {
       const responseData = await response.json();
       console.log("task created");
-      console.log(responseData)
-      sessionStorage.setItem("taskId", responseData.taskId)
-    sessionStorage.setItem("taskTitle", responseData.taskTitle)
+      console.log(responseData);
+      sessionStorage.setItem("taskId", responseData.taskId);
+      sessionStorage.setItem("taskTitle", responseData.taskTitle);
       setProcessing(false);
       window.location.href = "/taskCreated";
-      sessionStorage.removeItem("cachedAllData")
+      sessionStorage.removeItem("cachedAllData");
     } else {
       console.log("error creating task");
       setProcessing(false);
@@ -217,14 +211,17 @@ const AllFeatures = (props) => {
     }
   };
 
-
-
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search)
   ); //filtering data depending on search state that's beeing updated by search bar
   const data119 = data.filter((item) => item.client === 123);
   if (sessionLoaded) {
-    if (loggedIn && !processing && filteredData.length > 0 && !state.loggingOut) {
+    if (
+      loggedIn &&
+      !processing &&
+      filteredData.length > 0 &&
+      !state.loggingOut
+    ) {
       //checking if user is loggedin (session stored in localStorage), if not - returns login screen
 
       if (!details) {
@@ -256,27 +253,32 @@ const AllFeatures = (props) => {
                   key={subIndex}
                 >
                   <Image
-                    onClick={() => handleDetailsClick(item.id, item.image_path, item.long_desc)}
+                    onClick={() =>
+                      handleDetailsClick(
+                        item.id,
+                        item.image_path,
+                        item.long_desc
+                      )
+                    }
                     src={item.image_path}
                     width={500}
                     height={500}
                     alt={item.name}
                     className="client-image"
-
                     key={item.id}
                     placeholder="empty"
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
                   />
                   <p>
                     {clientId == 2
-                      ? item.clientname + " " + item.name.replaceAll("[PLAN]","")
-                      : item.name.replaceAll("[PLAN]","")}
+                      ? item.clientname +
+                        " " +
+                        item.name.replaceAll("[PLAN]", "")
+                      : item.name.replaceAll("[PLAN]", "")}
                   </p>
-                  <div className="products-image">
-                  
-                  </div>
+                  <div className="products-image"></div>
                   <div className="products-item-buttons">
-                    {clientId != 2 && clientId !=1 ? (
+                    {clientId != 2 && clientId != 1 ? (
                       item.task_id === null ? (
                         <button
                           className="btn"
@@ -293,12 +295,12 @@ const AllFeatures = (props) => {
                           Create task
                         </button>
                       ) : (
-                        <Link href={`https://sb-betting.easyredmine.com/issues/${item.task_id}`}>
-                        <button
-                          className="btn btn-green"
+                        <Link
+                          href={`https://sb-betting.easyredmine.com/issues/${item.task_id}`}
                         >
-                          {"Task "+item.task_id}
-                        </button>
+                          <button className="btn btn-green">
+                            {"Task " + item.task_id}
+                          </button>
                         </Link>
                       )
                     ) : (
@@ -310,7 +312,11 @@ const AllFeatures = (props) => {
                     <button
                       className="btn"
                       onClick={() =>
-                        handleDetailsClick(item.id, item.image_path, item.long_desc)
+                        handleDetailsClick(
+                          item.id,
+                          item.image_path,
+                          item.long_desc
+                        )
                       }
                     >
                       Show details
@@ -345,7 +351,11 @@ const AllFeatures = (props) => {
       //   return <Login nav={props.nav} setNav={props.setNav} />;
       // }
     } else {
-      return (!state.loggingOut ? <Loading text={"Loading"}/> : <Loading text={"Logging Out"}/>);
+      return !state.loggingOut ? (
+        <Loading text={"Loading"} />
+      ) : (
+        <Loading text={"Logging Out"} />
+      );
     }
   }
 };

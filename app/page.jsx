@@ -79,7 +79,7 @@ const Page = () => {
     setLoading(true);
     const data = {
       userName: "asd",
-      userSecret: "asd"
+      userSecret: "asd",
     };
     try {
       const response = await fetch("api/loginApi", {
@@ -114,17 +114,16 @@ const Page = () => {
     }
   };
   if (loading) {
-    return <Loading text="Loading"/>;
+    return <Loading text="Loading" />;
   } else if (!loading && wrongCred) {
-    return  (
-        <div className="wrapper">
-          <div>Wrong Credentials</div>
-          <button onClick={() => setWrongCred(false)}>Try again</button>
-        </div>
-    )
-
-   } else if (!loading && !wrongCred) {
-    return  (
+    return (
+      <div className="wrapper">
+        <div>Wrong Credentials</div>
+        <button onClick={() => setWrongCred(false)}>Try again</button>
+      </div>
+    );
+  } else if (!loading && !wrongCred) {
+    return (
       <div className="layout">
         <div className="wrapper">
           <div className="login">
@@ -157,9 +156,8 @@ const Page = () => {
             </button>
           </div>
         </div>
-        </div>)
-
-
+      </div>
+    );
   }
 };
 

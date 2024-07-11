@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { sessionChecker } from "../sessionCheck/route";
-import {Pool} from "pg";
+import { Pool } from "pg";
 let pool;
 if (!pool) {
-    pool = new Pool()
+  pool = new Pool();
 }
 
-let dataValid = false
+let dataValid = false;
 let sqlQuery = "";
 
 const POST = async (req, res) => {
@@ -26,39 +26,37 @@ const POST = async (req, res) => {
         return "UPDATE public.forbet SET task_id = $1 WHERE id = $2";
         break;
       case 123:
-        return "UPDATE public.betfan SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.betfan SET task_id = $1 WHERE id = $2";
         break;
       case 121:
-        return "UPDATE public.croco SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.croco SET task_id = $1 WHERE id = $2";
         break;
       case 106:
-        return "UPDATE public.eb SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.eb SET task_id = $1 WHERE id = $2";
         break;
       case 143:
-        return "UPDATE public.etoto SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.etoto SET task_id = $1 WHERE id = $2";
         break;
       case 133:
-        return "UPDATE public.fuksiarz SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.fuksiarz SET task_id = $1 WHERE id = $2";
         break;
       case 98:
-        return "UPDATE public.merrybet SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.merrybet SET task_id = $1 WHERE id = $2";
         break;
       case 112:
-        return "UPDATE public.premierbetzone SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.premierbetzone SET task_id = $1 WHERE id = $2";
         break;
       case 165:
-        return "UPDATE public.premierlotto SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.premierlotto SET task_id = $1 WHERE id = $2";
         break;
       case 116:
-        return "UPDATE public.totalbet SET task_id = $1 WHERE id = $2"
+        return "UPDATE public.totalbet SET task_id = $1 WHERE id = $2";
         break;
       case 126:
-      return "UPDATE public.testclient SET task_id = $1 WHERE id = $2"
-      break;
+        return "UPDATE public.testclient SET task_id = $1 WHERE id = $2";
+        break;
     }
-  
-    
-  }
+  };
 
   const booleaner = (tf) => {
     return tf;
@@ -99,17 +97,16 @@ const POST = async (req, res) => {
       );
       if (response.ok) {
         const responseBody = await response.json();
-        
+
         taskId = responseBody.issue.id;
         taskTitle = responseBody.issue.subject;
-        
-        
-        const sqlQuery = await id(userId)
-          
-          const values = [taskId, featureId];
-          console.log(sqlQuery)
-          await pool.query(sqlQuery, values);
-          
+
+        const sqlQuery = await id(userId);
+
+        const values = [taskId, featureId];
+        console.log(sqlQuery);
+        await pool.query(sqlQuery, values);
+
         // const taskStatus = ({
         //   taskid: responseBody.issue.id,
         //   owner: responseBody.issue.project.name,
