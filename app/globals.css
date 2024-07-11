@@ -126,7 +126,7 @@ button {
 }
 
 .btn {
-  background-color: var(--color-blue);
+  background-color: var(--color-blue-rgba);
   backdrop-filter: blur(1px);
   color: aliceblue;
   border: 1px solid var(--color-blue);
@@ -1093,6 +1093,25 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
 .session-counter {
   width: 100%;
   text-align: right;
+}
+
+.session-counter span {
+  color: var(--color-blue);
+  border: 1px solid var(--color-blue);
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  text-align: center;
+
+}
+
+.session-counter span:hover {
+  color: var(--color-orange);
+  border: 1px solid var(--color-orange);
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  text-align: center;
+  transition: 1s all;
+
 }
 
 .nav-arrow {

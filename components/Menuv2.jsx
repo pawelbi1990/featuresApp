@@ -57,7 +57,7 @@ const Menuv2 = (props) => {
       let minutes = Math.floor(expires/60)
       let seconds = expires % 60
       setExpiresm(minutes)
-      if (expiress<=10 && expiress > 0) {
+      if (expiress<=10 && expiress > 0 || expires == 600) {
       setExpiress("0"+seconds)
       }else{
         setExpiress(seconds)
@@ -97,6 +97,10 @@ const Menuv2 = (props) => {
   const clearCache = () => {
     sessionStorage.removeItem("cachedAllData")
     window.location.reload()
+  }
+
+  const handleSessionExtend = () => {
+    setExpires(600)
   }
 
   if (admin == 1) {
@@ -162,11 +166,11 @@ const Menuv2 = (props) => {
         <button className="btn" onClick={clearCache}>
           Clear cache
         </button>
-        <p className="session-counter">Welcome {username}, your session expires in {expiresm}:{expiress}.</p>
+        <p className="session-counter">Welcome {username}, session expires in {expiresm}:{expiress} <span style={{ color: expires < 60 ? 'red' : '' }} onClick={() => handleSessionExtend()}>Extend.</span></p>
       </ul>
       : <div>
         
-        <p className="session-counter">Welcome {username}, your session expires in {expiresm}:{expiress}.</p>
+        <p className="session-counter">Welcome {username}, session expires in {expiresm}:{expiress} <span style={{ color: expires < 60 ? 'red' : '' }} onClick={() => handleSessionExtend()}>Extend.</span></p>
         <div className="hamburger-wrapper" >
         <RxHamburgerMenu className="hamburger" onClick={() => toggleHamburgerMenu()}/>
          
