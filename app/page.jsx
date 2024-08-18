@@ -152,7 +152,7 @@ const Page = () => {
               Login
             </button>
             <button className="btn" onClick={() => handleGuest()}>
-              Or enter as a guest
+              Or enter as a TestClient
             </button>
           </div>
         </div>
