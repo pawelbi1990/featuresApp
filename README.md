@@ -1,6 +1,6 @@
 Reuirements to run the app properly:
 1. PostgreSQL database set and running with 2 tables for users and features, DDLs:
- a. 
+ a.
 CREATE TABLE public.users (
 	username varchar NULL,
 	hash varchar NULL,
@@ -23,7 +23,7 @@ CREATE TABLE public.features (
 	clientname varchar(50) NULL
 );
 
-2. Environment variables:
+1. Environment variables:
  a. PGHOST - database host
  b. PGUSER - database user
  c. PGDATABASE - database name
