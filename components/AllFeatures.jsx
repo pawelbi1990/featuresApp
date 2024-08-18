@@ -1,41 +1,27 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
 import Layout from "@/components/Layout";
-import ImageAndText from "@/components/ImageAndText";
 import Loading from "@/components/Loading";
 import Link from "next/link";
-import Login from "@/components/Login";
-import {
-  BsFillArrowLeftCircleFill,
-  BsFillArrowRightCircleFill,
-} from "react-icons/bs";
 import DetailedFeature from "@/components/DetailedFeature";
 import { useGlobalState } from "../context/GlobalState";
-
+import Modal from "@/components/Modal"
 import Image from "next/image";
-
+const baseUrl = process.env.BASE_URL
 const AllFeatures = (props) => {
   const { state, setState } = useGlobalState();
   const [longdesc, setLongdesc] = useState();
   const [loggedIn, setLoggedin] = useState(null);
   const [itemsPerPage, setItemPerPage] = useState(); //this variable determines number of slides shown on single page, undefined, by default, updates on screen resizes and first render, depending on width state
-  const [index, setIndex] = useState(0); //index of first shown slide, 0 by default
   const [width, setWidth] = useState(); //state used to manage screen width, undefined by default
   const [sessionLoaded, setSessionLoaded] = useState(null);
-  const [focus, setFocus] = useState(index + 1);
   const [details, setDetails] = useState(false);
   const [id, setId] = useState(null);
   const [imagePath, setImagePath] = useState(null);
-  const [guest, setGuest] = useState(null);
   const [processing, setProcessing] = useState(false);
   let dbData = [];
 
-  const text = "Create task";
-  const blocked = [];
-  const [blockedTask, setBlockedTask] = useState({
-    blockedId: [],
-    blockedTaskId: [],
-  });
+  
 
   const handleResize = () => {
     //func used for screen width state management on resizes
@@ -74,21 +60,7 @@ const AllFeatures = (props) => {
     }
   }, []);
 
-  const nextItems = () => {
-    //function responsible for navigation between slide groups shown on page, attached to `next` arrow
-    if (index + itemsPerPage < filteredData.length) {
-      setIndex(index + 1);
-      setFocus(index + 2);
-    }
-  };
-
-  const prevItems = () => {
-    //function responsible for navigation between slide groups shown on page, attached to `prev` arrow
-    if (index > 0) {
-      setIndex(index - 1);
-      setFocus(index - 2);
-    }
-  };
+  
 
   useEffect(() => {
     getData();
@@ -181,6 +153,9 @@ const AllFeatures = (props) => {
   };
 
   const createTask = async (taskName, desc, assigned, userId, id) => {
+    if (baseUrl === undefined || baseUrl === null) {
+      setState((prevState) => ({ ...prevState, modal: true }));
+    } else {
     setProcessing(true);
     const requestData = {
       taskName: taskName,
@@ -208,7 +183,7 @@ const AllFeatures = (props) => {
       console.log("error creating task");
       setProcessing(false);
       window.location.href = "/taskCreationFailed";
-    }
+    }}
   };
 
   const filteredData = data.filter((item) =>
@@ -227,7 +202,7 @@ const AllFeatures = (props) => {
       if (!details) {
         return (
           //checking if data exists
-
+          
           <Layout
             title=""
             navbar=""
@@ -235,17 +210,19 @@ const AllFeatures = (props) => {
             nav={props.nav}
             screen={width}
           >
+          {state.modal ? <Modal text="Please configure baseUrl before creating the task"/> : null}  
+            
             {/* <div className="search-container">
                 <label>
 
             <       input type="text" className="searchbar" placeholder='Search' onChange={(event) => {setSearch(event.target.value.toLowerCase())}}/>
                 </label>
             </div> */}
-
+            
             <div className="products-item-container">
               {filteredData.map((item, subIndex) => (
                 //slicing data to show only wanted number of items
-
+                
                 <div
                   className={
                     subIndex % 2 !== 0 ? "products-item" : "products-item"
@@ -279,7 +256,7 @@ const AllFeatures = (props) => {
                   <div className="products-image"></div>
                   <div className="products-item-buttons">
                     {clientId != 2 && clientId != 1 ? (
-                      item.task_id === null ? (
+                      item.task_id === null || item.task_id === undefined || item.task_id === "" ? (
                         <button
                           className="btn"
                           onClick={() =>
@@ -296,7 +273,7 @@ const AllFeatures = (props) => {
                         </button>
                       ) : (
                         <Link
-                          href={`https://sb-betting.easyredmine.com/issues/${item.task_id}`}
+                          href={`${baseUrl}/issues/${item.task_id}`}
                         >
                           <button className="btn btn-green">
                             {"Task " + item.task_id}
@@ -329,6 +306,7 @@ const AllFeatures = (props) => {
               {/* <button className="swiper-nav-button-prev" onClick={prevItems}><BsFillArrowLeftCircleFill/></button>
         <button className="swiper-nav-button-next" onClick={nextItems}><BsFillArrowRightCircleFill/></button> */}
             </div>
+            
           </Layout>
         );
       }

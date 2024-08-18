@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+const baseUrl = process.env.BASE_URL
 
 const Page = () => {
   const [taskId, setTaskId] = useState();
@@ -21,7 +22,7 @@ const Page = () => {
       <div className="login">
         <h2>Congratulations, you have created a task</h2>
         <Link
-          href={`https://sb-betting.easyredmine.com/issues/${taskId}`}
+          href={`${baseUrl}/issues/${taskId}`}
           target="blank"
         >
           <h2 className="task-link">

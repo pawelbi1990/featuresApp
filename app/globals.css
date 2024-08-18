@@ -606,7 +606,7 @@ padding: 1rem; */
 .content-new-feature {
   height: 80dvh;
   overflow: scroll;
-  border: 1px solid red;
+  
 }
 
 .layout-light {
@@ -1385,7 +1385,11 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
 
 .loginImage {
   z-index: 2;
-  margin-top: -70%;
+  margin-top: -50%;
+  background-color: white;
+  border-radius: 100%;
+  
+  
 }
 
 .wrapper {
@@ -1429,6 +1433,31 @@ box-shadow: 17px 17px 22px -9px rgba(7, 1, 51, 1); */
   align-items: center;
   max-height: 80vh;
   flex-direction: column;
+}
+
+.modal-wrapper {
+  height: 100vh;
+  width: 100vw;
+  background-color: transparent;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  border: 1px solid white;
+  height: 30%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-direction: column;
+}
+
+.modal button {
+  margin: 1rem;
 }
 
 @keyframes progress {

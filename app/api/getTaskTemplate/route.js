@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+const baseUrl = process.env.BASE_URL
 
 const POST = async (req, res) => {
   let desc;
@@ -8,7 +9,7 @@ const POST = async (req, res) => {
   console.log(templateId);
 
   const response = await fetch(
-    `https://sb-betting.easyredmine.com/issues/${templateId}.json`,
+    `${baseUrl}/issues/${templateId}.json`,
     {
       method: "GET",
       headers: {

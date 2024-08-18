@@ -110,16 +110,8 @@ export async function POST(request, res) {
 
   let clientArray = await frontTaskData.clientId.split(",").map(Number);
   const mapping = {
-    123: "public.betfan",
-    121: "public.croco",
-    106: "public.eb",
-    143: "public.etoto",
-    119: "public.forbet",
-    133: "public.fuksiarz",
-    98: "public.merrybet",
-    112: "public.premierbetzone",
-    165: "public.premierlotto",
-    116: "public.totalbet",
+    16: "public.testclient2",
+    17: "public.testclient3",
     126: "public.testclient",
   };
   const mappedArray = await clientArray.map((value) => mapping[value]);
@@ -153,3 +145,4 @@ export async function POST(request, res) {
   // console.log(result)
   return NextResponse.json({ message: "Success" }, { status: 200 });
 }
+

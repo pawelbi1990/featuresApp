@@ -1,13 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import img from "../../public/image.png";
+import { useGlobalState } from "../../context/GlobalState";
 import Loading from "@/components/Loading";
 import Login from "@/components/Login";
 import Menuv2 from "@/components/Menuv2";
 import Header from "@/components/Header";
-
+import Modal from "@/components/Modal"
+const baseUrl = process.env.BASE_URL
 const Newfeature = (props) => {
+  const { state, setState } = useGlobalState();
   useEffect(() => {
     if (sessionStorage.getItem("session")) {
       setSessionLoaded(true);
@@ -136,6 +138,9 @@ const Newfeature = (props) => {
     setPage(1);
   };
   const getTemplate = async () => {
+    if (baseUrl === null || baseUrl === undefined) {
+      setState((prevState) => ({ ...prevState, modal: true }));
+    }
     const formData = new FormData();
     // formData.append("admin", admin);
     // formData.append("session", session);
@@ -222,11 +227,12 @@ const Newfeature = (props) => {
   if (sessionLoaded) {
     return (
       <div className="layout-new-feature">
+        {state.modal ? <Modal text="Please configure baseUrl fetching the Easy Redmine task data"/> : null}  
         <Header />
         <Menuv2 />
         <div className="content-new-feature">
           <h3 className="add-feature-buttons-header centered">
-            Wybierz grafikę do featura
+            Choose a graphic for the feature
           </h3>
           <div
             className="image-container-preview centered"
@@ -245,7 +251,7 @@ const Newfeature = (props) => {
             />
           </div>
           <h3 className="add-feature-buttons-header centered">
-            Podaj id taska-templatki, żeby go pobrać
+            Template-task ID
           </h3>
           <div>
             <div className="centered">
@@ -254,11 +260,11 @@ const Newfeature = (props) => {
                 onChange={(e) => setTemplateId(e.target.value)}
               ></input>
               <button className="btn" onClick={() => getTemplate()}>
-                Pobierz dane taska-templatki
+                Fetch template
               </button>
             </div>
             <h3 className="add-feature-buttons-header centered">
-              Podgląd treści taska w ERM
+              Easy Redmine task description preview
             </h3>
             <div className="text-container-preview">
               <div
@@ -270,7 +276,7 @@ const Newfeature = (props) => {
               ></div>
             </div>
             <h3 className="add-feature-buttons-header centered">
-              Podaj opis taska do wyświetlenia w aplikacji
+              Application task description preview
             </h3>
             <div className="text-container-preview">
               <textarea
@@ -282,80 +288,32 @@ const Newfeature = (props) => {
           </div>
 
           <h3 className="add-feature-buttons-header centered">
-            Wybierz klienta lub klientów dla których chcesz dodać feature
-            (wymagane)
+            Choose the clients
+            (required)
           </h3>
           <div className="add-feature-buttons centered">
             <button
-              onClick={() => handleClientIdChange(123, "button1")}
+              onClick={() => handleClientIdChange(126, "button1")}
               className={buttonStates.button1 ? "btn-off" : "btn-on"}
-            >
-              BetFan
-            </button>
-            <button
-              onClick={() => handleClientIdChange(121, "button2")}
-              className={buttonStates.button2 ? "btn-off" : "btn-on"}
-            >
-              CrocoBet
-            </button>
-            <button
-              onClick={() => handleClientIdChange(106, "button3")}
-              className={buttonStates.button3 ? "btn-off" : "btn-on"}
-            >
-              EuropeBet
-            </button>
-            <button
-              onClick={() => handleClientIdChange(143, "button4")}
-              className={buttonStates.button4 ? "btn-off" : "btn-on"}
-            >
-              eToto
-            </button>
-            <button
-              onClick={() => handleClientIdChange(119, "button5")}
-              className={buttonStates.button5 ? "btn-off" : "btn-on"}
-            >
-              forBET
-            </button>
-            <button
-              onClick={() => handleClientIdChange(133, "button6")}
-              className={buttonStates.button6 ? "btn-off" : "btn-on"}
-            >
-              Fuksiarz
-            </button>
-            <button
-              onClick={() => handleClientIdChange(98, "button7")}
-              className={buttonStates.button7 ? "btn-off" : "btn-on"}
-            >
-              MerryBet
-            </button>
-            <button
-              onClick={() => handleClientIdChange(112, "button8")}
-              className={buttonStates.button8 ? "btn-off" : "btn-on"}
-            >
-              PremierBet Zone
-            </button>
-            <button
-              onClick={() => handleClientIdChange(165, "button9")}
-              className={buttonStates.button9 ? "btn-off" : "btn-on"}
-            >
-              Premier Loto
-            </button>
-            <button
-              onClick={() => handleClientIdChange(116, "button10")}
-              className={buttonStates.button10 ? "btn-off" : "btn-on"}
-            >
-              TotalBet
-            </button>
-            <button
-              onClick={() => handleClientIdChange(126, "button11")}
-              className={buttonStates.button11 ? "btn-off" : "btn-on"}
             >
               TestClient
             </button>
+            <button
+              onClick={() => handleClientIdChange(16, "button2")}
+              className={buttonStates.button2 ? "btn-off" : "btn-on"}
+            >
+              TestClient2
+            </button>
+            <button
+              onClick={() => handleClientIdChange(17, "button3")}
+              className={buttonStates.button3 ? "btn-off" : "btn-on"}
+            >
+              TestClient3
+            </button>            
           </div>
           <h3 className="add-feature-buttons-header centered">
-            {assigneeId}Wybierz team, do którego ma być domyślnie przekazany
-            task (wymagane)
+            Choose the team
+             (required)
           </h3>
 
           <div className="add-feature-buttons centered">
@@ -363,25 +321,25 @@ const Newfeature = (props) => {
               onClick={() => handleAssigneeChange(6)}
               className={assigneeId === 6 ? "btn-off" : "btn-on"}
             >
-              Alpha
+              Team1
             </button>
             <button
               onClick={() => handleAssigneeChange(13)}
               className={assigneeId === 13 ? "btn-off" : "btn-on"}
             >
-              Omega
+              Team2
             </button>
             <button
               onClick={() => handleAssigneeChange(7)}
               className={assigneeId === 7 ? "btn-off" : "btn-on"}
             >
-              Admins
+              Team3
             </button>
             <button
               onClick={() => handleAssigneeChange(192)}
               className={assigneeId === 192 ? "btn-off" : "btn-on"}
             >
-              Database
+              Team4
             </button>
           </div>
 

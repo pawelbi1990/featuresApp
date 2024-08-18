@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(req, res) {
     try {
-        const response = await fetch('http://localhost:8080/users');
+        const response = await fetch('http://localhost:8080/users', {
+            method: "GET"
+        });
         
         if (!response.ok) {
             throw new Error('Network response was not ok');

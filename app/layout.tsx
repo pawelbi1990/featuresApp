@@ -6,7 +6,7 @@ import { GlobalStateProvider } from "../context/GlobalState";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SBB Features",
+  title: "Features App",
   description: "Order and manage your features",
 };
 

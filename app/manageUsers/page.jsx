@@ -95,7 +95,7 @@ const Page = (props) => {
           {data.map((item) => (
             <div key={item.id} className="products-item">
               <div className="products-image">
-                <Image
+                {/* <Image
                   src={item.image}
                   width={500}
                   height={500}
@@ -104,7 +104,7 @@ const Page = (props) => {
                   key={item.id}
                   placeholder="empty"
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="
-                />
+                /> */}
               </div>
               <div className="card-button-container">
                 <button

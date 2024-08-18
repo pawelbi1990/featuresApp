@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../public/logo.png";
+
 import Image from "next/image";
 import { FaLinkedin } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
@@ -16,18 +16,18 @@ const Header = (props) => {
         {screen > 600 ? (
           <div className="logo">
             <Link href="/features">
-              <Image src="/logo.png" width={300} height={300}></Image>
+              <Image src="/logo3.png" width={300} height={300} style={{backgroundColor: "white"}}></Image>
             </Link>
           </div>
         ) : (
           <div className="logo-small">
-            <Image src="/sb-logo-small.png" width={80} height={80}></Image>
+            <Image src="/logo3.png" width={80} height={80} style={{backgroundColor: "white"}}></Image>
           </div>
         )}
 
         <ul className="menu-cta">
           <Link
-            href="https://mt.linkedin.com/company/sb-betting-software"
+            href="https://mt.linkedin.com/"
             target="blank"
           >
             <li>
@@ -35,7 +35,7 @@ const Header = (props) => {
             </li>
           </Link>
           <Link
-            href="https://www.sb-betting.com/pl/dostawca-platform-bukmacherskich-i-gamblingowych/"
+            href=""
             target="blank"
           >
             <li>
@@ -43,7 +43,7 @@ const Header = (props) => {
             </li>
           </Link>
           <Link
-            href="https://join.skype.com/invite/Jrd3rAA4SZgD"
+            href=""
             target="blank"
           >
             <li>

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { sessionChecker } from "../sessionCheck/route";
 import { Pool } from "pg";
+const baseUrl=process.env.BASE_URL
+const taskStatus=process.env.STATUS_ID
+const taskTracker=process.env.TRACKER_ID
+const assignedCustomField=process.env.ASSIGNED_ID
 let pool;
 if (!pool) {
   pool = new Pool();
@@ -22,36 +26,12 @@ const POST = async (req, res) => {
   const featureId = await data.id;
   const id = async (user) => {
     switch (user) {
-      case 119:
-        return "UPDATE public.forbet SET task_id = $1 WHERE id = $2";
+      case 16:
+        return "UPDATE public.testclient2 SET task_id = $1 WHERE id = $2";
         break;
-      case 123:
-        return "UPDATE public.betfan SET task_id = $1 WHERE id = $2";
-        break;
-      case 121:
-        return "UPDATE public.croco SET task_id = $1 WHERE id = $2";
-        break;
-      case 106:
-        return "UPDATE public.eb SET task_id = $1 WHERE id = $2";
-        break;
-      case 143:
-        return "UPDATE public.etoto SET task_id = $1 WHERE id = $2";
-        break;
-      case 133:
-        return "UPDATE public.fuksiarz SET task_id = $1 WHERE id = $2";
-        break;
-      case 98:
-        return "UPDATE public.merrybet SET task_id = $1 WHERE id = $2";
-        break;
-      case 112:
-        return "UPDATE public.premierbetzone SET task_id = $1 WHERE id = $2";
-        break;
-      case 165:
-        return "UPDATE public.premierlotto SET task_id = $1 WHERE id = $2";
-        break;
-      case 116:
-        return "UPDATE public.totalbet SET task_id = $1 WHERE id = $2";
-        break;
+      case 17:
+        return "UPDATE public.testclient3 SET task_id = $1 WHERE id = $2";
+        break;      
       case 126:
         return "UPDATE public.testclient SET task_id = $1 WHERE id = $2";
         break;
@@ -66,16 +46,16 @@ const POST = async (req, res) => {
   if (auth) {
     const json = {
       issue: {
-        subject: taskName + " {TASK z aplikacji - do weryfikacji}",
+        subject: taskName,
         description: desc,
         project_id: userId,
-        tracker_id: 11,
-        status_id: 17,
-        assigned_to_id: assigned, //6 -alpha, 13 - Omega
+        tracker_id: taskTracker,
+        status_id: taskStatus,
+        assigned_to_id: assigned, 
         custom_fields: [
           {
-            id: 52,
-            value: assigned, //6 - alpha, 13 - Omega
+            id: assignedCustomField,
+            value: assigned, 
           },
         ],
       },
@@ -85,7 +65,7 @@ const POST = async (req, res) => {
 
     try {
       const response = await fetch(
-        "https://sb-betting.easyredmine.com/issues.json",
+        `${baseUrl}/issues.json`,
         {
           method: "POST",
           headers: {

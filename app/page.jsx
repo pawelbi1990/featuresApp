@@ -78,8 +78,8 @@ const Page = () => {
   const handleGuest = async () => {
     setLoading(true);
     const data = {
-      userName: "asd",
-      userSecret: "asd",
+      userName: "testclient",
+      userSecret: "testclient",
     };
     try {
       const response = await fetch("api/loginApi", {
@@ -129,9 +129,9 @@ const Page = () => {
           <div className="login">
             <Image
               className="loginImage"
-              src="/sb-logo-small.png"
-              width={100}
-              height={100}
+              src="/logo3.png"
+              width={200}
+              height={200}
             />
             <h1>Login</h1>
             <input

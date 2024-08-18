@@ -8,6 +8,7 @@ export const GlobalStateProvider = ({ children }) => {
     loggingOut: false,
     screenSize: null,
     hamburgerOn: false,
+    modal: false,
   });
 
   return (
