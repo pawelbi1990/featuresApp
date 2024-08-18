@@ -1,4 +1,4 @@
-Reuirements to run the app properly:
+Reuirements to run the app properly: 
 1. PostgreSQL database set and running with 2 tables for users and features, DDLs:
  a. 
 CREATE TABLE public.users (
