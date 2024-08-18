@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Reuirements to run the app properly:
+1. PostgreSQL database set and running with 2 tables for users and features, DDLs:
+ a. 
+CREATE TABLE public.users (
+	username varchar NULL,
+	hash varchar NULL,
+	id serial4 NOT NULL,
+	client int2 NOT NULL DEFAULT 0,
+	"session" varchar NULL,
+	"admin" int2 NOT NULL DEFAULT 0,
+	image varchar NULL
+);
+ b. 
+CREATE TABLE public.features (
+	"name" varchar NULL,
+	short_desc varchar NULL,
+	long_desc varchar NULL,
+	id serial4 NOT NULL,
+	image_path varchar NULL,
+	client int2 NULL,
+	assigned int4 NULL,
+	task_id varchar(50) NULL DEFAULT NULL::character varying,
+	clientname varchar(50) NULL
+);
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. Environment variables:
+ a. PGHOST - database host
+ b. PGUSER - database user
+ c. PGDATABASE - database name
+ d. PGPASSWORD - database password
+ e. PGPORT - database port
+ f. JWT_KEY - key for Json Web Token
+ g. API_KEY - Easy Redmine api key
+ h. BASE_URL - base url for Easy Redmine instance
+ i. STATUS_ID - value of the Easy Redmine status_id field, initial status which created task will have
+ j. TRACKER_ID - value of the Easy Redmine tracker_id field, initial tracker which created task will have
+ g. ASSIGNED_ID - optional, id of Easy Redmine custom field which will be updated with the assigned_to_id value (for example, "Team" custom field)
